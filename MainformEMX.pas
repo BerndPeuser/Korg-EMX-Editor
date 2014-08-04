@@ -1908,6 +1908,1233 @@ begin
 
 
 
+
+                      //Synth 1
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 1');
+                      BytesRead:=Filestream.Read(Waveform,1);
+                      BytesRead:=Filestream.Read(Syntune,1);
+                      BytesRead:=Filestream.Read(Synthoscillator,1);
+                      Case Synthoscillator of
+                           0 : Synthoscillatorstring :='Waveform';
+   		           1 : Synthoscillatorstring :='DualOsc';
+                           2 : Synthoscillatorstring :='Chord';
+                           3 : Synthoscillatorstring :='Unison';
+                           4 : Synthoscillatorstring :='Ring Mod';
+                           5 : Synthoscillatorstring :='Osc Sync';
+                           6 : Synthoscillatorstring :='Cross Mod';
+                           7 : Synthoscillatorstring :='VPM';
+                           8 : Synthoscillatorstring :='WS';
+                           9 : Synthoscillatorstring :='Additive';
+                           10 : Synthoscillatorstring :='Comb';
+                           11 : Synthoscillatorstring :='Formant';
+                           12 : Synthoscillatorstring :='Noise';
+                           13 : Synthoscillatorstring :='PCM+Comb';
+                           14 : Synthoscillatorstring :='PCM+WS';
+                           15 : Synthoscillatorstring :='Audio in + Comb';
+                      end;
+
+                      If (Synthoscillator=0) or (Synthoscillator=7) or (Synthoscillator=9) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Pulse';
+				2 : Waveformstring :='Tri';
+				3 : Waveformstring :='Sin';
+                              end;
+                         end;
+                      If (Synthoscillator=1) or (Synthoscillator=4) or (Synthoscillator=6) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='SawSaw';
+				1 : Waveformstring :='SawSqu';
+				2 : Waveformstring :='SawTri';
+				3 : Waveformstring :='SawSin';
+                                4 : Waveformstring :='SawNs';
+				5 : Waveformstring :='SquSaw';
+				6 : Waveformstring :='SquSqu';
+				7 : Waveformstring :='SquTri';
+                                8 : Waveformstring :='SquSin';
+				9 : Waveformstring :='SquNs';
+				10 : Waveformstring :='TriSaw';
+				11 : Waveformstring :='TriSqu';
+                                12 : Waveformstring :='TriTri';
+				13 : Waveformstring :='TriSin';
+				14 : Waveformstring :='TriNs';
+				15 : Waveformstring :='SinSaw';
+                                16 : Waveformstring :='SinSqu';
+				17 : Waveformstring :='SinTri';
+				18 : Waveformstring :='SinSin';
+				19 : Waveformstring :='SinNs';
+                              end;
+                         end;
+                      If (Synthoscillator=2) or (Synthoscillator=5) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=3) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='3Saw';
+				1 : Waveformstring :='4Saw';
+				2 : Waveformstring :='5Saw';
+				3 : Waveformstring :='6Saw';
+                                4 : Waveformstring :='3Squ';
+				5 : Waveformstring :='4Squ';
+				6 : Waveformstring :='5Squ';
+				7 : Waveformstring :='6Squ';
+                                8 : Waveformstring :='3Tri';
+				9 : Waveformstring :='4Tri';
+				10 : Waveformstring :='5Tri';
+				11 : Waveformstring :='6Tri';
+                                12 : Waveformstring :='3Sin';
+				13 : Waveformstring :='4Sin';
+				14 : Waveformstring :='5Sin';
+				15 : Waveformstring :='6Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=8) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Type 1';
+				1 : Waveformstring :='Type 2';
+                              end;
+                         end;
+                       If (Synthoscillator=10) then
+                          begin
+                               Case Waveform of
+                                 0 : Waveformstring :='Saw';
+ 				 1 : Waveformstring :='Pulse';
+ 				 2 : Waveformstring :='Tri';
+ 				 3 : Waveformstring :='Sin';
+                                 4 : Waveformstring :='Noise';
+                               end;
+                          end;
+                      If (Synthoscillator=11) or (Synthoscillator=12) or (Synthoscillator=15) then Waveformstring :='------';
+                      If (Synthoscillator=13) or (Synthoscillator=14) then
+                         begin
+                              Waveform := Waveform + 1;
+                              Waveformstring :='PCM '+ inttostr(Waveform);
+                         end;
+
+                      Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
+                      Treeview1.Items.AddChild(InstNode, 'Syntune: ' + inttostr(Syntune));
+                      Treeview1.Items.AddChild(InstNode, 'Synthoscillator: ' + Synthoscillatorstring);
+
+                      BytesRead:=Filestream.Read(OscEdit1,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 1: ' + inttostr(OscEdit1));
+                      BytesRead:=Filestream.Read(OscEdit2,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 2: ' + inttostr(OscEdit2));
+                      BytesRead:=Filestream.Read(PitchGlide ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pitch/Glide: ' + inttostr(PitchGlide ));
+                      BytesRead:=Filestream.Read(Filtertype ,1);
+                      Case Filtertype of
+                                0 : FiltertypeString :='LPF';
+				1 : FiltertypeString :='HPF';
+				2 : FiltertypeString :='BPF';
+				3 : FiltertypeString :='BPF+';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Filtertype: ' + FiltertypeString);
+                      BytesRead:=Filestream.Read(Cutoff ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Cutoff: ' + inttostr(Cutoff));
+                      BytesRead:=Filestream.Read(Resonance  ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Resonance: ' + inttostr(Resonance ));
+                      BytesRead:=Filestream.Read(EGInt,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
+                      BytesRead:=Filestream.Read(Drive,1);
+                      Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
+                      BytesRead:=Filestream.Read(Level,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
+                      BytesRead:=Filestream.Read(Pan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
+                      BytesRead:=Filestream.Read(EGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(FSSSRA,1);
+                      AMPEG :='Square';
+                      Roll :='Off';
+                      FXSend :='Off';
+                      FXSelected := 'FX1';
+                      If (FSSSRA > 15) Then
+                         begin
+                              AMPEG :='Envelope';
+                              FSSSRA:=FSSSRA-16;
+                         End;
+                      If (FSSSRA > 7) Then
+                         begin
+                              Roll :='On';
+                              FSSSRA:=FSSSRA-8;
+                         End;
+                      If (FSSSRA > 3) Then
+                         begin
+                              FXSend :='On';
+                              FSSSRA:=FSSSRA-4;
+                         End;
+                       If (FSSSRA = 2) Then
+                         begin
+                              FXSelected := 'FX3';
+                         End;
+                       If (FSSSRA = 1) Then
+                          begin
+                              FXSelected := 'FX2';
+                          End;
+                      Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
+                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+
+                      BytesRead:=Filestream.Read(Reserved,1);
+                      //Treeview1.Items.AddChild(InstNode, 'Reserved ' + inttostr(Reserved));
+
+                      BytesRead:=Filestream.Read(MTDBS,1);
+                      MType :='Saw';
+                      MBPMSync :='Off';
+                      If (MTDBS > 127) Then
+                         begin
+                              MBPMSync :='On';
+                              MTDBS:=MTDBS-128;
+                         End;
+                      If (MTDBS > 63) Then
+                         begin
+                              MType :='Env';
+                              MTDBS:=MTDBS-64;
+                         End;
+                      If (MTDBS > 47) Then
+                         begin
+                              MType :='Random';
+                              MTDBS:=MTDBS-48;
+                         End;
+                      If (MTDBS > 31) Then
+                         begin
+                              MType :='Triangle';
+                              MTDBS:=MTDBS-32;
+                         End;
+                      If (MTDBS > 15) Then
+                         begin
+                              MType :='Square';
+                              MTDBS:=MTDBS-16;
+                         End;
+                      Case MTDBS of
+                           0 : MDestination :='Pitch ';
+                           1 : MDestination :='Osc Edit 1';
+                           2 : MDestination :='Osc Edit 2';
+                           3 : MDestination :='Cut Off';
+                           4 : MDestination :='Amp';
+                           5 : MDestination :='Pan ';
+                           otherwise MDestination:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
+                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+
+                      BytesRead:=Filestream.Read(ModulationSpeed,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      BytesRead:=Filestream.Read(ModulationDepth,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+
+                      BytesRead:=Filestream.Read(MotionSeqS,1);
+                      Case MotionSeqS of
+                           0 : MotionSeqStr :='Nothing';
+                           1 : MotionSeqStr :='Smooth';
+                           2 : MotionSeqStr :='Trig Hold';
+                           otherwise MotionSeqStr:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+                      //Synthpattern 128 Bytes
+
+                      //Gatetime 128 Bytes
+
+                      //This is enough for today procedure
+                      For i:=1 to 256 do
+                          begin
+                               BytesRead:=Filestream.Read(uselessToday,1);
+                          end;
+
+
+
+
+
+
+                      //Synth 2
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 2');
+                      BytesRead:=Filestream.Read(Waveform,1);
+                      BytesRead:=Filestream.Read(Syntune,1);
+                      BytesRead:=Filestream.Read(Synthoscillator,1);
+                      Case Synthoscillator of
+                           0 : Synthoscillatorstring :='Waveform';
+   		           1 : Synthoscillatorstring :='DualOsc';
+                           2 : Synthoscillatorstring :='Chord';
+                           3 : Synthoscillatorstring :='Unison';
+                           4 : Synthoscillatorstring :='Ring Mod';
+                           5 : Synthoscillatorstring :='Osc Sync';
+                           6 : Synthoscillatorstring :='Cross Mod';
+                           7 : Synthoscillatorstring :='VPM';
+                           8 : Synthoscillatorstring :='WS';
+                           9 : Synthoscillatorstring :='Additive';
+                           10 : Synthoscillatorstring :='Comb';
+                           11 : Synthoscillatorstring :='Formant';
+                           12 : Synthoscillatorstring :='Noise';
+                           13 : Synthoscillatorstring :='PCM+Comb';
+                           14 : Synthoscillatorstring :='PCM+WS';
+                           15 : Synthoscillatorstring :='Audio in + Comb';
+                      end;
+
+                      If (Synthoscillator=0) or (Synthoscillator=7) or (Synthoscillator=9) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Pulse';
+				2 : Waveformstring :='Tri';
+				3 : Waveformstring :='Sin';
+                              end;
+                         end;
+                      If (Synthoscillator=1) or (Synthoscillator=4) or (Synthoscillator=6) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='SawSaw';
+				1 : Waveformstring :='SawSqu';
+				2 : Waveformstring :='SawTri';
+				3 : Waveformstring :='SawSin';
+                                4 : Waveformstring :='SawNs';
+				5 : Waveformstring :='SquSaw';
+				6 : Waveformstring :='SquSqu';
+				7 : Waveformstring :='SquTri';
+                                8 : Waveformstring :='SquSin';
+				9 : Waveformstring :='SquNs';
+				10 : Waveformstring :='TriSaw';
+				11 : Waveformstring :='TriSqu';
+                                12 : Waveformstring :='TriTri';
+				13 : Waveformstring :='TriSin';
+				14 : Waveformstring :='TriNs';
+				15 : Waveformstring :='SinSaw';
+                                16 : Waveformstring :='SinSqu';
+				17 : Waveformstring :='SinTri';
+				18 : Waveformstring :='SinSin';
+				19 : Waveformstring :='SinNs';
+                              end;
+                         end;
+                      If (Synthoscillator=2) or (Synthoscillator=5) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=3) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='3Saw';
+				1 : Waveformstring :='4Saw';
+				2 : Waveformstring :='5Saw';
+				3 : Waveformstring :='6Saw';
+                                4 : Waveformstring :='3Squ';
+				5 : Waveformstring :='4Squ';
+				6 : Waveformstring :='5Squ';
+				7 : Waveformstring :='6Squ';
+                                8 : Waveformstring :='3Tri';
+				9 : Waveformstring :='4Tri';
+				10 : Waveformstring :='5Tri';
+				11 : Waveformstring :='6Tri';
+                                12 : Waveformstring :='3Sin';
+				13 : Waveformstring :='4Sin';
+				14 : Waveformstring :='5Sin';
+				15 : Waveformstring :='6Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=8) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Type 1';
+				1 : Waveformstring :='Type 2';
+                              end;
+                         end;
+                       If (Synthoscillator=10) then
+                          begin
+                               Case Waveform of
+                                 0 : Waveformstring :='Saw';
+ 				 1 : Waveformstring :='Pulse';
+ 				 2 : Waveformstring :='Tri';
+ 				 3 : Waveformstring :='Sin';
+                                 4 : Waveformstring :='Noise';
+                               end;
+                          end;
+                      If (Synthoscillator=11) or (Synthoscillator=12) or (Synthoscillator=15) then Waveformstring :='------';
+                      If (Synthoscillator=13) or (Synthoscillator=14) then
+                         begin
+                              Waveform := Waveform + 1;
+                              Waveformstring :='PCM '+ inttostr(Waveform);
+                         end;
+
+                      Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
+                      Treeview1.Items.AddChild(InstNode, 'Syntune: ' + inttostr(Syntune));
+                      Treeview1.Items.AddChild(InstNode, 'Synthoscillator: ' + Synthoscillatorstring);
+
+                      BytesRead:=Filestream.Read(OscEdit1,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 1: ' + inttostr(OscEdit1));
+                      BytesRead:=Filestream.Read(OscEdit2,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 2: ' + inttostr(OscEdit2));
+                      BytesRead:=Filestream.Read(PitchGlide ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pitch/Glide: ' + inttostr(PitchGlide ));
+                      BytesRead:=Filestream.Read(Filtertype ,1);
+                      Case Filtertype of
+                                0 : FiltertypeString :='LPF';
+				1 : FiltertypeString :='HPF';
+				2 : FiltertypeString :='BPF';
+				3 : FiltertypeString :='BPF+';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Filtertype: ' + FiltertypeString);
+                      BytesRead:=Filestream.Read(Cutoff ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Cutoff: ' + inttostr(Cutoff));
+                      BytesRead:=Filestream.Read(Resonance  ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Resonance: ' + inttostr(Resonance ));
+                      BytesRead:=Filestream.Read(EGInt,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
+                      BytesRead:=Filestream.Read(Drive,1);
+                      Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
+                      BytesRead:=Filestream.Read(Level,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
+                      BytesRead:=Filestream.Read(Pan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
+                      BytesRead:=Filestream.Read(EGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(FSSSRA,1);
+                      AMPEG :='Square';
+                      Roll :='Off';
+                      FXSend :='Off';
+                      FXSelected := 'FX1';
+                      If (FSSSRA > 15) Then
+                         begin
+                              AMPEG :='Envelope';
+                              FSSSRA:=FSSSRA-16;
+                         End;
+                      If (FSSSRA > 7) Then
+                         begin
+                              Roll :='On';
+                              FSSSRA:=FSSSRA-8;
+                         End;
+                      If (FSSSRA > 3) Then
+                         begin
+                              FXSend :='On';
+                              FSSSRA:=FSSSRA-4;
+                         End;
+                       If (FSSSRA = 2) Then
+                         begin
+                              FXSelected := 'FX3';
+                         End;
+                       If (FSSSRA = 1) Then
+                          begin
+                              FXSelected := 'FX2';
+                          End;
+                      Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
+                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+
+                      BytesRead:=Filestream.Read(Reserved,1);
+                      //Treeview1.Items.AddChild(InstNode, 'Reserved ' + inttostr(Reserved));
+
+                      BytesRead:=Filestream.Read(MTDBS,1);
+                      MType :='Saw';
+                      MBPMSync :='Off';
+                      If (MTDBS > 127) Then
+                         begin
+                              MBPMSync :='On';
+                              MTDBS:=MTDBS-128;
+                         End;
+                      If (MTDBS > 63) Then
+                         begin
+                              MType :='Env';
+                              MTDBS:=MTDBS-64;
+                         End;
+                      If (MTDBS > 47) Then
+                         begin
+                              MType :='Random';
+                              MTDBS:=MTDBS-48;
+                         End;
+                      If (MTDBS > 31) Then
+                         begin
+                              MType :='Triangle';
+                              MTDBS:=MTDBS-32;
+                         End;
+                      If (MTDBS > 15) Then
+                         begin
+                              MType :='Square';
+                              MTDBS:=MTDBS-16;
+                         End;
+                      Case MTDBS of
+                           0 : MDestination :='Pitch ';
+                           1 : MDestination :='Osc Edit 1';
+                           2 : MDestination :='Osc Edit 2';
+                           3 : MDestination :='Cut Off';
+                           4 : MDestination :='Amp';
+                           5 : MDestination :='Pan ';
+                           otherwise MDestination:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
+                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+
+                      BytesRead:=Filestream.Read(ModulationSpeed,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      BytesRead:=Filestream.Read(ModulationDepth,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+
+                      BytesRead:=Filestream.Read(MotionSeqS,1);
+                      Case MotionSeqS of
+                           0 : MotionSeqStr :='Nothing';
+                           1 : MotionSeqStr :='Smooth';
+                           2 : MotionSeqStr :='Trig Hold';
+                           otherwise MotionSeqStr:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+                      //Synthpattern 128 Bytes
+
+                      //Gatetime 128 Bytes
+
+                      //This is enough for today procedure
+                      For i:=1 to 256 do
+                          begin
+                               BytesRead:=Filestream.Read(uselessToday,1);
+                          end;
+                      //Synth 3
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 3');
+                      BytesRead:=Filestream.Read(Waveform,1);
+                      BytesRead:=Filestream.Read(Syntune,1);
+                      BytesRead:=Filestream.Read(Synthoscillator,1);
+                      Case Synthoscillator of
+                           0 : Synthoscillatorstring :='Waveform';
+   		           1 : Synthoscillatorstring :='DualOsc';
+                           2 : Synthoscillatorstring :='Chord';
+                           3 : Synthoscillatorstring :='Unison';
+                           4 : Synthoscillatorstring :='Ring Mod';
+                           5 : Synthoscillatorstring :='Osc Sync';
+                           6 : Synthoscillatorstring :='Cross Mod';
+                           7 : Synthoscillatorstring :='VPM';
+                           8 : Synthoscillatorstring :='WS';
+                           9 : Synthoscillatorstring :='Additive';
+                           10 : Synthoscillatorstring :='Comb';
+                           11 : Synthoscillatorstring :='Formant';
+                           12 : Synthoscillatorstring :='Noise';
+                           13 : Synthoscillatorstring :='PCM+Comb';
+                           14 : Synthoscillatorstring :='PCM+WS';
+                           15 : Synthoscillatorstring :='Audio in + Comb';
+                      end;
+
+                      If (Synthoscillator=0) or (Synthoscillator=7) or (Synthoscillator=9) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Pulse';
+				2 : Waveformstring :='Tri';
+				3 : Waveformstring :='Sin';
+                              end;
+                         end;
+                      If (Synthoscillator=1) or (Synthoscillator=4) or (Synthoscillator=6) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='SawSaw';
+				1 : Waveformstring :='SawSqu';
+				2 : Waveformstring :='SawTri';
+				3 : Waveformstring :='SawSin';
+                                4 : Waveformstring :='SawNs';
+				5 : Waveformstring :='SquSaw';
+				6 : Waveformstring :='SquSqu';
+				7 : Waveformstring :='SquTri';
+                                8 : Waveformstring :='SquSin';
+				9 : Waveformstring :='SquNs';
+				10 : Waveformstring :='TriSaw';
+				11 : Waveformstring :='TriSqu';
+                                12 : Waveformstring :='TriTri';
+				13 : Waveformstring :='TriSin';
+				14 : Waveformstring :='TriNs';
+				15 : Waveformstring :='SinSaw';
+                                16 : Waveformstring :='SinSqu';
+				17 : Waveformstring :='SinTri';
+				18 : Waveformstring :='SinSin';
+				19 : Waveformstring :='SinNs';
+                              end;
+                         end;
+                      If (Synthoscillator=2) or (Synthoscillator=5) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=3) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='3Saw';
+				1 : Waveformstring :='4Saw';
+				2 : Waveformstring :='5Saw';
+				3 : Waveformstring :='6Saw';
+                                4 : Waveformstring :='3Squ';
+				5 : Waveformstring :='4Squ';
+				6 : Waveformstring :='5Squ';
+				7 : Waveformstring :='6Squ';
+                                8 : Waveformstring :='3Tri';
+				9 : Waveformstring :='4Tri';
+				10 : Waveformstring :='5Tri';
+				11 : Waveformstring :='6Tri';
+                                12 : Waveformstring :='3Sin';
+				13 : Waveformstring :='4Sin';
+				14 : Waveformstring :='5Sin';
+				15 : Waveformstring :='6Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=8) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Type 1';
+				1 : Waveformstring :='Type 2';
+                              end;
+                         end;
+                       If (Synthoscillator=10) then
+                          begin
+                               Case Waveform of
+                                 0 : Waveformstring :='Saw';
+ 				 1 : Waveformstring :='Pulse';
+ 				 2 : Waveformstring :='Tri';
+ 				 3 : Waveformstring :='Sin';
+                                 4 : Waveformstring :='Noise';
+                               end;
+                          end;
+                      If (Synthoscillator=11) or (Synthoscillator=12) or (Synthoscillator=15) then Waveformstring :='------';
+                      If (Synthoscillator=13) or (Synthoscillator=14) then
+                         begin
+                              Waveform := Waveform + 1;
+                              Waveformstring :='PCM '+ inttostr(Waveform);
+                         end;
+
+                      Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
+                      Treeview1.Items.AddChild(InstNode, 'Syntune: ' + inttostr(Syntune));
+                      Treeview1.Items.AddChild(InstNode, 'Synthoscillator: ' + Synthoscillatorstring);
+
+                      BytesRead:=Filestream.Read(OscEdit1,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 1: ' + inttostr(OscEdit1));
+                      BytesRead:=Filestream.Read(OscEdit2,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 2: ' + inttostr(OscEdit2));
+                      BytesRead:=Filestream.Read(PitchGlide ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pitch/Glide: ' + inttostr(PitchGlide ));
+                      BytesRead:=Filestream.Read(Filtertype ,1);
+                      Case Filtertype of
+                                0 : FiltertypeString :='LPF';
+				1 : FiltertypeString :='HPF';
+				2 : FiltertypeString :='BPF';
+				3 : FiltertypeString :='BPF+';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Filtertype: ' + FiltertypeString);
+                      BytesRead:=Filestream.Read(Cutoff ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Cutoff: ' + inttostr(Cutoff));
+                      BytesRead:=Filestream.Read(Resonance  ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Resonance: ' + inttostr(Resonance ));
+                      BytesRead:=Filestream.Read(EGInt,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
+                      BytesRead:=Filestream.Read(Drive,1);
+                      Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
+                      BytesRead:=Filestream.Read(Level,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
+                      BytesRead:=Filestream.Read(Pan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
+                      BytesRead:=Filestream.Read(EGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(FSSSRA,1);
+                      AMPEG :='Square';
+                      Roll :='Off';
+                      FXSend :='Off';
+                      FXSelected := 'FX1';
+                      If (FSSSRA > 15) Then
+                         begin
+                              AMPEG :='Envelope';
+                              FSSSRA:=FSSSRA-16;
+                         End;
+                      If (FSSSRA > 7) Then
+                         begin
+                              Roll :='On';
+                              FSSSRA:=FSSSRA-8;
+                         End;
+                      If (FSSSRA > 3) Then
+                         begin
+                              FXSend :='On';
+                              FSSSRA:=FSSSRA-4;
+                         End;
+                       If (FSSSRA = 2) Then
+                         begin
+                              FXSelected := 'FX3';
+                         End;
+                       If (FSSSRA = 1) Then
+                          begin
+                              FXSelected := 'FX2';
+                          End;
+                      Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
+                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+
+                      BytesRead:=Filestream.Read(Reserved,1);
+                      //Treeview1.Items.AddChild(InstNode, 'Reserved ' + inttostr(Reserved));
+
+                      BytesRead:=Filestream.Read(MTDBS,1);
+                      MType :='Saw';
+                      MBPMSync :='Off';
+                      If (MTDBS > 127) Then
+                         begin
+                              MBPMSync :='On';
+                              MTDBS:=MTDBS-128;
+                         End;
+                      If (MTDBS > 63) Then
+                         begin
+                              MType :='Env';
+                              MTDBS:=MTDBS-64;
+                         End;
+                      If (MTDBS > 47) Then
+                         begin
+                              MType :='Random';
+                              MTDBS:=MTDBS-48;
+                         End;
+                      If (MTDBS > 31) Then
+                         begin
+                              MType :='Triangle';
+                              MTDBS:=MTDBS-32;
+                         End;
+                      If (MTDBS > 15) Then
+                         begin
+                              MType :='Square';
+                              MTDBS:=MTDBS-16;
+                         End;
+                      Case MTDBS of
+                           0 : MDestination :='Pitch ';
+                           1 : MDestination :='Osc Edit 1';
+                           2 : MDestination :='Osc Edit 2';
+                           3 : MDestination :='Cut Off';
+                           4 : MDestination :='Amp';
+                           5 : MDestination :='Pan ';
+                           otherwise MDestination:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
+                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+
+                      BytesRead:=Filestream.Read(ModulationSpeed,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      BytesRead:=Filestream.Read(ModulationDepth,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+
+                      BytesRead:=Filestream.Read(MotionSeqS,1);
+                      Case MotionSeqS of
+                           0 : MotionSeqStr :='Nothing';
+                           1 : MotionSeqStr :='Smooth';
+                           2 : MotionSeqStr :='Trig Hold';
+                           otherwise MotionSeqStr:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+                      //Synthpattern 128 Bytes
+
+                      //Gatetime 128 Bytes
+
+                      //This is enough for today procedure
+                      For i:=1 to 256 do
+                          begin
+                               BytesRead:=Filestream.Read(uselessToday,1);
+                          end;
+
+
+
+
+
+
+                      //Synth 4
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 4');
+                      BytesRead:=Filestream.Read(Waveform,1);
+                      BytesRead:=Filestream.Read(Syntune,1);
+                      BytesRead:=Filestream.Read(Synthoscillator,1);
+                      Case Synthoscillator of
+                           0 : Synthoscillatorstring :='Waveform';
+   		           1 : Synthoscillatorstring :='DualOsc';
+                           2 : Synthoscillatorstring :='Chord';
+                           3 : Synthoscillatorstring :='Unison';
+                           4 : Synthoscillatorstring :='Ring Mod';
+                           5 : Synthoscillatorstring :='Osc Sync';
+                           6 : Synthoscillatorstring :='Cross Mod';
+                           7 : Synthoscillatorstring :='VPM';
+                           8 : Synthoscillatorstring :='WS';
+                           9 : Synthoscillatorstring :='Additive';
+                           10 : Synthoscillatorstring :='Comb';
+                           11 : Synthoscillatorstring :='Formant';
+                           12 : Synthoscillatorstring :='Noise';
+                           13 : Synthoscillatorstring :='PCM+Comb';
+                           14 : Synthoscillatorstring :='PCM+WS';
+                           15 : Synthoscillatorstring :='Audio in + Comb';
+                      end;
+
+                      If (Synthoscillator=0) or (Synthoscillator=7) or (Synthoscillator=9) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Pulse';
+				2 : Waveformstring :='Tri';
+				3 : Waveformstring :='Sin';
+                              end;
+                         end;
+                      If (Synthoscillator=1) or (Synthoscillator=4) or (Synthoscillator=6) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='SawSaw';
+				1 : Waveformstring :='SawSqu';
+				2 : Waveformstring :='SawTri';
+				3 : Waveformstring :='SawSin';
+                                4 : Waveformstring :='SawNs';
+				5 : Waveformstring :='SquSaw';
+				6 : Waveformstring :='SquSqu';
+				7 : Waveformstring :='SquTri';
+                                8 : Waveformstring :='SquSin';
+				9 : Waveformstring :='SquNs';
+				10 : Waveformstring :='TriSaw';
+				11 : Waveformstring :='TriSqu';
+                                12 : Waveformstring :='TriTri';
+				13 : Waveformstring :='TriSin';
+				14 : Waveformstring :='TriNs';
+				15 : Waveformstring :='SinSaw';
+                                16 : Waveformstring :='SinSqu';
+				17 : Waveformstring :='SinTri';
+				18 : Waveformstring :='SinSin';
+				19 : Waveformstring :='SinNs';
+                              end;
+                         end;
+                      If (Synthoscillator=2) or (Synthoscillator=5) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=3) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='3Saw';
+				1 : Waveformstring :='4Saw';
+				2 : Waveformstring :='5Saw';
+				3 : Waveformstring :='6Saw';
+                                4 : Waveformstring :='3Squ';
+				5 : Waveformstring :='4Squ';
+				6 : Waveformstring :='5Squ';
+				7 : Waveformstring :='6Squ';
+                                8 : Waveformstring :='3Tri';
+				9 : Waveformstring :='4Tri';
+				10 : Waveformstring :='5Tri';
+				11 : Waveformstring :='6Tri';
+                                12 : Waveformstring :='3Sin';
+				13 : Waveformstring :='4Sin';
+				14 : Waveformstring :='5Sin';
+				15 : Waveformstring :='6Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=8) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Type 1';
+				1 : Waveformstring :='Type 2';
+                              end;
+                         end;
+                       If (Synthoscillator=10) then
+                          begin
+                               Case Waveform of
+                                 0 : Waveformstring :='Saw';
+ 				 1 : Waveformstring :='Pulse';
+ 				 2 : Waveformstring :='Tri';
+ 				 3 : Waveformstring :='Sin';
+                                 4 : Waveformstring :='Noise';
+                               end;
+                          end;
+                      If (Synthoscillator=11) or (Synthoscillator=12) or (Synthoscillator=15) then Waveformstring :='------';
+                      If (Synthoscillator=13) or (Synthoscillator=14) then
+                         begin
+                              Waveform := Waveform + 1;
+                              Waveformstring :='PCM '+ inttostr(Waveform);
+                         end;
+
+                      Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
+                      Treeview1.Items.AddChild(InstNode, 'Syntune: ' + inttostr(Syntune));
+                      Treeview1.Items.AddChild(InstNode, 'Synthoscillator: ' + Synthoscillatorstring);
+
+                      BytesRead:=Filestream.Read(OscEdit1,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 1: ' + inttostr(OscEdit1));
+                      BytesRead:=Filestream.Read(OscEdit2,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 2: ' + inttostr(OscEdit2));
+                      BytesRead:=Filestream.Read(PitchGlide ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pitch/Glide: ' + inttostr(PitchGlide ));
+                      BytesRead:=Filestream.Read(Filtertype ,1);
+                      Case Filtertype of
+                                0 : FiltertypeString :='LPF';
+				1 : FiltertypeString :='HPF';
+				2 : FiltertypeString :='BPF';
+				3 : FiltertypeString :='BPF+';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Filtertype: ' + FiltertypeString);
+                      BytesRead:=Filestream.Read(Cutoff ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Cutoff: ' + inttostr(Cutoff));
+                      BytesRead:=Filestream.Read(Resonance  ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Resonance: ' + inttostr(Resonance ));
+                      BytesRead:=Filestream.Read(EGInt,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
+                      BytesRead:=Filestream.Read(Drive,1);
+                      Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
+                      BytesRead:=Filestream.Read(Level,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
+                      BytesRead:=Filestream.Read(Pan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
+                      BytesRead:=Filestream.Read(EGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(FSSSRA,1);
+                      AMPEG :='Square';
+                      Roll :='Off';
+                      FXSend :='Off';
+                      FXSelected := 'FX1';
+                      If (FSSSRA > 15) Then
+                         begin
+                              AMPEG :='Envelope';
+                              FSSSRA:=FSSSRA-16;
+                         End;
+                      If (FSSSRA > 7) Then
+                         begin
+                              Roll :='On';
+                              FSSSRA:=FSSSRA-8;
+                         End;
+                      If (FSSSRA > 3) Then
+                         begin
+                              FXSend :='On';
+                              FSSSRA:=FSSSRA-4;
+                         End;
+                       If (FSSSRA = 2) Then
+                         begin
+                              FXSelected := 'FX3';
+                         End;
+                       If (FSSSRA = 1) Then
+                          begin
+                              FXSelected := 'FX2';
+                          End;
+                      Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
+                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+
+                      BytesRead:=Filestream.Read(Reserved,1);
+                      //Treeview1.Items.AddChild(InstNode, 'Reserved ' + inttostr(Reserved));
+
+                      BytesRead:=Filestream.Read(MTDBS,1);
+                      MType :='Saw';
+                      MBPMSync :='Off';
+                      If (MTDBS > 127) Then
+                         begin
+                              MBPMSync :='On';
+                              MTDBS:=MTDBS-128;
+                         End;
+                      If (MTDBS > 63) Then
+                         begin
+                              MType :='Env';
+                              MTDBS:=MTDBS-64;
+                         End;
+                      If (MTDBS > 47) Then
+                         begin
+                              MType :='Random';
+                              MTDBS:=MTDBS-48;
+                         End;
+                      If (MTDBS > 31) Then
+                         begin
+                              MType :='Triangle';
+                              MTDBS:=MTDBS-32;
+                         End;
+                      If (MTDBS > 15) Then
+                         begin
+                              MType :='Square';
+                              MTDBS:=MTDBS-16;
+                         End;
+                      Case MTDBS of
+                           0 : MDestination :='Pitch ';
+                           1 : MDestination :='Osc Edit 1';
+                           2 : MDestination :='Osc Edit 2';
+                           3 : MDestination :='Cut Off';
+                           4 : MDestination :='Amp';
+                           5 : MDestination :='Pan ';
+                           otherwise MDestination:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
+                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+
+                      BytesRead:=Filestream.Read(ModulationSpeed,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      BytesRead:=Filestream.Read(ModulationDepth,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+
+                      BytesRead:=Filestream.Read(MotionSeqS,1);
+                      Case MotionSeqS of
+                           0 : MotionSeqStr :='Nothing';
+                           1 : MotionSeqStr :='Smooth';
+                           2 : MotionSeqStr :='Trig Hold';
+                           otherwise MotionSeqStr:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+                      //Synthpattern 128 Bytes
+
+                      //Gatetime 128 Bytes
+
+                      //This is enough for today procedure
+                      For i:=1 to 256 do
+                          begin
+                               BytesRead:=Filestream.Read(uselessToday,1);
+                          end;
+                      //Synth 5
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 5');
+                      BytesRead:=Filestream.Read(Waveform,1);
+                      BytesRead:=Filestream.Read(Syntune,1);
+                      BytesRead:=Filestream.Read(Synthoscillator,1);
+                      Case Synthoscillator of
+                           0 : Synthoscillatorstring :='Waveform';
+   		           1 : Synthoscillatorstring :='DualOsc';
+                           2 : Synthoscillatorstring :='Chord';
+                           3 : Synthoscillatorstring :='Unison';
+                           4 : Synthoscillatorstring :='Ring Mod';
+                           5 : Synthoscillatorstring :='Osc Sync';
+                           6 : Synthoscillatorstring :='Cross Mod';
+                           7 : Synthoscillatorstring :='VPM';
+                           8 : Synthoscillatorstring :='WS';
+                           9 : Synthoscillatorstring :='Additive';
+                           10 : Synthoscillatorstring :='Comb';
+                           11 : Synthoscillatorstring :='Formant';
+                           12 : Synthoscillatorstring :='Noise';
+                           13 : Synthoscillatorstring :='PCM+Comb';
+                           14 : Synthoscillatorstring :='PCM+WS';
+                           15 : Synthoscillatorstring :='Audio in + Comb';
+                      end;
+
+                      If (Synthoscillator=0) or (Synthoscillator=7) or (Synthoscillator=9) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Pulse';
+				2 : Waveformstring :='Tri';
+				3 : Waveformstring :='Sin';
+                              end;
+                         end;
+                      If (Synthoscillator=1) or (Synthoscillator=4) or (Synthoscillator=6) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='SawSaw';
+				1 : Waveformstring :='SawSqu';
+				2 : Waveformstring :='SawTri';
+				3 : Waveformstring :='SawSin';
+                                4 : Waveformstring :='SawNs';
+				5 : Waveformstring :='SquSaw';
+				6 : Waveformstring :='SquSqu';
+				7 : Waveformstring :='SquTri';
+                                8 : Waveformstring :='SquSin';
+				9 : Waveformstring :='SquNs';
+				10 : Waveformstring :='TriSaw';
+				11 : Waveformstring :='TriSqu';
+                                12 : Waveformstring :='TriTri';
+				13 : Waveformstring :='TriSin';
+				14 : Waveformstring :='TriNs';
+				15 : Waveformstring :='SinSaw';
+                                16 : Waveformstring :='SinSqu';
+				17 : Waveformstring :='SinTri';
+				18 : Waveformstring :='SinSin';
+				19 : Waveformstring :='SinNs';
+                              end;
+                         end;
+                      If (Synthoscillator=2) or (Synthoscillator=5) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Saw';
+				1 : Waveformstring :='Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=3) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='3Saw';
+				1 : Waveformstring :='4Saw';
+				2 : Waveformstring :='5Saw';
+				3 : Waveformstring :='6Saw';
+                                4 : Waveformstring :='3Squ';
+				5 : Waveformstring :='4Squ';
+				6 : Waveformstring :='5Squ';
+				7 : Waveformstring :='6Squ';
+                                8 : Waveformstring :='3Tri';
+				9 : Waveformstring :='4Tri';
+				10 : Waveformstring :='5Tri';
+				11 : Waveformstring :='6Tri';
+                                12 : Waveformstring :='3Sin';
+				13 : Waveformstring :='4Sin';
+				14 : Waveformstring :='5Sin';
+				15 : Waveformstring :='6Sin';
+                              end;
+                         end;
+                       If (Synthoscillator=8) then
+                         begin
+                              Case Waveform of
+                                0 : Waveformstring :='Type 1';
+				1 : Waveformstring :='Type 2';
+                              end;
+                         end;
+                       If (Synthoscillator=10) then
+                          begin
+                               Case Waveform of
+                                 0 : Waveformstring :='Saw';
+ 				 1 : Waveformstring :='Pulse';
+ 				 2 : Waveformstring :='Tri';
+ 				 3 : Waveformstring :='Sin';
+                                 4 : Waveformstring :='Noise';
+                               end;
+                          end;
+                      If (Synthoscillator=11) or (Synthoscillator=12) or (Synthoscillator=15) then Waveformstring :='------';
+                      If (Synthoscillator=13) or (Synthoscillator=14) then
+                         begin
+                              Waveform := Waveform + 1;
+                              Waveformstring :='PCM '+ inttostr(Waveform);
+                         end;
+
+                      Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
+                      Treeview1.Items.AddChild(InstNode, 'Syntune: ' + inttostr(Syntune));
+                      Treeview1.Items.AddChild(InstNode, 'Synthoscillator: ' + Synthoscillatorstring);
+
+                      BytesRead:=Filestream.Read(OscEdit1,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 1: ' + inttostr(OscEdit1));
+                      BytesRead:=Filestream.Read(OscEdit2,1);
+                      Treeview1.Items.AddChild(InstNode, 'Osc Edit 2: ' + inttostr(OscEdit2));
+                      BytesRead:=Filestream.Read(PitchGlide ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pitch/Glide: ' + inttostr(PitchGlide ));
+                      BytesRead:=Filestream.Read(Filtertype ,1);
+                      Case Filtertype of
+                                0 : FiltertypeString :='LPF';
+				1 : FiltertypeString :='HPF';
+				2 : FiltertypeString :='BPF';
+				3 : FiltertypeString :='BPF+';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Filtertype: ' + FiltertypeString);
+                      BytesRead:=Filestream.Read(Cutoff ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Cutoff: ' + inttostr(Cutoff));
+                      BytesRead:=Filestream.Read(Resonance  ,1);
+                      Treeview1.Items.AddChild(InstNode, 'Resonance: ' + inttostr(Resonance ));
+                      BytesRead:=Filestream.Read(EGInt,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
+                      BytesRead:=Filestream.Read(Drive,1);
+                      Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
+                      BytesRead:=Filestream.Read(Level,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
+                      BytesRead:=Filestream.Read(Pan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
+                      BytesRead:=Filestream.Read(EGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(FSSSRA,1);
+                      AMPEG :='Square';
+                      Roll :='Off';
+                      FXSend :='Off';
+                      FXSelected := 'FX1';
+                      If (FSSSRA > 15) Then
+                         begin
+                              AMPEG :='Envelope';
+                              FSSSRA:=FSSSRA-16;
+                         End;
+                      If (FSSSRA > 7) Then
+                         begin
+                              Roll :='On';
+                              FSSSRA:=FSSSRA-8;
+                         End;
+                      If (FSSSRA > 3) Then
+                         begin
+                              FXSend :='On';
+                              FSSSRA:=FSSSRA-4;
+                         End;
+                       If (FSSSRA = 2) Then
+                         begin
+                              FXSelected := 'FX3';
+                         End;
+                       If (FSSSRA = 1) Then
+                          begin
+                              FXSelected := 'FX2';
+                          End;
+                      Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
+                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+
+                      BytesRead:=Filestream.Read(Reserved,1);
+                      //Treeview1.Items.AddChild(InstNode, 'Reserved ' + inttostr(Reserved));
+
+                      BytesRead:=Filestream.Read(MTDBS,1);
+                      MType :='Saw';
+                      MBPMSync :='Off';
+                      If (MTDBS > 127) Then
+                         begin
+                              MBPMSync :='On';
+                              MTDBS:=MTDBS-128;
+                         End;
+                      If (MTDBS > 63) Then
+                         begin
+                              MType :='Env';
+                              MTDBS:=MTDBS-64;
+                         End;
+                      If (MTDBS > 47) Then
+                         begin
+                              MType :='Random';
+                              MTDBS:=MTDBS-48;
+                         End;
+                      If (MTDBS > 31) Then
+                         begin
+                              MType :='Triangle';
+                              MTDBS:=MTDBS-32;
+                         End;
+                      If (MTDBS > 15) Then
+                         begin
+                              MType :='Square';
+                              MTDBS:=MTDBS-16;
+                         End;
+                      Case MTDBS of
+                           0 : MDestination :='Pitch ';
+                           1 : MDestination :='Osc Edit 1';
+                           2 : MDestination :='Osc Edit 2';
+                           3 : MDestination :='Cut Off';
+                           4 : MDestination :='Amp';
+                           5 : MDestination :='Pan ';
+                           otherwise MDestination:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
+                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+
+                      BytesRead:=Filestream.Read(ModulationSpeed,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      BytesRead:=Filestream.Read(ModulationDepth,1);
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+
+                      BytesRead:=Filestream.Read(MotionSeqS,1);
+                      Case MotionSeqS of
+                           0 : MotionSeqStr :='Nothing';
+                           1 : MotionSeqStr :='Smooth';
+                           2 : MotionSeqStr :='Trig Hold';
+                           otherwise MotionSeqStr:='Error';
+                      end;
+                      Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+                      //Synthpattern 128 Bytes
+
+                      //Gatetime 128 Bytes
+
+                      //This is enough for today procedure
+                      For i:=1 to 256 do
+                          begin
+                               BytesRead:=Filestream.Read(uselessToday,1);
+                          end;
+
+                      Patternbase := Patternbase + 4806;
+                 end;
+
+             end;
+
+
+
+
                       Patternbase := Patternbase + 4806;
                  end;
 

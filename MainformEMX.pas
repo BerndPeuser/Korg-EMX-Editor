@@ -228,7 +228,6 @@ begin
                      //Rolltype, Patternlength, Beat
                      BytesRead:=Filestream.Read(RPB,1);
                      Rolltype := 2;
-                     Patternlength := 1;
                      Beattype := 'Beat 16';
                      If (RPB > 127) Then
                         begin
@@ -255,34 +254,17 @@ begin
                              Beattype := 'Beat 32';
                              RPB:=RPB-16;
                         End;
-                      If (RPB > 0) Then
-                        begin
-                             Patternlength := 2;
-                        End;
-                      If (RPB > 1) Then
-                        begin
-                             Patternlength := 3;
-                        End;
-                      If (RPB > 2) Then
-                        begin
-                             Patternlength := 4;
-                        End;
-                      If (RPB > 3) Then
-                        begin
-                             Patternlength := 5;
-                        End;
-                      If (RPB > 4) Then
-                        begin
-                             Patternlength := 6;
-                        End;
-                      If (RPB > 5) Then
-                        begin
-                             Patternlength := 7;
-                        End;
-                      If (RPB > 6) Then
-                        begin
-                             Patternlength := 8;
-                        End;
+                      Case RPB of
+                           0 : Patternlength := 1;
+                           1 : Patternlength := 2;
+                           2 : Patternlength := 3;
+                           3 : Patternlength := 4;
+                           4 : Patternlength := 5;
+                           5 : Patternlength := 6;
+                           6 : Patternlength := 7;
+                           7 : Patternlength := 8;
+                      end;
+                      
                       PSNode := Treeview1.Items.AddChild(NameNode, 'Rolltype');
                       Treeview1.Items.AddChild(PSNode, inttostr(Rolltype));
                       PSNode := Treeview1.Items.AddChild(NameNode, 'Beattype');

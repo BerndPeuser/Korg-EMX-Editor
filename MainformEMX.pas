@@ -16,6 +16,9 @@ type
     Bank: TComboBox;
     Button1: TButton;
     Button2: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
     LoadFileB: TButton;
     OpenDialog1: TOpenDialog;
     SaveFileB: TButton;
@@ -69,10 +72,15 @@ type
     TabSheet9: TTabSheet;
     TreeView1: TTreeView;
     uEKnob1: TuEKnob;
-    uELED1: TuELED;
-    uELED2: TuELED;
+    Led_Arp: TuELED;
+    LED_Protect: TuELED;
+    procedure FileSelectionChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure GlobalSettingsBClick(Sender: TObject);
     procedure LoadFileBClick(Sender: TObject);
     procedure PatternChange(Sender: TObject);
+    procedure SaveFileBClick(Sender: TObject);
+    procedure Led_ArpChange(Sender: TObject);
     //procedure PSCustomPlugin1CompileImport1(Sender: TPSScript);
   private
     { private declarations }
@@ -128,6 +136,27 @@ type
      DrumPattern : array [0..16] of byte;
      DrumP : Integer;
      Drumbinary : String;
+     Waveform : Integer;
+     Waveformstring : String;
+     Syntune : Integer;
+     Synthoscillator : Integer;
+     SynthoscillatorString : String;
+     OscEdit1 : Integer;
+     OscEdit2 : Integer;
+     PitchGlide : Integer;
+     Filtertype : Integer;
+     FiltertypeString : String;
+     Cutoff : Integer;
+     Resonance : Integer;
+     EGInt : Integer;
+     Drive : Integer;
+     Reserved : Integer;
+     Note : Integer;
+     PatternpartSynth : Integer;
+     PatternpartSynthString : Integer;
+     Gatetime : Integer;
+     EGTime : Integer;
+
 
   end;
 
@@ -140,6 +169,364 @@ implementation
 
 { TMainForm }
 
+function Samplename (num : integer) : String;
+//Slavejob
+begin
+	Case num of
+     	1 : Samplename:='BD-Dark';
+     	2 : Samplename:='BD-99 1';
+     	3 : Samplename:='BD-99 2';
+     	4 : Samplename:='BD-Syn1';
+     	5 : Samplename:='BD-Syn2';
+     	6 : Samplename:='BD-Syn3';
+     	7 : Samplename:='BD-Syn4';
+     	8 : Samplename:='BD-Syn5';
+     	9 : Samplename:='BD-Syn6';
+     	10 : Samplename:='BD-Syn7';
+     	11 : Samplename:='BD-Syn8';
+     	12 : Samplename:='BD-Syn9';
+     	13 : Samplename:='BD-Syn10';
+     	14 : Samplename:='BD-Dist1';
+     	15 : Samplename:='BD-Dist2';
+     	16 : Samplename:='BD-Dist3';
+     	17 : Samplename:='BD-Dist4';
+     	18 : Samplename:='BD-Dist5';
+     	19 : Samplename:='BD-Dist6';
+     	20 : Samplename:='BD-Dist7';
+     	21 : Samplename:='BD-Squas';
+     	22 : Samplename:='BD-88 1';
+     	23 : Samplename:='BD-88 2';
+     	24 : Samplename:='BD-Digi';
+     	25 : Samplename:='BD-DDD1';
+     	26 : Samplename:='BD-DDD2';
+     	27 : Samplename:='BD-Lynn';
+     	28 : Samplename:='BD-Dry1';
+     	29 : Samplename:='BD-Dry2';
+     	30 : Samplename:='BD-Dry3';
+     	31 : Samplename:='BD-Dry4';
+     	32 : Samplename:='BD-Soft';
+     	33 : Samplename:='BD-Hip';
+     	34 : Samplename:='BD-R&B';
+     	35 : Samplename:='BD-Jazz';
+     	36 : Samplename:='BD-Break';
+     	37 : Samplename:='BD-Ambi';
+     	38 : Samplename:='BD-Def';
+     	39 : Samplename:='BD-D&B1';
+     	40 : Samplename:='BD-D&B2';
+     	41 : Samplename:='BigBreak';
+     	//Snaredrums
+     	42 : Samplename:='SD-99 1';
+     	43 : Samplename:='SD-99 2';
+     	44 : Samplename:='SD-99 3';
+     	45 : Samplename:='SD-99 4';
+     	46 : Samplename:='SD-99 5';
+     	47 : Samplename:='SD-88 1';
+     	48 : Samplename:='SD-88 2';
+     	49 : Samplename:='SD-88 3';
+     	50 : Samplename:='SD-Syn1';
+     	51 : Samplename:='SD-Syn2';
+     	52 : Samplename:='SD-77';
+     	53 : Samplename:='SD-Lynn';
+     	54 : Samplename:='SD-Disco';
+     	55 : Samplename:='SD-Dry 1';
+     	56 : Samplename:='SD-Dry 2';
+     	57 : Samplename:='SD-Dry 3';
+     	58 : Samplename:='SD-Dry 4';
+     	59 : Samplename:='SD-Dry 5';
+     	60 : Samplename:='SD-Dry 6';
+     	61 : Samplename:='SD-Ambi1';
+     	62 : Samplename:='SD-Ambi2';
+     	63 : Samplename:='SD-Ambi3';
+     	64 : Samplename:='SD-Picl1';
+     	65 : Samplename:='SD-Picl2';
+     	66 : Samplename:='SD-Picl3';
+     	67 : Samplename:='SD-Bras1';
+     	68 : Samplename:='SD-Bras2';
+     	69 : Samplename:='SD-Crckl';
+     	70 : Samplename:='SD-Brk1';
+     	71 : Samplename:='SD-Brk2';
+     	72 : Samplename:='SD-Brk3';
+     	73 : Samplename:='SD-Brk4';
+     	74 : Samplename:='SD-D&B';
+     	75 : Samplename:='SD-Clap1';
+     	76 : Samplename:='SD-Clap2';
+     	77 : Samplename:='SD-R&B1';
+     	78 : Samplename:='SD-R&B2';
+     	79 : Samplename:='SD-R&B3';
+     	80 : Samplename:='SD-R&B4';
+     	81 : Samplename:='SD-R&B5';
+     	//Rim
+     	82 : Samplename:='RM-Ambi1';
+     	83 : Samplename:='RM-Ambi2';
+     	84 : Samplename:='RM-Dry';
+     	85 : Samplename:='RM-DDD';
+     	86 : Samplename:='RM-Lynn';
+     	87 : Samplename:='RM-88';
+     	//Clap
+     	88 : Samplename:='Clp-99 1';
+     	89 : Samplename:='Clp-99 2';
+     	90 : Samplename:='Clp-88 1';
+     	91 : Samplename:='Clp-88 2';
+     	92 : Samplename:='Clp-Nois';
+     	93 : Samplename:='Clp-R&B1';
+     	94 : Samplename:='Clp-R&B2';
+     	//Hihat
+     	95 : Samplename:='HH-99 1C';
+     	96 : Samplename:='HH-99 1O';
+     	97 : Samplename:='HH-99 2C';
+     	98 : Samplename:='HH-99 2H';
+     	99 : Samplename:='HH-99 2O';
+     	100 : Samplename:='HH-99 3C';
+     	101 : Samplename:='HH-99 3O';
+     	102 : Samplename:='HH-88 C';
+     	103 : Samplename:='HH-88 O';
+     	104 : Samplename:='HH-Syn1C';
+     	105 : Samplename:='HH-Syn1H';
+     	106 : Samplename:='HH-Syn1O';
+     	107 : Samplename:='HH-Syn2C';
+     	108 : Samplename:='HH-Syn2O';
+     	109 : Samplename:='HH-Syn3C';
+     	110 : Samplename:='HH-Syn3O';
+     	111 : Samplename:='HH-Nrm1C';
+     	112 : Samplename:='HH-Nrm1O';
+     	113 : Samplename:='HH-Nrm2C';
+     	114 : Samplename:='HH-Nrm2O';
+     	115 : Samplename:='HH-CrspC';
+     	116 : Samplename:='HH-CrspO';
+     	117 : Samplename:='HH-OldC';
+     	118 : Samplename:='HH-OldO';
+     	119 : Samplename:='HH-LynnC';
+     	120 : Samplename:='HH-LynnO';
+     	//Ride Cymbal
+     	121 : Samplename:='Rid-99 1';
+     	122 : Samplename:='Rid-99 2';
+     	123 : Samplename:='Rid-KPR';
+     	124 : Samplename:='Rid-Edg1';
+     	125 : Samplename:='Rid-Edg2';
+     	126 : Samplename:='Rid-Jazz';
+     	//Crash Cymbal
+     	127 : Samplename:='Crs-99 1';
+     	128 : Samplename:='Crs-99 2';
+     	129 : Samplename:='Crs-Nrm';
+     	130 : Samplename:='Crs-Spls';
+     	//Tom
+     	131 : Samplename:='Tom-99';
+     	132 : Samplename:='Tom-88';
+     	133 : Samplename:='Tom-Simm';
+     	134 : Samplename:='Tom-NrmH';
+     	135 : Samplename:='Tom-NrmL';
+     	136 : Samplename:='Tom-NrmF';
+     	137 : Samplename:='Tom-Jazz';
+     	//Percussions
+     	138 : Samplename:='Bng-Hi';
+     	139 : Samplename:='Bng-Slap';
+     	140 : Samplename:='Bng-Lo1';
+     	141 : Samplename:='Bng-Lo2';
+     	142 : Samplename:='Cng-Hi1';
+     	143 : Samplename:='Cng-Hi2';
+     	144 : Samplename:='Cng-HiMt';
+     	145 : Samplename:='Cng-Lo1';
+     	146 : Samplename:='Cng-Lo2';
+     	147 : Samplename:='Cng-LoMt';
+     	148 : Samplename:='Cng-LynH';
+     	149 : Samplename:='Cng-LynL';
+     	150 : Samplename:='Timb-Hi1';
+     	151 : Samplename:='Timb-Hi2';
+     	152 : Samplename:='Timb-Lo1';
+     	153 : Samplename:='Timb-Lo2';
+     	154 : Samplename:='Timb-Rim';
+     	155 : Samplename:='Claves';
+     	156 : Samplename:='Cowbell';
+     	157 : Samplename:='ChaChaBl';
+     	158 : Samplename:='MamboBel';
+     	159 : Samplename:='Agogo';
+     	160 : Samplename:='Triangle';
+     	161 : Samplename:='Tambouri';
+     	162 : Samplename:='Junk1';
+     	163 : Samplename:='Junk2';
+     	164 : Samplename:='SleightBl';
+     	165 : Samplename:='Shaker1';
+     	166 : Samplename:='Shaker2';
+     	167 : Samplename:='Cabasa1';
+     	168 : Samplename:='Cabasa2';
+     	169 : Samplename:='Cabasa3';
+     	170 : Samplename:='Guiro-S';
+     	171 : Samplename:='Guiro-L';
+     	172 : Samplename:='Wbl-DDDH';
+     	173 : Samplename:='Wbl-DDD';
+     	174 : Samplename:='Whistle';
+     	175 : Samplename:='Baya-Ghe';
+     	176 : Samplename:='Baya-Mt1';
+     	177 : Samplename:='Baya-Mt2';
+     	178 : Samplename:='Tbla-Na';
+     	179 : Samplename:='Tbla-Tin';
+     	180 : Samplename:='Tbla-Mt1';
+     	181 : Samplename:='Tbla-Mt2';
+     	182 : Samplename:='Djmb-1a';
+     	183 : Samplename:='Djmb-1b';
+     	184 : Samplename:='Djmb-1c';
+     	185 : Samplename:='Djmb-2a';
+     	186 : Samplename:='Djmb-2b';
+     	187 : Samplename:='Djmb-2c';
+     	188 : Samplename:='Udu';
+     	189 : Samplename:='Taiko-Op';
+     	190 : Samplename:='Taiko-Rm';
+     	191 : Samplename:='Tsuzumi';
+     	//Synth Perc
+     	192 : Samplename:='GtrWah';
+     	193 : Samplename:='Zap1';
+     	194 : Samplename:='Zap2';
+     	195 : Samplename:='SynPerc1';
+     	196 : Samplename:='SynPerc2';
+     	197 : Samplename:='SynPerc3';
+     	198 : Samplename:='SynPerc4';
+     	199 : Samplename:='SynPerc5';
+     	200 : Samplename:='SynPerc6';
+     	//Reverse
+     	201 : Samplename:='Rev-BD';
+     	202 : Samplename:='Rev-SD1';
+     	203 : Samplename:='Rev-SD2';
+     	204 : Samplename:='Rev-Crsh';
+     	//Scratch
+     	205 : Samplename:='Scratch1';
+     	206 : Samplename:='Scratch2';
+     	207 : Samplename:='Scratch3';
+	end;
+end;
+function Notestring (num : integer) : String;
+begin
+	Case num of
+		1 : NoteString :='C#-2';
+		2 : NoteString :='D-2';
+		3 : NoteString :='D#-2';
+		5 : NoteString :='E-2';
+		6 : NoteString :='F-2';
+		7 : NoteString :='F#-2';
+		8 : NoteString :='G-2';
+		9 : NoteString :='G#-2';
+		10 : NoteString :='A-2';
+		11 : NoteString :='A#-2';
+		12 : NoteString :='B-2';
+		13 : NoteString :='C-1';
+		14 : NoteString :='C#-1';
+		15 : NoteString :='D-1';
+		16 : NoteString :='E-1';
+		17 : NoteString :='F-1';
+		18 : NoteString :='F#-1';
+		19 : NoteString :='G-1';
+		20 : NoteString :='G#-1';
+		21 : NoteString :='A-1';
+		22 : NoteString :='A#-1';
+		23 : NoteString :='B-1';
+		24 : NoteString :='C 0';
+		25 : NoteString :='C#0';
+		26 : NoteString :='D 0';
+		27 : NoteString :='D#0';
+		28 : NoteString :='E 0';
+		29 : NoteString :='F 0';
+		30 : NoteString :='F#0';
+		31 : NoteString :='G 0';
+		32 : NoteString :='G#0';
+		33 : NoteString :='A 0';
+		34 : NoteString :='A#0';
+		35 : NoteString :='B 0';
+		36 : NoteString :='C 1';
+		37 : NoteString :='C#1';
+		38 : NoteString :='D 1';
+		39 : NoteString :='D#1';
+		40 : NoteString :='E 1';
+		41 : NoteString :='F 1';
+		42 : NoteString :='F#1';
+		43 : NoteString :='G 1';
+		44 : NoteString :='G#1';
+		45 : NoteString :='A 1';
+		46 : NoteString :='A#1';
+		47 : NoteString :='B 1';
+		48 : NoteString :='C 2';
+		49 : NoteString :='C#2';
+		50 : NoteString :='D 2';
+		51 : NoteString :='D#2';
+		52 : NoteString :='E 2';
+		53 : NoteString :='F 2';
+		54 : NoteString :='F#2';
+		55 : NoteString :='G 2';
+		56 : NoteString :='G#2';
+		57 : NoteString :='A 2';
+		58 : NoteString :='A#2';
+		59 : NoteString :='B 2';
+		60 : NoteString :='C 3';
+		61 : NoteString :='C#3';
+		62 : NoteString :='D 3';
+		63 : NoteString :='D#3';
+		64 : NoteString :='E 3';
+		65 : NoteString :='F 3';
+		66 : NoteString :='F#3';
+		67 : NoteString :='G 3';
+		68 : NoteString :='G#3';
+		69 : NoteString :='A 3';
+		70 : NoteString :='A#3';
+		71 : NoteString :='B 3';
+		72 : NoteString :='C 4';
+		73 : NoteString :='C#4';
+		74 : NoteString :='D 4';
+		75 : NoteString :='D#4';
+		76 : NoteString :='E 4';
+		77 : NoteString :='F 4';
+		78 : NoteString :='F#4';
+		79 : NoteString :='G 4';
+		80 : NoteString :='G#4';
+		81 : NoteString :='A 4';
+		82 : NoteString :='A#4';
+		83 : NoteString :='B 4';
+		84 : NoteString :='C 5';
+		85 : NoteString :='C#5';
+		86 : NoteString :='D 5';
+		87 : NoteString :='D#5';
+		88 : NoteString :='E 5';
+		89 : NoteString :='F 5';
+		90 : NoteString :='F#5';
+		91 : NoteString :='G 5';
+		92 : NoteString :='G#5';
+		93 : NoteString :='A 5';
+		94 : NoteString :='A#5';
+		95 : NoteString :='B 5';
+		96 : NoteString :='C 6';
+		97 : NoteString :='C#6';
+		98 : NoteString :='D 6';
+		99 : NoteString :='D#6';
+		100 : NoteString :='E 6';
+		101 : NoteString :='F 6';
+		102 : NoteString :='F#6';
+		103 : NoteString :='G 6';
+		104 : NoteString :='G#6';
+		105 : NoteString :='A 6';
+		106 : NoteString :='A#6';
+		107 : NoteString :='B 6';
+		108 : NoteString :='C 7';
+		109 : NoteString :='C#7';
+		110 : NoteString :='D 7';
+		111 : NoteString :='D#7';
+		112 : NoteString :='E 7';
+		113 : NoteString :='F 7';
+		114 : NoteString :='F#7';
+		115 : NoteString :='G 7';
+		116 : NoteString :='G#7';
+		117 : NoteString :='A 7';
+		118 : NoteString :='A#7';
+		119 : NoteString :='B 7';
+		120 : NoteString :='C 8';
+		121 : NoteString :='C#8';
+		122 : NoteString :='D 8';
+		123 : NoteString :='D#8';
+		124 : NoteString :='E 8';
+		125 : NoteString :='F 8';
+		126 : NoteString :='F#8';
+		127 : NoteString :='G8';
+		128 : NoteString :='C-2';  //Oops :)
+		188 : NoteString :=''; //Nothing
+		otherwise NoteString :='Err';
+	end;
+end;
 procedure TMainForm.LoadFileBClick(Sender: TObject);
 Var
    BytesRead : Integer;
@@ -157,6 +544,7 @@ Var
    i: Integer;
    ii: Integer;
    iii: Integer;
+   uselessToday : Integer;
    s: String;
    FileNode: TTreeNode;
    GSNode: TTreeNode;
@@ -167,6 +555,14 @@ Var
    InstNode: TTreeNode;
    ParameterNode: TTreeNode;
    Getbit: Boolean;
+
+   Procedure DeleteNode(Node:TTreeNode);
+   begin
+    while Node.HasChildren do DeleteNode(node.GetLastChild);
+    TreeView1.Items.Delete(Node) ;
+    end;
+
+
 begin
    Patternbase := 512;
 
@@ -174,6 +570,8 @@ begin
         begin
              filename := OpenDialog1.Filename;
              //ShowMessage(filename);
+             //if TreeView1.Items.Count > 0 then DeleteNode(FileNode);
+
              FileNode := Treeview1.Items.Add (nil,filename);
              FileStream := tFileStream.Create (filename,fmShareDenyNone);
              GSNode := Treeview1.Items.AddChild(FileNode ,'Global Settings');
@@ -181,9 +579,17 @@ begin
              FileStream.Position := 32; //Protect
              BytesRead:=Filestream.Read(Protect,1);
              If (Protect= 0) then
-                Instname := 'No'
+                          Instname := 'No'
              Else
-                 Instname := 'Yes';
+                      Instname := 'Yes';
+
+
+             If (Protect= 0) then
+                       LED_Protect.Color := clLime
+             Else
+                      LED_Protect.Color := clRed;
+
+
              NameNode := Treeview1.Items.AddChild(GSNode, 'Protect');
              Treeview1.Items.AddChild(NameNode, Instname);
 
@@ -197,10 +603,16 @@ begin
                 Instname := 'No'
              Else
                  Instname := 'Yes';
+
+             If (Arpcontrol= 0) then
+                LED_Arp.Color:=clLime
+             Else
+                 LED_Arp.Color:=ClRed;
+
              NameNode := Treeview1.Items.AddChild(GSNode, 'Arpcontrol Reverse');
              Treeview1.Items.AddChild(NameNode, Instname);
 
-            
+             //If Protect>1 Or Mastertune > 127 or Arpcontrol > 1 then SomethingWentWrong;
 
              //Pattern Read
              For Banki := 65 to 68 Do Begin
@@ -213,7 +625,7 @@ begin
                      setlength(Patternname, 8);
                      move(Buffer[0], Patternname[1],8);
                      NameNode := Treeview1.Items.AddChild(BankNode, Patternname);
-                     //Patter4806nsettings
+                     //Patternsettings
                      //Tempo
                      BytesRead:=Filestream.Read(Tempo,1);
                      BytesRead:=Filestream.Read(TempoK,1);
@@ -264,7 +676,7 @@ begin
                            6 : Patternlength := 7;
                            7 : Patternlength := 8;
                       end;
-                      
+
                       PSNode := Treeview1.Items.AddChild(NameNode, 'Rolltype');
                       Treeview1.Items.AddChild(PSNode, inttostr(Rolltype));
                       PSNode := Treeview1.Items.AddChild(NameNode, 'Beattype');
@@ -336,13 +748,12 @@ begin
                       BytesRead:=Filestream.Read(ArpCenterNote,1);
                       PSNode := Treeview1.Items.AddChild(NameNode, 'Arpeggiator CenterNote');
                       // ArpCenterNote noch in String konvertieren
-
-                      Treeview1.Items.AddChild(PSNode, inttostr(ArpCenterNote));
+                      Treeview1.Items.AddChild(PSNode, Notestring(ArpCenterNote));
                       // Mute Status
                       BytesRead:=Filestream.Read(MuteStatusP1,1);
                       BytesRead:=Filestream.Read(MuteStatusP2,1);
 		      PSNode := Treeview1.Items.AddChild(NameNode, 'Mute Status');
-                      
+                      //function GetBit(Value: QWord; Index: Byte): Boolean;
                       GetBit := ((MuteStatusP2 shr 0) and 1) = 1;
                       If (GetBit) then
                          s:='On'
@@ -456,7 +867,7 @@ begin
                       BytesRead:=Filestream.Read(SwingStatusP1,1);
                       BytesRead:=Filestream.Read(SwingStatusP2,1);
 		      PSNode := Treeview1.Items.AddChild(NameNode, 'Swing Status');
-                      
+                      //function GetBit(Value: QWord; Index: Byte): Boolean;
                       GetBit := ((SwingStatusP2 shr 0) and 1) = 1;
                       If (GetBit) then
                          s:='On'
@@ -569,7 +980,7 @@ begin
                       // Output L/R or 3/4 (1 Word) 0=Output 3/4 1=Output L/R
                       BytesRead:=Filestream.Read(OutputStatusP1,1);
                       BytesRead:=Filestream.Read(OutputStatusP2,1);
-					  PSNode := Treeview1.Items.AddChild(NameNode, 'Output Channel');
+		      PSNode := Treeview1.Items.AddChild(NameNode, 'Output Channel');
                       //functiOutput L/R GetBit(Value: QWord; Index: Byte): Boolean;
                       GetBit := ((OutputStatusP2 shr 0) and 1) = 1;
                       If (GetBit) then
@@ -683,8 +1094,8 @@ begin
                       // AccentSw Status (1 Word) 0=AccentSw off 1=AccentSw On
                       BytesRead:=Filestream.Read(AccentSwStatusP1,1);
                       BytesRead:=Filestream.Read(AccentSwStatusP2,1);
-		              PSNode := Treeview1.Items.AddChild(NameNode, 'AccentSw Status');
-                      
+		      PSNode := Treeview1.Items.AddChild(NameNode, 'AccentSw Status');
+                      //function GetBit(Value: QWord; Index: Byte): Boolean;
                       GetBit := ((AccentSwStatusP2 shr 0) and 1) = 1;
                       If (GetBit) then
                          s:='On'
@@ -795,11 +1206,13 @@ begin
                       StatusNode := Treeview1.Items.AddChild(PSNode, 'AccentSw Channel S5');
                       Treeview1.Items.AddChild(StatusNode,s);
 
-                      //Sample 1
+                      //Endlich Sample 1
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 1');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -907,7 +1320,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -916,11 +1329,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                       //Sample 2
+                       //Endlich Sample 2
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 2');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1028,7 +1443,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1037,11 +1452,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                       //Sample 3
+                       //Endlich Sample 3
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 3');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1149,7 +1566,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1158,11 +1575,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 4
+                      //Endlich Sample 4
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 4');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1270,7 +1689,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1279,11 +1698,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 5
+                      //Endlich Sample 5
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 5');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1391,7 +1812,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1400,11 +1821,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 6A
+                      //Endlich Sample 6A
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 6A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1512,7 +1935,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1521,11 +1944,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 6A
+                      //Endlich Sample 6A
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 6A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1633,7 +2058,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1642,11 +2067,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 7A
+                      //Endlich Sample 7A
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 7A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1754,7 +2181,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1763,11 +2190,13 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Sample 7B
+                      //Endlich Sample 7B
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 7B');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
+                      s:=Samplename(Samplebanknumber);
+                      Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
@@ -1875,7 +2304,7 @@ begin
                           For ii := 1 to 2 Do Begin
                               BytesRead:=Filestream.Read(DrumP,1);
                               For iii := 0 to 7 Do Begin
-                                  GetBit := ((DrumP shr iii) and 1) = 1; 
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
                                   If (GetBit) then
                                      s:=s + '1 '
                                   Else
@@ -1884,7 +2313,6 @@ begin
                               end;
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-
 
 
 
@@ -2124,11 +2552,23 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
+                      For i:=1 to 8 do
+                          begin
+                               s :=''
+                               For i:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(Note,1);
+                                        s := s + ' ' + Notestring(Note);
+                                   end;
 
-                      //Gatetime 128 Bytes
+                          end;
+
+                      //Gatetime 128 Bytes Berechnung
+                      //
+                      //
 
                       //This is enough for today procedure
-                      For i:=1 to 256 do
+                      For i:=1 to 128 do
                           begin
                                BytesRead:=Filestream.Read(uselessToday,1);
                           end;
@@ -3115,19 +3555,36 @@ begin
              end;
 
 
-
-
-                      Patternbase := Patternbase + 4806;
-                 end;
-
-             end;
-
-
              FileStream.Free;
       end;
 end;
 
+procedure TMainForm.GlobalSettingsBClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.FileSelectionChange(Sender: TObject);
+begin
+
+end;
+
 procedure TMainForm.PatternChange(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.SaveFileBClick(Sender: TObject);
+begin
+   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 2 days. ;)');
+end;
+
+procedure TMainForm.Led_ArpChange(Sender: TObject);
 begin
 
 end;

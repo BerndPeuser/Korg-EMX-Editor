@@ -165,6 +165,13 @@ type
      Bit5 : Boolean;
      Bit6 : Boolean;
      Bit7 : Boolean;
+     SelectedFX : Integer;
+     FXParameter1 : Integer;
+     FXParameter2 : Integer;
+     FX1MotionSeq : Integer;
+     OperationNo : Word;
+     MotionSequenceB : Integer;
+     MotionSequence : string;
   end;
 
 var
@@ -533,7 +540,7 @@ begin
 		124 : NoteString :='E 8';
 		125 : NoteString :='F 8';
 		126 : NoteString :='F#8';
-		127 : NoteString :='G8';
+		127 : NoteString :='G 8';
 		188 : NoteString :='---'; //Nothing
 		otherwise NoteString :='Err';
 	end;
@@ -624,14 +631,14 @@ begin
              Treeview1.Items.AddChild(NameNode, Instname);
 
              //If Protect>1 Or Mastertune > 127 or Arpcontrol > 1 then SomethingWentWrong;
-
+             FileStream.Position := Patternbase;
              //Pattern Read
              For Banki := 65 to 68 Do Begin
                  i := treeview1.Items.Count;
                  s := 'Bank ' + chr(Banki);
                  BankNode := Treeview1.Items.AddChild(FileNode ,s);
                  For Patterni := 1 to 64 Do Begin
-                     FileStream.Position := Patternbase;
+                     //FileStream.Position := Patternbase;
                      BytesRead:=Filestream.Read(Buffer[0],8);
                      setlength(Patternname, 8);
                      move(Buffer[0], Patternname[1],8);
@@ -1218,7 +1225,7 @@ begin
                       Treeview1.Items.AddChild(StatusNode,s);
 
                       //Endlich Sample 1
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 1');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 1');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1323,7 +1330,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1336,12 +1343,13 @@ begin
                                      s:=s + '1 '
                                   Else
                                      s:=s + '0 ';
-                                  End;
-                              end;
-                              Treeview1.Items.AddChild(ParameterNode,s);
+                              End;
                           end;
+                          Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
+                          Treeview1.Items.AddChild(ParameterNode,s);
+                      end;
                        //Endlich Sample 2
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 2');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 2');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1446,7 +1454,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1461,10 +1469,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                        //Endlich Sample 3
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 3');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 3');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1569,7 +1578,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence/Position 1- 8');
 
 
                       For i := 1 to 8 Do Begin
@@ -1587,7 +1596,7 @@ begin
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 4
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 4');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 4');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1692,7 +1701,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence/');
 
 
                       For i := 1 to 8 Do Begin
@@ -1707,10 +1716,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 5
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 5');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 5');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1815,7 +1825,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1830,10 +1840,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 6A
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 6A');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 6A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -1938,7 +1949,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1953,10 +1964,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 6A
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 6A');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 6A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -2061,7 +2073,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -2076,10 +2088,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 7A
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 7A');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 7A');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -2184,7 +2197,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -2199,10 +2212,11 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 7B
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Sample 7B');
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 7B');
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -2307,7 +2321,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sample Pattern');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -2322,6 +2336,7 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -2575,7 +2590,7 @@ begin
                                         If (PatternpartSynthString ='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
                                         s := s + '|' + PatternpartSynthString;
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -2601,7 +2616,7 @@ begin
                                         If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
                                         s := s + '|' + FloatToStr(Gatetime);
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -2854,7 +2869,7 @@ begin
                                         If (PatternpartSynthString ='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
                                         s := s + '|' + PatternpartSynthString;
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -2881,7 +2896,7 @@ begin
 
                                         s := s + '|' + FloatToStr(Gatetime);
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Synth 3
@@ -3128,7 +3143,7 @@ begin
                                         If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
                                         s := s + '|' + PatternpartSynthString;
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -3407,7 +3422,7 @@ begin
                                         If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
                                         s := s + '|' + PatternpartSynthString;
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -3683,7 +3698,7 @@ begin
                                         If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
                                         s := s + '|' + PatternpartSynthString;
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
@@ -3710,11 +3725,185 @@ begin
 
                                         s := s + '|' + FloatToStr(Gatetime);
                                    end;
-                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                                    Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
-                      Patternbase := Patternbase + 4806;
+                      // Drum Accent
+                      ParameterNode := Treeview1.Items.AddChild(NameNode, 'Drum Accent Parameter');
+                      BytesRead:=Filestream.Read(Reserved,1); //Level
+                      Treeview1.Items.AddChild(ParameterNode,'Level ' + inttostr(Reserved));
+                      BytesRead:=Filestream.Read(Reserved,1); //Trig Hold :)
+                      If (Reserved=2) then
+                         s:='On'
+                      Else
+                         s:='Off';
+                      Treeview1.Items.AddChild(ParameterNode,'Trig Hold ' + s);
+;
+
+                      ParameterNode := Treeview1.Items.AddChild(NameNode, 'Drum Accent Sequence');
+                      For i := 1 to 8 Do Begin
+                          s:='';
+                          For ii := 1 to 2 Do Begin
+                              BytesRead:=Filestream.Read(DrumP,1);
+                              For iii := 0 to 7 Do Begin
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
+                                  If (GetBit) then
+                                     s:=s + '1 '
+                                  Else
+                                     s:=s + '0 ';
+                                  End;
+                              end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
+                              Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
+
+                      // Synth Accent
+                      ParameterNode := Treeview1.Items.AddChild(NameNode, 'Synth Accent Parameter');
+                      BytesRead:=Filestream.Read(Reserved,1); //Level
+                      Treeview1.Items.AddChild(ParameterNode,'Level ' + inttostr(Reserved));
+                      BytesRead:=Filestream.Read(Reserved,1); //Trig Hold :)
+                      If (Reserved=2) then
+                        s:='On'
+                      Else
+                        s:='Off';
+                      Treeview1.Items.AddChild(ParameterNode,'Trig Hold ' + s);
+
+                      ParameterNode := Treeview1.Items.AddChild(NameNode, 'Synth Accent Sequence');
+                      For i := 1 to 8 Do Begin
+                          s:='';
+                          For ii := 1 to 2 Do Begin
+                              BytesRead:=Filestream.Read(DrumP,1);
+                              For iii := 0 to 7 Do Begin
+                                  GetBit := ((DrumP shr iii) and 1) = 1; //function GetBit(Value: QWord; Index: Byte): Boolean;
+                                  If (GetBit) then
+                                     s:=s + '1 '
+                                  Else
+                                     s:=s + '0 ';
+                                  End;
+                              end;
+                          Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
+                          Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
+
+
+
+
+                      // The FX Section
+                      ParameterNode := Treeview1.Items.AddChild(NameNode, 'Effect Section');
+                      BytesRead:=Filestream.Read(SelectedFX,1);
+                      Case SelectedFX of
+                        0 : s:='Reverb';
+			1 : s:='BPM Sync Delay';
+			2 : s:='Short Delay';
+			3 : s:='Mod Delay';
+			4 : s:='Grain Shifter';
+			5 : s:='Cho/Fla';
+			6 : s:='Phaser';
+			7 : s:='Ring Mod';
+			8 : s:='Talking Mod';
+			9 : s:='Pitch Shifter';
+			10 : s:='Compressor';
+			11 : s:='Distortion';
+			12 : s:='Decimator';
+			13 : s:='EQ';
+			14 : s:='LPF';
+			15 : s:='HPF';
+                      end;
+                      Treeview1.Items.AddChild(ParameterNode,'FX 1: ' + s);
+                      BytesRead:=Filestream.Read(FXParameter1,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 1 Parameter 1 ' + inttostr(FXParameter1) );
+                      BytesRead:=Filestream.Read(FXParameter2,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 1 Parameter 2 ' + inttostr(FXParameter2) );
+                      BytesRead:=Filestream.Read(FX1MotionSeq,1);
+                      If (FX1MotionSeq=1) then
+                        s:='On'
+                      Else
+                        s:='Off';
+                      Treeview1.Items.AddChild(ParameterNode,'FX 1 Motion Seq. is ' + s);
+                      BytesRead:=Filestream.Read(SelectedFX,1);
+                      Case SelectedFX of
+                        0 : s:='Reverb';
+			1 : s:='BPM Sync Delay';
+			2 : s:='Short Delay';
+			3 : s:='Mod Delay';
+			4 : s:='Grain Shifter';
+			5 : s:='Cho/Fla';
+			6 : s:='Phaser';
+			7 : s:='Ring Mod';
+			8 : s:='Talking Mod';
+			9 : s:='Pitch Shifter';
+			10 : s:='Compressor';
+			11 : s:='Distortion';
+			12 : s:='Decimator';
+			13 : s:='EQ';
+			14 : s:='LPF';
+			15 : s:='HPF';
+                      end;
+                      Treeview1.Items.AddChild(ParameterNode,'FX 2: ' + s);
+                      BytesRead:=Filestream.Read(FXParameter1,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 2 Parameter 1 ' + inttostr(FXParameter1) );
+                      BytesRead:=Filestream.Read(FXParameter2,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 2 Parameter 2 ' + inttostr(FXParameter2) );
+                      BytesRead:=Filestream.Read(FX1MotionSeq,1);
+                      If (FX1MotionSeq=1) then
+                        s:='On'
+                      Else
+                        s:='Off';
+                      Treeview1.Items.AddChild(ParameterNode,'FX 2 Motion Seq. is ' + s);
+                      BytesRead:=Filestream.Read(SelectedFX,1);
+                      Case SelectedFX of
+                        0 : s:='Reverb';
+			1 : s:='BPM Sync Delay';
+			2 : s:='Short Delay';
+			3 : s:='Mod Delay';
+			4 : s:='Grain Shifter';
+			5 : s:='Cho/Fla';
+			6 : s:='Phaser';
+			7 : s:='Ring Mod';
+			8 : s:='Talking Mod';
+			9 : s:='Pitch Shifter';
+			10 : s:='Compressor';
+			11 : s:='Distortion';
+			12 : s:='Decimator';
+			13 : s:='EQ';
+			14 : s:='LPF';
+			15 : s:='HPF';
+                      end;
+                      Treeview1.Items.AddChild(ParameterNode,'FX 3: ' + s);
+                      BytesRead:=Filestream.Read(FXParameter1,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 3 Parameter 1 ' + inttostr(FXParameter1) );
+                      BytesRead:=Filestream.Read(FXParameter2,1);
+                      Treeview1.Items.AddChild(ParameterNode,'FX 3 Parameter 2 ' + inttostr(FXParameter2) );
+                      BytesRead:=Filestream.Read(FX1MotionSeq,1);
+                      If (FX1MotionSeq=1) then
+                        s:='On'
+                      Else
+                        s:='Off';
+                      Treeview1.Items.AddChild(ParameterNode,'FX 3 Motion Seq. is ' + s);
+
+
+
+
+                      // 24 Motion Sequences
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Motion Sequences');
+                      For i := 1 to 24 do Begin
+                                // Tabelle 23 noch integrieren
+                                BytesRead:=Filestream.Read(OperationNo,2);
+                                s := inttostr(Lo(OperationNo)) + inttostr(Hi(OperationNo));
+                                If (OperationNo=65535) then s:='Empty ';
+                                ParameterNode := Treeview1.Items.AddChild(InstNode, s);
+                                For ii := 1 to 8 Do Begin
+                                    s:='';
+                                    For iii := 1 to 16 Do Begin
+                                        BytesRead:=Filestream.Read(MotionSequenceB,1);
+                                        s := s + '|' + inttostr(MotionSequenceB);
+                                    end;
+                                    Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(ii));
+                                    Treeview1.Items.AddChild(ParameterNode,s);
+                                end;
+                      end;
+                      //Patternbase := Patternbase + 4806;
                  end;
 
              end;
@@ -3746,7 +3935,7 @@ end;
 
 procedure TMainForm.SaveFileBClick(Sender: TObject);
 begin
-   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 2 days. ;)');
+   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 4 days. ;)');
 end;
 
 procedure TMainForm.Led_ArpChange(Sender: TObject);

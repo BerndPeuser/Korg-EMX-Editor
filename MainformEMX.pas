@@ -153,11 +153,18 @@ type
      Reserved : Integer;
      Note : Integer;
      PatternpartSynth : Integer;
-     PatternpartSynthString : Integer;
-     Gatetime : Integer;
+     PatternpartSynthString : string;
+     GateTimeB : Integer;
+     Gatetime : Real;
      EGTime : Integer;
-
-
+     Bit0 : Boolean;
+     Bit1 : Boolean;
+     Bit2 : Boolean;
+     Bit3 : Boolean;
+     Bit4 : Boolean;
+     Bit5 : Boolean;
+     Bit6 : Boolean;
+     Bit7 : Boolean;
   end;
 
 var
@@ -393,9 +400,14 @@ begin
      	207 : Samplename:='Scratch3';
 	end;
 end;
+function BoolToInt( b: Boolean): Integer;
+begin
+    if b then result := 1 else result := 0;
+end;
 function Notestring (num : integer) : String;
 begin
 	Case num of
+                0 : NoteString :='C-2';
 		1 : NoteString :='C#-2';
 		2 : NoteString :='D-2';
 		3 : NoteString :='D#-2';
@@ -522,8 +534,7 @@ begin
 		125 : NoteString :='F 8';
 		126 : NoteString :='F#8';
 		127 : NoteString :='G8';
-		128 : NoteString :='C-2';  //Oops :)
-		188 : NoteString :=''; //Nothing
+		188 : NoteString :='---'; //Nothing
 		otherwise NoteString :='Err';
 	end;
 end;
@@ -2551,26 +2562,47 @@ begin
                            otherwise MotionSeqStr:='Error';
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
+
                       //Synthpattern 128 Bytes
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 1 Notes&Gates');
                       For i:=1 to 8 do
                           begin
-                               s :=''
-                               For i:=1 to 16 do
+                               s :='';
+                               For ii:=1 to 16 do
                                    begin
                                         BytesRead:=Filestream.Read(Note,1);
-                                        s := s + ' ' + Notestring(Note);
+                                        PatternpartSynthString := Notestring(Note);
+                                        If (PatternpartSynthString ='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
+                                        s := s + '|' + PatternpartSynthString;
                                    end;
-
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
-                      //Gatetime 128 Bytes Berechnung
+                      //Gatetime 128 Bytes
                       //
                       //
-
-                      //This is enough for today procedure
-                      For i:=1 to 128 do
+                      For i:=1 to 8 do
                           begin
-                               BytesRead:=Filestream.Read(uselessToday,1);
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(GateTimeB,1);
+                                        Bit0 := ((GateTimeB shr 0) and 1) = 1;
+                                        Bit1 := ((GateTimeB shr 1) and 1) = 1;
+                                        Bit2 := ((GateTimeB shr 2) and 1) = 1;
+                                        Bit3 := ((GateTimeB shr 3) and 1) = 1;
+                                        Bit4 := ((GateTimeB shr 4) and 1) = 1;
+                                        Bit5 := ((GateTimeB shr 5) and 1) = 1;
+                                        Bit6 := ((GateTimeB shr 6) and 1) = 1;
+                                        Bit7 := ((GateTimeB shr 7) and 1) = 1;
+                                        If Bit7 and Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)+64+1;
+                                        If Bit7 and not Bit6 then Gatetime := ((BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/2)+32+1/2;
+                                        If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
+                                        s := s + '|' + FloatToStr(Gatetime);
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
 
@@ -2811,13 +2843,46 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 2 Notes&Gates');
+                      For i:=1 to 8 do
+                          begin
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(Note,1);
+                                        PatternpartSynthString := Notestring(Note);
+                                        If (PatternpartSynthString ='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
+                                        s := s + '|' + PatternpartSynthString;
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
 
                       //Gatetime 128 Bytes
-
-                      //This is enough for today procedure
-                      For i:=1 to 256 do
+                      //
+                      //
+                      For i:=1 to 8 do
                           begin
-                               BytesRead:=Filestream.Read(uselessToday,1);
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(GateTimeB,1);
+                                        Bit0 := ((GateTimeB shr 0) and 1) = 1;
+                                        Bit1 := ((GateTimeB shr 1) and 1) = 1;
+                                        Bit2 := ((GateTimeB shr 2) and 1) = 1;
+                                        Bit3 := ((GateTimeB shr 3) and 1) = 1;
+                                        Bit4 := ((GateTimeB shr 4) and 1) = 1;
+                                        Bit5 := ((GateTimeB shr 5) and 1) = 1;
+                                        Bit6 := ((GateTimeB shr 6) and 1) = 1;
+                                        Bit7 := ((GateTimeB shr 7) and 1) = 1;
+                                        If Bit7 and Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)+64+1;
+                                        If Bit7 and not Bit6 then Gatetime := ((BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/2)+32+1/2;
+                                        If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
+
+                                        s := s + '|' + FloatToStr(Gatetime);
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Synth 3
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 3');
@@ -3052,15 +3117,47 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
-
-                      //Gatetime 128 Bytes
-
-                      //This is enough for today procedure
-                      For i:=1 to 256 do
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 3 Notes&Gates');
+                      For i:=1 to 8 do
                           begin
-                               BytesRead:=Filestream.Read(uselessToday,1);
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(Note,1);
+                                        PatternpartSynthString:=Notestring(Note);
+                                        If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
+                                        s := s + '|' + PatternpartSynthString;
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
+                      //Gatetime 128 Bytes
+                      //
+                      //
+                      For i:=1 to 8 do
+                          begin
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(GateTimeB,1);
+                                        Bit0 := ((GateTimeB shr 0) and 1) = 1;
+                                        Bit1 := ((GateTimeB shr 1) and 1) = 1;
+                                        Bit2 := ((GateTimeB shr 2) and 1) = 1;
+                                        Bit3 := ((GateTimeB shr 3) and 1) = 1;
+                                        Bit4 := ((GateTimeB shr 4) and 1) = 1;
+                                        Bit5 := ((GateTimeB shr 5) and 1) = 1;
+                                        Bit6 := ((GateTimeB shr 6) and 1) = 1;
+                                        Bit7 := ((GateTimeB shr 7) and 1) = 1;
+                                        If Bit7 and Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)+64+1;
+                                        If Bit7 and not Bit6 then Gatetime := ((BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/2)+32+1/2;
+                                        If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
+
+                                        s := s + '|' + FloatToStr(Gatetime);
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Beat ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
 
 
 
@@ -3299,14 +3396,49 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 4 Notes&Gates');
+                      For i:=1 to 8 do
+                          begin
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(Note,1);
+                                        PatternpartSynthString:=Notestring(Note);
+                                        If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
+                                        s := s + '|' + PatternpartSynthString;
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
 
                       //Gatetime 128 Bytes
-
-                      //This is enough for today procedure
-                      For i:=1 to 256 do
+                      //
+                      //
+                      For i:=1 to 8 do
                           begin
-                               BytesRead:=Filestream.Read(uselessToday,1);
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(GateTimeB,1);
+                                        Bit0 := ((GateTimeB shr 0) and 1) = 1;
+                                        Bit1 := ((GateTimeB shr 1) and 1) = 1;
+                                        Bit2 := ((GateTimeB shr 2) and 1) = 1;
+                                        Bit3 := ((GateTimeB shr 3) and 1) = 1;
+                                        Bit4 := ((GateTimeB shr 4) and 1) = 1;
+                                        Bit5 := ((GateTimeB shr 5) and 1) = 1;
+                                        Bit6 := ((GateTimeB shr 6) and 1) = 1;
+                                        Bit7 := ((GateTimeB shr 7) and 1) = 1;
+                                        If Bit7 and Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)+64+1;
+                                        If Bit7 and not Bit6 then Gatetime := ((BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/2)+32+1/2;
+                                        If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
+
+                                        s := s + '|' + FloatToStr(Gatetime);
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Beat ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
+
+
                       //Synth 5
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 5');
                       BytesRead:=Filestream.Read(Waveform,1);
@@ -3540,13 +3672,46 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 5 Notes&Gates');
+                      For i:=1 to 8 do
+                          begin
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(Note,1);
+                                        PatternpartSynthString:=Notestring(Note);
+                                        If (Notestring(Note)='Err') Then PatternpartSynthString:='Error'+inttostr(Note);
+                                        s := s + '|' + PatternpartSynthString;
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
+                          end;
 
                       //Gatetime 128 Bytes
-
-                      //This is enough for today procedure
-                      For i:=1 to 256 do
+                      //
+                      //
+                      For i:=1 to 8 do
                           begin
-                               BytesRead:=Filestream.Read(uselessToday,1);
+                               s :='';
+                               For ii:=1 to 16 do
+                                   begin
+                                        BytesRead:=Filestream.Read(GateTimeB,1);
+                                        Bit0 := ((GateTimeB shr 0) and 1) = 1;
+                                        Bit1 := ((GateTimeB shr 1) and 1) = 1;
+                                        Bit2 := ((GateTimeB shr 2) and 1) = 1;
+                                        Bit3 := ((GateTimeB shr 3) and 1) = 1;
+                                        Bit4 := ((GateTimeB shr 4) and 1) = 1;
+                                        Bit5 := ((GateTimeB shr 5) and 1) = 1;
+                                        Bit6 := ((GateTimeB shr 6) and 1) = 1;
+                                        Bit7 := ((GateTimeB shr 7) and 1) = 1;
+                                        If Bit7 and Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)+64+1;
+                                        If Bit7 and not Bit6 then Gatetime := ((BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/2)+32+1/2;
+                                        If not Bit7 and not Bit6 then Gatetime := (BoolToInt(Bit0)*1+BoolToInt(Bit1)*2+BoolToInt(Bit2)*4+BoolToInt(Bit3)*8+BoolToInt(Bit4)*16+BoolToInt(Bit5)*32)/4+1/4;
+
+                                        s := s + '|' + FloatToStr(Gatetime);
+                                   end;
+                                   Treeview1.Items.AddChild(ParameterNode,'Pattern ' + inttostr(i) );
+                                   Treeview1.Items.AddChild(ParameterNode,s);
                           end;
 
                       Patternbase := Patternbase + 4806;

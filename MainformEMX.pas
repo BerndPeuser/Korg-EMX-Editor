@@ -5,8 +5,9 @@ unit MainformEMX;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, uPSComponent, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, Menus, ComCtrls, StdCtrls, Buttons, ueled, uEKnob, types;
+  Classes, SysUtils, FileUtil, TAGraph, uPSComponent, Forms, Controls, Graphics,
+  Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, Buttons, ueled, uEKnob,
+  uERotImage, types;
 
 type
 
@@ -16,11 +17,42 @@ type
     Bank: TComboBox;
     Button1: TButton;
     Button2: TButton;
+    Chart1: TChart;
+    D1FXSelect: TComboBox;
+    D1BPMSync: TToggleBox;
+    D1ModSpeed: TuEKnob;
+    D1Level2: TuEKnob;
+    D1ModSpeedV: TEdit;
+    D1ModDepthV: TEdit;
+    D1ModDest: TComboBox;
+    D1ModType: TComboBox;
+    D1Sample: TComboBox;
+    D1ModulationBox: TGroupBox;
+    D1DrumSequence: TGroupBox;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    PitchV: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
     LoadFileB: TButton;
     OpenDialog1: TOpenDialog;
+    D1LevelV: TEdit;
+    D1PanV: TEdit;
+    D1EQTimeV: TEdit;
+    ProgressBar1: TProgressBar;
     SaveFileB: TButton;
     GlobalSettingsB: TButton;
     Pattern: TComboBox;
@@ -52,32 +84,173 @@ type
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     PageControl1: TPageControl;
-    TabSheet1: TTabSheet;
-    TabSheet10: TTabSheet;
-    TabSheet11: TTabSheet;
-    TabSheet12: TTabSheet;
-    TabSheet13: TTabSheet;
-    TabSheet14: TTabSheet;
-    TabSheet15: TTabSheet;
-    SynthAccent: TTabSheet;
-    TabSheet16: TTabSheet;
+    Drum1: TTabSheet;
+    DAccent: TTabSheet;
+    StaticText1: TStaticText;
+    StatusBar1: TStatusBar;
+    Synth1: TTabSheet;
+    Synth2: TTabSheet;
+    Synth3: TTabSheet;
+    Synth4: TTabSheet;
+    Synth5: TTabSheet;
+    SAccent: TTabSheet;
+    FXSetup: TTabSheet;
     Overview: TTabSheet;
-    TabSheet2: TTabSheet;
-    TabSheet3: TTabSheet;
-    TabSheet4: TTabSheet;
-    TabSheet5: TTabSheet;
-    TabSheet6: TTabSheet;
-    TabSheet7: TTabSheet;
-    TabSheet8: TTabSheet;
-    TabSheet9: TTabSheet;
+    Drum2: TTabSheet;
+    Drum3: TTabSheet;
+    Drum4: TTabSheet;
+    Drum5: TTabSheet;
+    Drum6A: TTabSheet;
+    Drum6B: TTabSheet;
+    Drum7A: TTabSheet;
+    Drum7B: TTabSheet;
+    D1FXSend: TToggleBox;
+    D1RollB: TToggleBox;
+    D1AmpEGB: TToggleBox;
+    ToggleBox1: TToggleBox;
+    ToggleBox10: TToggleBox;
+    ToggleBox100: TToggleBox;
+    ToggleBox101: TToggleBox;
+    ToggleBox102: TToggleBox;
+    ToggleBox103: TToggleBox;
+    ToggleBox104: TToggleBox;
+    ToggleBox105: TToggleBox;
+    ToggleBox106: TToggleBox;
+    ToggleBox107: TToggleBox;
+    ToggleBox108: TToggleBox;
+    ToggleBox109: TToggleBox;
+    ToggleBox11: TToggleBox;
+    ToggleBox110: TToggleBox;
+    ToggleBox111: TToggleBox;
+    ToggleBox112: TToggleBox;
+    ToggleBox113: TToggleBox;
+    ToggleBox114: TToggleBox;
+    ToggleBox115: TToggleBox;
+    ToggleBox116: TToggleBox;
+    ToggleBox117: TToggleBox;
+    ToggleBox118: TToggleBox;
+    ToggleBox119: TToggleBox;
+    ToggleBox12: TToggleBox;
+    ToggleBox120: TToggleBox;
+    ToggleBox121: TToggleBox;
+    ToggleBox122: TToggleBox;
+    ToggleBox123: TToggleBox;
+    ToggleBox124: TToggleBox;
+    ToggleBox125: TToggleBox;
+    ToggleBox126: TToggleBox;
+    ToggleBox127: TToggleBox;
+    ToggleBox128: TToggleBox;
+    ToggleBox13: TToggleBox;
+    ToggleBox14: TToggleBox;
+    ToggleBox15: TToggleBox;
+    ToggleBox16: TToggleBox;
+    ToggleBox17: TToggleBox;
+    ToggleBox18: TToggleBox;
+    ToggleBox19: TToggleBox;
+    ToggleBox2: TToggleBox;
+    ToggleBox20: TToggleBox;
+    ToggleBox21: TToggleBox;
+    ToggleBox22: TToggleBox;
+    ToggleBox23: TToggleBox;
+    ToggleBox24: TToggleBox;
+    ToggleBox25: TToggleBox;
+    ToggleBox26: TToggleBox;
+    ToggleBox27: TToggleBox;
+    ToggleBox28: TToggleBox;
+    ToggleBox29: TToggleBox;
+    ToggleBox3: TToggleBox;
+    ToggleBox30: TToggleBox;
+    ToggleBox31: TToggleBox;
+    ToggleBox32: TToggleBox;
+    ToggleBox33: TToggleBox;
+    ToggleBox34: TToggleBox;
+    ToggleBox35: TToggleBox;
+    ToggleBox36: TToggleBox;
+    ToggleBox37: TToggleBox;
+    ToggleBox38: TToggleBox;
+    ToggleBox39: TToggleBox;
+    ToggleBox4: TToggleBox;
+    ToggleBox40: TToggleBox;
+    ToggleBox41: TToggleBox;
+    ToggleBox42: TToggleBox;
+    ToggleBox43: TToggleBox;
+    ToggleBox44: TToggleBox;
+    ToggleBox45: TToggleBox;
+    ToggleBox46: TToggleBox;
+    ToggleBox47: TToggleBox;
+    ToggleBox48: TToggleBox;
+    ToggleBox49: TToggleBox;
+    ToggleBox5: TToggleBox;
+    ToggleBox50: TToggleBox;
+    ToggleBox51: TToggleBox;
+    ToggleBox52: TToggleBox;
+    ToggleBox53: TToggleBox;
+    ToggleBox54: TToggleBox;
+    ToggleBox55: TToggleBox;
+    ToggleBox56: TToggleBox;
+    ToggleBox57: TToggleBox;
+    ToggleBox58: TToggleBox;
+    ToggleBox59: TToggleBox;
+    ToggleBox6: TToggleBox;
+    ToggleBox60: TToggleBox;
+    ToggleBox61: TToggleBox;
+    ToggleBox62: TToggleBox;
+    ToggleBox63: TToggleBox;
+    ToggleBox64: TToggleBox;
+    ToggleBox65: TToggleBox;
+    ToggleBox66: TToggleBox;
+    ToggleBox67: TToggleBox;
+    ToggleBox68: TToggleBox;
+    ToggleBox69: TToggleBox;
+    ToggleBox7: TToggleBox;
+    ToggleBox70: TToggleBox;
+    ToggleBox71: TToggleBox;
+    ToggleBox72: TToggleBox;
+    ToggleBox73: TToggleBox;
+    ToggleBox74: TToggleBox;
+    ToggleBox75: TToggleBox;
+    ToggleBox76: TToggleBox;
+    ToggleBox77: TToggleBox;
+    ToggleBox78: TToggleBox;
+    ToggleBox79: TToggleBox;
+    ToggleBox8: TToggleBox;
+    ToggleBox80: TToggleBox;
+    ToggleBox81: TToggleBox;
+    ToggleBox82: TToggleBox;
+    ToggleBox83: TToggleBox;
+    ToggleBox84: TToggleBox;
+    ToggleBox85: TToggleBox;
+    ToggleBox86: TToggleBox;
+    ToggleBox87: TToggleBox;
+    ToggleBox88: TToggleBox;
+    ToggleBox89: TToggleBox;
+    ToggleBox9: TToggleBox;
+    ToggleBox90: TToggleBox;
+    ToggleBox91: TToggleBox;
+    ToggleBox92: TToggleBox;
+    ToggleBox93: TToggleBox;
+    ToggleBox94: TToggleBox;
+    ToggleBox95: TToggleBox;
+    ToggleBox96: TToggleBox;
+    ToggleBox97: TToggleBox;
+    ToggleBox98: TToggleBox;
+    ToggleBox99: TToggleBox;
     TreeView1: TTreeView;
     uEKnob1: TuEKnob;
     Led_Arp: TuELED;
     LED_Protect: TuELED;
+    D1Pitch: TuEKnob;
+    D1Level: TuEKnob;
+    D1Pan: TuEKnob;
+    D1EQTime: TuEKnob;
+    uELED1: TuELED;
+    uELED2: TuELED;
     procedure FileSelectionChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure GlobalSettingsBClick(Sender: TObject);
     procedure LoadFileBClick(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem21Click(Sender: TObject);
     procedure PatternChange(Sender: TObject);
     procedure SaveFileBClick(Sender: TObject);
     procedure Led_ArpChange(Sender: TObject);
@@ -117,9 +290,9 @@ type
      AccentSwStatusP2 : Integer;
      Samplebanknumber : Integer;
      Pitch : Integer;
-     Level : Integer;
-     Pan : Integer;
-     EQTime : Integer;
+     DLevel : Integer;
+     DPan : Integer;
+     DEQTime : Integer;
      FSSSRA : Integer;
      FXSelected : String;
      FXSend : String;
@@ -172,6 +345,15 @@ type
      OperationNo : Word;
      MotionSequenceB : Integer;
      MotionSequence : string;
+     Songbase : integer;
+     TempoLock: Integer;
+     Songlength: Integer;
+     MuteHold: Integer;
+     NextSong: Integer;
+     Eventnumbers: Word;
+     PatternNumber: Integer;
+     PatternString: String;
+     NoteOffset: Integer;
   end;
 
 var
@@ -552,6 +734,7 @@ Var
    FileStream : TFileStream;
    Patternbase: Integer;
    Banki: Integer;
+   Songi: Integer;
    Patterni: Integer;
    Samplesi : Integer;
    Synthi: Integer;
@@ -559,6 +742,7 @@ Var
    TempoK: Integer;
    TempoR: Real;
    NodeCounter : Integer;
+   PatternCounter: Integer;
    i: Integer;
    ii: Integer;
    iii: Integer;
@@ -572,7 +756,10 @@ Var
    StatusNode: TTreeNode;
    InstNode: TTreeNode;
    ParameterNode: TTreeNode;
+   SongNode: TTreeNode;
    Getbit: Boolean;
+   ProgressPos : Integer;
+   Pttno : String;
 
    Procedure DeleteNode(Node:TTreeNode);
    begin
@@ -586,6 +773,8 @@ begin
 
    if OpenDialog1.Execute then
         begin
+             ProgressBar1.visible := True;
+             ProgressBar1.Style:=pbstMarquee;
              filename := OpenDialog1.Filename;
              //ShowMessage(filename);
              //if TreeView1.Items.Count > 0 then DeleteNode(FileNode);
@@ -632,7 +821,13 @@ begin
 
              //If Protect>1 Or Mastertune > 127 or Arpcontrol > 1 then SomethingWentWrong;
              FileStream.Position := Patternbase;
+
+
+
+             //
              //Pattern Read
+             //
+             ProgressPos := 0;
              For Banki := 65 to 68 Do Begin
                  i := treeview1.Items.Count;
                  s := 'Bank ' + chr(Banki);
@@ -642,12 +837,16 @@ begin
                      BytesRead:=Filestream.Read(Buffer[0],8);
                      setlength(Patternname, 8);
                      move(Buffer[0], Patternname[1],8);
-                     NameNode := Treeview1.Items.AddChild(BankNode, Patternname);
+                     Pttno:=inttostr(Patterni);
+                     If (Patterni < 10) Then Pttno:='0'+inttostr(Patterni);
+                     NameNode := Treeview1.Items.AddChild(BankNode, Pttno + ' ' +Patternname);
                      //Patternsettings
                      //Tempo
                      BytesRead:=Filestream.Read(Tempo,1);
                      BytesRead:=Filestream.Read(TempoK,1);
                      TempoR:= Tempo*2+TempoK/128; //No idea if i calculate it right. :)
+                     //TempoK must have Values between 0.1 and 1.9
+                     //
                      PSNode := Treeview1.Items.AddChild(NameNode, 'Tempo');
                      Treeview1.Items.AddChild(PSNode, FloatToStr(TempoR));
                      //Swing Standardwert 56
@@ -771,6 +970,8 @@ begin
                       BytesRead:=Filestream.Read(MuteStatusP1,1);
                       BytesRead:=Filestream.Read(MuteStatusP2,1);
 		      PSNode := Treeview1.Items.AddChild(NameNode, 'Mute Status');
+
+
                       //function GetBit(Value: QWord; Index: Byte): Boolean;
                       GetBit := ((MuteStatusP2 shr 0) and 1) = 1;
                       If (GetBit) then
@@ -1234,12 +1435,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1358,12 +1559,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1482,12 +1683,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1578,7 +1779,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence/Position 1- 8');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1593,6 +1794,7 @@ begin
                                      s:=s + '0 ';
                                   End;
                               end;
+                              Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
                       //Endlich Sample 4
@@ -1605,12 +1807,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1701,7 +1903,7 @@ begin
 
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //The Pattern
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence/');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Sequence');
 
 
                       For i := 1 to 8 Do Begin
@@ -1729,12 +1931,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1853,12 +2055,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -1977,12 +2179,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -2101,12 +2303,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -2225,12 +2427,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
                       Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(EQTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -2481,12 +2683,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
                       BytesRead:=Filestream.Read(Drive,1);
                       Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EGTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -2761,12 +2963,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
                       BytesRead:=Filestream.Read(Drive,1);
                       Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EGTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -3035,12 +3237,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
                       BytesRead:=Filestream.Read(Drive,1);
                       Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EGTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -3314,12 +3516,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
                       BytesRead:=Filestream.Read(Drive,1);
                       Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EGTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -3590,12 +3792,12 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'EG Int: ' + inttostr(EGInt));
                       BytesRead:=Filestream.Read(Drive,1);
                       Treeview1.Items.AddChild(InstNode, 'Drive: ' + inttostr(Drive));
-                      BytesRead:=Filestream.Read(Level,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level: ' + inttostr(Level));
-                      BytesRead:=Filestream.Read(Pan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan: ' + inttostr(Pan));
-                      BytesRead:=Filestream.Read(EGTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(EGTime));
+                      BytesRead:=Filestream.Read(DLevel,1);
+                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      BytesRead:=Filestream.Read(DPan,1);
+                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEQTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -3731,7 +3933,7 @@ begin
 
                       // Drum Accent
                       ParameterNode := Treeview1.Items.AddChild(NameNode, 'Drum Accent Parameter');
-                      BytesRead:=Filestream.Read(Reserved,1); //Level
+                      BytesRead:=Filestream.Read(Reserved,1); //D1LevelV
                       Treeview1.Items.AddChild(ParameterNode,'Level ' + inttostr(Reserved));
                       BytesRead:=Filestream.Read(Reserved,1); //Trig Hold :)
                       If (Reserved=2) then
@@ -3760,7 +3962,7 @@ begin
 
                       // Synth Accent
                       ParameterNode := Treeview1.Items.AddChild(NameNode, 'Synth Accent Parameter');
-                      BytesRead:=Filestream.Read(Reserved,1); //Level
+                      BytesRead:=Filestream.Read(Reserved,1); //D1LevelV
                       Treeview1.Items.AddChild(ParameterNode,'Level ' + inttostr(Reserved));
                       BytesRead:=Filestream.Read(Reserved,1); //Trig Hold :)
                       If (Reserved=2) then
@@ -3904,13 +4106,110 @@ begin
                                 end;
                       end;
                       //Patternbase := Patternbase + 4806;
+                      ProgressPos := ProgressPos+1;
+                      ProgressBar1.Position := ProgressPos;
                  end;
 
              end;
+             // Song Data
+             // $130000
+             Songbase := 1245184;
+             NameNode := Treeview1.Items.AddChild(FileNode, '- Songs -');
+             FileStream.Position := Songbase;
+             For Songi := 1 to 64 do begin
+                 //FileStream.Position := Songbase;
+                 BytesRead:=Filestream.Read(Buffer[0],8);
+                 setlength(Patternname, 8);
+                 move(Buffer[0], Patternname[1],8);
+                 SongNode := Treeview1.Items.AddChild(NameNode, Patternname);
 
+                 BytesRead:=Filestream.Read(Tempo,1);
+                 BytesRead:=Filestream.Read(TempoK,1);
+                 TempoR:= Tempo*2+TempoK/128; //No idea if i calculate it right. :)
+                 //TempoK has values between 0.1 and 1.9
+                 PSNode := Treeview1.Items.AddChild(SongNode, 'Tempo:' + FloatToStr(TempoR));
+                 //Treeview1.Items.AddChild(PSNode, FloatToStr(TempoR));
+                 //TempoLock
+                 BytesRead:=Filestream.Read(TempoLock,1);
+                 If (TempoLock=1) then
+                         s:='On'
+                      Else
+                         s:='Off';
+                 Treeview1.Items.AddChild(SongNode, 'Tempo lock: ' + s);
 
+                 //Length
+                 BytesRead:=Filestream.Read(Songlength,1);
+                 Treeview1.Items.AddChild(SongNode, 'Song Length: ' + IntToStr(Songlength+1));
+
+                 //Mute Hold 0/1 : Off/On
+                 BytesRead:=Filestream.Read(MuteHold,1);
+                 If (MuteHold=1) then
+                         s:='On'
+                      Else
+                         s:='Off';
+                 Treeview1.Items.AddChild(SongNode, 'Mute Hold: ' + s);
+
+                 //Next Song 0-64  Off,song1~song64
+                 BytesRead:=Filestream.Read(NextSong,1);
+                 Treeview1.Items.AddChild(SongNode, 'Next Song: ' + IntToStr(NextSong));
+
+                 //Num of Events 0~19999
+                 BytesRead:=Filestream.Read(Eventnumbers,2);
+                 Treeview1.Items.AddChild(SongNode, 'Numbers of Event: ' + FloatToStr(Eventnumbers));
+
+                 //PatternNumbers
+                 PSNode := Treeview1.Items.AddChild(SongNode, 'Patterns');
+                 PatternCounter := 0;
+                 For i:=1 to 16 do
+                     begin
+                          s :='';
+                          For ii:=1 to 16 do
+                              begin
+                                   BytesRead:=Filestream.Read(PatternNumber,1);
+                                   If not (PatternCounter > Songlength) And (PatternNumber <64) And (PatternNumber >9) then PatternString := 'A'+inttostr(PatternNumber+1);
+                                   If not (PatternCounter > Songlength) And (PatternNumber <64) And (PatternNumber <10) then PatternString := 'A0'+inttostr(PatternNumber+1);
+                                   If not (PatternCounter > Songlength) And (PatternNumber <127) And (PatternNumber >72) then PatternString := 'B'+inttostr(PatternNumber-63);
+                                   If not (PatternCounter > Songlength) And (PatternNumber >63) And (PatternNumber <73) then PatternString := 'B0'+inttostr(PatternNumber-63);
+                                   If not (PatternCounter > Songlength) And (PatternNumber <191) And (PatternNumber >136) then PatternString := 'C'+inttostr(PatternNumber-127);
+                                   If not (PatternCounter > Songlength) And (PatternNumber >127) And (PatternNumber <137) then PatternString := 'C0'+inttostr(PatternNumber-127);
+                                   If not (PatternCounter > Songlength) And (PatternNumber >201) then PatternString := 'D'+inttostr(PatternNumber-191);
+                                   If not (PatternCounter > Songlength) And (PatternNumber >191) And (PatternNumber <201) then PatternString := 'D0'+inttostr(PatternNumber-191);
+                                   If (PatternCounter > Songlength) then PatternString :='---';
+                                   s := s + '|' + PatternString;
+                                   PatternCounter := PatternCounter+1;
+                              end;
+                              Treeview1.Items.AddChild(PSNode,s);
+                     end;
+                 //Noteoffset
+                 PSNode := Treeview1.Items.AddChild(SongNode, 'Note Offset');
+                 For i:=1 to 16 do
+                     begin
+                          s :='';
+                          For ii:=1 to 16 do
+                              begin
+                                   BytesRead:=Filestream.Read(NoteOffset,1);
+                                   s := s + '|' + IntToStr(NoteOffset);
+                              end;
+                              Treeview1.Items.AddChild(PSNode,s);
+                     end;
+                 ProgressPos := ProgressPos+1;
+                 ProgressBar1.Position := ProgressPos;
+                 //Songbase := Songbase + 528;
+             end;
              FileStream.Free;
+             ProgressBar1.visible := False;
+             ProgressBar1.Style:=pbstNormal;
       end;
+end;
+
+procedure TMainForm.MenuItem15Click(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.MenuItem21Click(Sender: TObject);
+begin
+  close;
 end;
 
 procedure TMainForm.GlobalSettingsBClick(Sender: TObject);
@@ -3919,7 +4218,14 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+Var
+i:Integer;
+
 begin
+For i:=1 to 207 do begin
+        D1Sample.AddItem(Samplename(i),Nil);
+    end;
+
 
 end;
 
@@ -3933,9 +4239,11 @@ begin
 
 end;
 
+
+
 procedure TMainForm.SaveFileBClick(Sender: TObject);
 begin
-   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 4 days. ;)');
+   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 5 days. ;)');
 end;
 
 procedure TMainForm.Led_ArpChange(Sender: TObject);

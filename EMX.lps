@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="EMX.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="EMX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="200"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mainformemx.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="MainformEMX"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="200"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="2574" ID="0"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\TreeView\unit1.pas"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="30" Y="35"/>
+        <UsageCount Value="2"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="globalsettings.pas"/>
+        <ComponentName Value="Globalsettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Globalsettings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="11"/>
+        <CursorPos X="28" Y="34"/>
+        <UsageCount Value="4"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Midi.pas"/>
+        <UnitName Value="MIDI"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="30" Y="243"/>
+        <UsageCount Value="17"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\gtk1\examples\progressbar.pp"/>
+        <UnitName Value="progressbar"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="155"/>
+        <CursorPos X="30" Y="170"/>
+        <UsageCount Value="5"/>
+      </Unit5>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="28">
+      <Position1>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6250" Column="35" TopLine="6226"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6251" Column="32" TopLine="6226"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6335" Column="1" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6330" Column="25" TopLine="6394"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6523" Column="90" TopLine="2123"/>
+      </Position5>
+      <Position6>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6524" Column="90" TopLine="6476"/>
+      </Position6>
+      <Position7>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6340" Column="82" TopLine="4521"/>
+      </Position7>
+      <Position8>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6246" Column="3" TopLine="220"/>
+      </Position8>
+      <Position9>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6230" Column="52" TopLine="6209"/>
+      </Position9>
+      <Position10>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6242" Column="18" TopLine="6218"/>
+      </Position10>
+      <Position11>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6243" Column="68" TopLine="6219"/>
+      </Position11>
+      <Position12>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6340" Column="40" TopLine="6298"/>
+      </Position12>
+      <Position13>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6287" Column="86" TopLine="6241"/>
+      </Position13>
+      <Position14>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6283" Column="45" TopLine="6260"/>
+      </Position14>
+      <Position15>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6290" Column="41" TopLine="6266"/>
+      </Position15>
+      <Position16>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6311" Column="41" TopLine="6287"/>
+      </Position16>
+      <Position17>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6318" Column="41" TopLine="6294"/>
+      </Position17>
+      <Position18>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6328" Column="44" TopLine="6304"/>
+      </Position18>
+      <Position19>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6333" Column="39" TopLine="6309"/>
+      </Position19>
+      <Position20>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6340" Column="41" TopLine="6316"/>
+      </Position20>
+      <Position21>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6244" Column="1" TopLine="6214"/>
+      </Position21>
+      <Position22>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="2491" Column="31" TopLine="2444"/>
+      </Position22>
+      <Position23>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="2397" Column="37" TopLine="2373"/>
+      </Position23>
+      <Position24>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6550" Column="11" TopLine="6503"/>
+      </Position24>
+      <Position25>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6455" Column="10" TopLine="6446"/>
+      </Position25>
+      <Position26>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6640" Column="86" TopLine="6604"/>
+      </Position26>
+      <Position27>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6635" Column="34" TopLine="6604"/>
+      </Position27>
+      <Position28>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6647" Column="1" TopLine="6604"/>
+      </Position28>
+      <Position29>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6333" Column="52" TopLine="6316"/>
+      </Position29>
+      <Position30>
+        <Filename Value="mainformemx.pas"/>
+        <Caret Line="6436" Column="28" TopLine="6409"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <EditorMacros Count="0"/>
+</CONFIG>

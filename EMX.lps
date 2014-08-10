@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="6">
+    <Units Count="9">
       <Unit0>
         <Filename Value="EMX.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -24,11 +24,17 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <TopLine Value="6399"/>
+        <CursorPos X="1" Y="6417"/>
         <UsageCount Value="200"/>
-        <Bookmarks Count="1">
-          <Item0 X="1" Y="2574" ID="0"/>
+        <Bookmarks Count="7">
+          <Item0 X="1" Y="2744" ID="0"/>
+          <Item1 X="35" Y="3392" ID="1"/>
+          <Item2 X="23" Y="4524" ID="2"/>
+          <Item3 X="1" Y="2550" ID="9"/>
+          <Item4 X="3" Y="14" ID="8"/>
+          <Item5 X="1" Y="10457" ID="6"/>
+          <Item6 X="1" Y="11259" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -41,7 +47,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="18"/>
         <CursorPos X="30" Y="35"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="8"/>
       </Unit2>
       <Unit3>
         <Filename Value="globalsettings.pas"/>
@@ -52,7 +58,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="11"/>
         <CursorPos X="28" Y="34"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="10"/>
       </Unit3>
       <Unit4>
         <Filename Value="Midi.pas"/>
@@ -60,7 +66,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="30" Y="243"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="13"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\gtk1\examples\progressbar.pp"/>
@@ -68,132 +74,155 @@
         <WindowIndex Value="0"/>
         <TopLine Value="155"/>
         <CursorPos X="30" Y="170"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="1"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="C:\Users\Bernd\AppData\Local\Temp\7zOAF2C.tmp\smf.pas"/>
+        <UnitName Value="smf"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="79" Y="26"/>
+        <UsageCount Value="7"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="published\Samplename.pas"/>
+        <UnitName Value="Samplename"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="6"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\lcl\include\treeview.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="860"/>
+        <CursorPos X="1" Y="876"/>
+        <UsageCount Value="10"/>
+      </Unit8>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="30" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6250" Column="35" TopLine="6226"/>
+        <Caret Line="6427" Column="26" TopLine="6421"/>
       </Position1>
       <Position2>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6251" Column="32" TopLine="6226"/>
+        <Caret Line="6425" Column="29" TopLine="6406"/>
       </Position2>
       <Position3>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6335" Column="1" TopLine="1"/>
+        <Caret Line="6430" Column="20" TopLine="6407"/>
       </Position3>
       <Position4>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6330" Column="25" TopLine="6394"/>
+        <Caret Line="6427" Column="11" TopLine="6408"/>
       </Position4>
       <Position5>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6523" Column="90" TopLine="2123"/>
+        <Caret Line="6991" Column="1" TopLine="6954"/>
       </Position5>
       <Position6>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6524" Column="90" TopLine="6476"/>
+        <Caret Line="6427" Column="29" TopLine="6408"/>
       </Position6>
       <Position7>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6340" Column="82" TopLine="4521"/>
+        <Caret Line="6435" Column="36" TopLine="6408"/>
       </Position7>
       <Position8>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6246" Column="3" TopLine="220"/>
+        <Caret Line="6432" Column="10" TopLine="6413"/>
       </Position8>
       <Position9>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6230" Column="52" TopLine="6209"/>
+        <Caret Line="6630" Column="33" TopLine="6609"/>
       </Position9>
       <Position10>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6242" Column="18" TopLine="6218"/>
+        <Caret Line="6607" Column="44" TopLine="2181"/>
       </Position10>
       <Position11>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6243" Column="68" TopLine="6219"/>
+        <Caret Line="6419" Column="131" TopLine="6416"/>
       </Position11>
       <Position12>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6340" Column="40" TopLine="6298"/>
+        <Caret Line="7239" Column="49" TopLine="7207"/>
       </Position12>
       <Position13>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6287" Column="86" TopLine="6241"/>
+        <Caret Line="8046" Column="49" TopLine="8046"/>
       </Position13>
       <Position14>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6283" Column="45" TopLine="6260"/>
+        <Caret Line="8670" Column="1" TopLine="8670"/>
       </Position14>
       <Position15>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6290" Column="41" TopLine="6266"/>
+        <Caret Line="9643" Column="39" TopLine="9626"/>
       </Position15>
       <Position16>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6311" Column="41" TopLine="6287"/>
+        <Caret Line="10451" Column="1" TopLine="10424"/>
       </Position16>
       <Position17>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6318" Column="41" TopLine="6294"/>
+        <Caret Line="11255" Column="39" TopLine="11244"/>
       </Position17>
       <Position18>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6328" Column="44" TopLine="6304"/>
+        <Caret Line="12062" Column="1" TopLine="12062"/>
       </Position18>
       <Position19>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6333" Column="39" TopLine="6309"/>
+        <Caret Line="12869" Column="1" TopLine="12869"/>
       </Position19>
       <Position20>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6340" Column="41" TopLine="6316"/>
+        <Caret Line="13675" Column="1" TopLine="13659"/>
       </Position20>
       <Position21>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6244" Column="1" TopLine="6214"/>
+        <Caret Line="14481" Column="1" TopLine="14465"/>
       </Position21>
       <Position22>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="2491" Column="31" TopLine="2444"/>
+        <Caret Line="15286" Column="1" TopLine="15192"/>
       </Position22>
       <Position23>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="2397" Column="37" TopLine="2373"/>
+        <Caret Line="15205" Column="107" TopLine="15192"/>
       </Position23>
       <Position24>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6550" Column="11" TopLine="6503"/>
+        <Caret Line="23" Column="67" TopLine="1"/>
       </Position24>
       <Position25>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6455" Column="10" TopLine="6446"/>
+        <Caret Line="8854" Column="126" TopLine="37"/>
       </Position25>
       <Position26>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6640" Column="86" TopLine="6604"/>
+        <Caret Line="6445" Column="3" TopLine="6413"/>
       </Position26>
       <Position27>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6635" Column="34" TopLine="6604"/>
+        <Caret Line="6417" Column="1" TopLine="6399"/>
       </Position27>
       <Position28>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6647" Column="1" TopLine="6604"/>
+        <Caret Line="6416" Column="1" TopLine="6398"/>
       </Position28>
       <Position29>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6333" Column="52" TopLine="6316"/>
+        <Caret Line="6417" Column="1" TopLine="6399"/>
       </Position29>
       <Position30>
         <Filename Value="mainformemx.pas"/>
-        <Caret Line="6436" Column="28" TopLine="6409"/>
+        <Caret Line="6416" Column="1" TopLine="6398"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

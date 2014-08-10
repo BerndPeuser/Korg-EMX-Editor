@@ -8856,8 +8856,6 @@ begin
   //Position 1
   node2:= node.GetFirstChild;   // Position 1 Text
   node2:= Node2.GetNextSibling; // Data Position
-  node2:= Node2.GetNextSibling; // Data Name Position 1
-  node2:= Node2.GetNextSibling; // Data String
   startV :=1;
   s:= midstr(node2.text,startV,1);
     If (s='1') then

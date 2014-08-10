@@ -7,14 +7,65 @@ interface
 uses
   Classes, SysUtils, FileUtil, TAGraph, uPSComponent, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, Buttons, Grids, ueled, uEKnob,
-  uERotImage, uESelector, types;
+  uERotImage, uESelector, types, strutils;
 
 type
 
+  TMyTreeNode = class(TTreeNode)
+  public
+    tvType: String;
+    PopUpMenu: Integer;
+  end;
   { TMainForm }
 
   TMainForm = class(TForm)
     Bank: TComboBox;
+    D1MotionSeq: TRadioGroup;
+    D1MotionSeq8: TRadioGroup;
+    D1MotionSeq1: TRadioGroup;
+    D1MotionSeq2: TRadioGroup;
+    D1MotionSeq3: TRadioGroup;
+    D1MotionSeq4: TRadioGroup;
+    D1MotionSeq5: TRadioGroup;
+    D1MotionSeq6: TRadioGroup;
+    D1MotionSeq7: TRadioGroup;
+    LDP: TMenuItem;
+    LDS1: TMenuItem;
+    EditPattern: TMenuItem;
+    LDP1: TMenuItem;
+    LDP2: TMenuItem;
+    LDP3: TMenuItem;
+    LDP4: TMenuItem;
+    LDP5: TMenuItem;
+    LDP6A: TMenuItem;
+    LDP6B: TMenuItem;
+    LDP7A: TMenuItem;
+    LDP7B: TMenuItem;
+    LDS: TMenuItem;
+    LDS2: TMenuItem;
+    LDS3: TMenuItem;
+    LDS4: TMenuItem;
+    LDS5: TMenuItem;
+    LDS6A: TMenuItem;
+    LDS6B: TMenuItem;
+    LDS7A: TMenuItem;
+    LDS7B: TMenuItem;
+    LDSDS: TMenuItem;
+    LDSSA: TMenuItem;
+    LSP: TMenuItem;
+    LSP1: TMenuItem;
+    LSP2: TMenuItem;
+    LSP3: TMenuItem;
+    LSP4: TMenuItem;
+    LSP5: TMenuItem;
+    LSS: TMenuItem;
+    LSS1: TMenuItem;
+    LSS2: TMenuItem;
+    LSS3: TMenuItem;
+    LSS4: TMenuItem;
+    LSS5: TMenuItem;
+    MotionSeqSynth1: TRadioGroup;
+    PopupMenu1: TPopupMenu;
     RndSound: TBitBtn;
     Button1: TButton;
     Button2: TButton;
@@ -38,7 +89,7 @@ type
     ModSpeedSynth1: TuEKnob;
     ModSpeedVSynth1: TEdit;
     ModTypeSynth1: TComboBox;
-    D1ModulationBox9: TGroupBox;
+    ModulationBoxSynth1: TGroupBox;
     CutoffSynth1: TuEKnob;
     ResonanceSynth1: TuEKnob;
     EGIntSynth1: TuEKnob;
@@ -80,12 +131,12 @@ type
     GlideVSynth1: TEdit;
     TuneVSynth1: TEdit;
     FXChainCB: TComboBox;
-    FX1EffectSelectCB1: TComboBox;
-    FX1EffectSelectCB2: TComboBox;
-    FX1MotionSeqB1: TToggleBox;
-    FX1MotionSeqB2: TToggleBox;
-    FX1MotionSeqLED1: TuELED;
-    FX1MotionSeqLED2: TuELED;
+    FX2EffectSelectCB: TComboBox;
+    FX3EffectSelectCB: TComboBox;
+    FX2TrigHoldB: TToggleBox;
+    FX3TrigHoldB: TToggleBox;
+    FX2TrigHoldLED: TuELED;
+    FX3TrigHoldLED: TuELED;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
@@ -100,7 +151,7 @@ type
     Label156: TLabel;
     Label157: TLabel;
     SAccentTrigHoldB: TToggleBox;
-    FX1MotionSeqB: TToggleBox;
+    FX1TrigHoldB: TToggleBox;
     SAccentTrigHoldLED: TuELED;
     FX1EffectSelectCB: TComboBox;
     D1AmpEGB1: TToggleBox;
@@ -173,7 +224,7 @@ type
     D1Level8: TuEKnob;
     D1ModDepth8: TuEKnob;
     DALevel: TuEKnob;
-    FX1MotionSeqLED: TuELED;
+    FX1TrigHoldLED: TuELED;
     SALevel: TuEKnob;
     D1ModDepth1: TuEKnob;
     D1Level2: TuEKnob;
@@ -183,12 +234,12 @@ type
     D1Level4: TuEKnob;
     D1ModDepth4: TuEKnob;
     D1LevelV1: TEdit;
-    SALevelK1: TuEKnob;
-    SALevelK2: TuEKnob;
-    SALevelK3: TuEKnob;
-    SALevelK4: TuEKnob;
-    SALevelK5: TuEKnob;
-    SALevelK6: TuEKnob;
+    FX1Parameter1: TuEKnob;
+    FX1Parameter2: TuEKnob;
+    FX2Parameter1: TuEKnob;
+    FX2Parameter2: TuEKnob;
+    FX3Parameter1: TuEKnob;
+    FX3Parameter2: TuEKnob;
     SALevelV: TEdit;
     D1LevelV2: TEdit;
     D1LevelV3: TEdit;
@@ -1739,12 +1790,12 @@ type
     D1PanV: TEdit;
     D1EQTimeV: TEdit;
     ProgressBar1: TProgressBar;
-    SALevelV1: TEdit;
-    SALevelV2: TEdit;
-    SALevelV3: TEdit;
-    SALevelV4: TEdit;
-    SALevelV5: TEdit;
-    SALevelV6: TEdit;
+    FX1VParameter1: TEdit;
+    FX1VParameter2: TEdit;
+    FX2VParameter1: TEdit;
+    FX2VParameter2: TEdit;
+    FX3VParameter1: TEdit;
+    FX3VParameter2: TEdit;
     SaveFileB: TButton;
     GlobalSettingsB: TButton;
     Pattern: TComboBox;
@@ -1969,16 +2020,35 @@ type
     procedure DriveSynth1Change(Sender: TObject);
     procedure EGIntSynth1Change(Sender: TObject);
     procedure EGTimeSynth1Change(Sender: TObject);
+    procedure FX1Parameter1Change(Sender: TObject);
+    procedure FX1Parameter2Change(Sender: TObject);
+    procedure FX2Parameter1Change(Sender: TObject);
+    procedure FX2Parameter2Change(Sender: TObject);
+    procedure FX3Parameter1Change(Sender: TObject);
+    procedure FX3Parameter2Change(Sender: TObject);
     procedure GlideSynth1Change(Sender: TObject);
+    procedure LDS1Click(Sender: TObject);
+    procedure LDS2Click(Sender: TObject);
+    procedure LDS3Click(Sender: TObject);
+    procedure LDS4Click(Sender: TObject);
+    procedure LDS5Click(Sender: TObject);
+    procedure LDS6AClick(Sender: TObject);
+    procedure LDS6BClick(Sender: TObject);
+    procedure LDS7AClick(Sender: TObject);
+    procedure LDS7BClick(Sender: TObject);
+    procedure LDSDSClick(Sender: TObject);
+    procedure LDSSAClick(Sender: TObject);
     procedure LevelSynth1Change(Sender: TObject);
     procedure ModDepthSynth1Change(Sender: TObject);
     procedure ModSpeedSynth1Change(Sender: TObject);
     procedure OscEdit1Synth1Change(Sender: TObject);
     procedure OscEdit2Synth1Change(Sender: TObject);
     procedure PanSynth1Change(Sender: TObject);
+    procedure RadioButton1Change(Sender: TObject);
     procedure ResonanceSynth1Change(Sender: TObject);
     procedure RndSoundClick(Sender: TObject);
     procedure SynthoscSynth1Change(Sender: TObject);
+    procedure TreeView1Click(Sender: TObject);
     procedure TuneSynth1Change(Sender: TObject);
     procedure D1EQTime4Change(Sender: TObject);
     procedure D1EQTime5Change(Sender: TObject);
@@ -1999,7 +2069,6 @@ type
     procedure D1Level2Change(Sender: TObject);
     procedure D1Level3Change(Sender: TObject);
     procedure D1Level4Change(Sender: TObject);
-
     procedure D1ModDepth1Change(Sender: TObject);
     procedure D1ModDepth2Change(Sender: TObject);
     procedure D1ModDepth4Change(Sender: TObject);
@@ -2042,12 +2111,8 @@ type
     procedure LoadFileBClick(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem21Click(Sender: TObject);
-    procedure PatternChange(Sender: TObject);
     procedure SALevelChange(Sender: TObject);
     procedure SaveFileBClick(Sender: TObject);
-    procedure Led_ArpChange(Sender: TObject);
-    procedure WaveformSynth1Change(Sender: TObject);
-    //procedure PSCustomPlugin1CompileImport1(Sender: TPSScript);
   private
     { private declarations }
   public
@@ -2157,6 +2222,105 @@ implementation
 {$R *.lfm}
 
 { TMainForm }
+function PCMSynthName (num : integer) : String;
+//Function provided by Elke Peuser
+begin
+	Case num of
+		//Keyboard
+		1 : PCMSynthName:='Piano';
+		2 : PCMSynthName:='E-Piano';
+		3 : PCMSynthName:='Clav';
+		4 : PCMSynthName:='M1-Organ';
+		5 : PCMSynthName:='Organ';
+		//Mallet
+		6 : PCMSynthName:='Marimba';
+		7 : PCMSynthName:='Vibe';
+		8 : PCMSynthName:='Cymbell';
+		//Woodwind
+		9 : PCMSynthName:='Flute';
+		10 : PCMSynthName:='AltoSax';
+		11 : PCMSynthName:='M1-T.Sax';
+		//Brass
+		12 : PCMSynthName:='Trumpet';
+		13 : PCMSynthName:='MuteTp';
+		14 : PCMSynthName:='BrassEns';
+		//Choir
+		15 : PCMSynthName:='VoiceAh';
+		16 : PCMSynthName:='M1-Choir';
+		17 : PCMSynthName:='VoiceWav';
+		//String
+		18 : PCMSynthName:='Violin';
+		19 : PCMSynthName:='Strings';
+		20 : PCMSynthName:='Pizzicat';
+		//Guitar
+		21 : PCMSynthName:='F.Guitar';
+		22 : PCMSynthName:='A.Guitar';
+		23 : PCMSynthName:='MuteGtr';
+		24 : PCMSynthName:='FunkGtr';
+		25 : PCMSynthName:='Sitar';
+		//Bass
+		26 : PCMSynthName:='A.Bass';
+		27 : PCMSynthName:='E.Bass';
+		28 : PCMSynthName:='M1-Bass';
+		29 : PCMSynthName:='PickBass';
+		30 : PCMSynthName:='SlapBass';
+		//SynthWave
+		31 : PCMSynthName:='FMBass';
+		32 : PCMSynthName:='88Bass';
+		33 : PCMSynthName:='BoostSaw';
+		34 : PCMSynthName:='SawSqMix';
+		35 : PCMSynthName:='HPFSaw';
+		36 : PCMSynthName:='OctBass1';
+		37 : PCMSynthName:='OctBass2';
+		38 : PCMSynthName:='Saw5th';
+		39 : PCMSynthName:='Squ5th';
+		40 : PCMSynthName:='SynSin1';
+		41 : PCMSynthName:='SynSin2';
+		42 : PCMSynthName:='SynSin3';
+		43 : PCMSynthName:='SynSin4';
+		44 : PCMSynthName:='SynSin5';
+		45 : PCMSynthName:='SynWire1';
+		46 : PCMSynthName:='SynWire2';
+		47 : PCMSynthName:='Digi1';
+		48 : PCMSynthName:='Digi2';
+		49 : PCMSynthName:='Digi3';
+		50 : PCMSynthName:='Digi4';
+		51 : PCMSynthName:='SynVox1';
+		52 : PCMSynthName:='SynVox2';
+		53 : PCMSynthName:='Endless';
+		//Motion
+		54 : PCMSynthName:='Syn-FX1';
+		55 : PCMSynthName:='Syn-Fx2';
+		//Hit
+		56 : PCMSynthName:='OrchHit';
+		57 : PCMSynthName:='BandHit1';
+		58 : PCMSynthName:='Bandhit2';
+		59 : PCMSynthName:='DiscoHit';
+		60 : PCMSynthName:='RaveHit1';
+		61 : PCMSynthName:='RaveHit2';
+		62 : PCMSynthName:='RaveHit3';
+		63 : PCMSynthName:='RaveHit4';
+		64 : PCMSynthName:='RaveHit5';
+		65 : PCMSynthName:='RaveHit6';
+		//Chordset (Maj,min,Maj7,min7)
+		66 : PCMSynthName:='CH-Piano';
+		67 : PCMSynthName:='CH-M1Pia';
+		68 : PCMSynthName:='CH-EPian';
+		69 : PCMSynthName:='CH-Organ';
+		70 : PCMSynthName:='CH-Strgs';
+		//Chordset (min,sus47,min7)
+		71 : PCMSynthName:='CH-Gtr1';
+		//Chordset (min,min,sus4,)
+		72 : PCMSynthName:='CH-gtr2';
+		//Drumset
+		73 : PCMSynthName:='DR-BDs';
+		74 : PCMSynthName:='DR-SDs';
+		75 : PCMSynthName:='DR-CymTym';
+		76 : PCMSynthName:='DR-Percs';
+	end;
+end;
+
+
 
 function Samplename (num : integer) : String;
 //Slavejob
@@ -2395,6 +2559,13 @@ begin
     if b then result := 1 else result := 0;
 end;
 
+function right(txt:String; len:integer): String;
+begin
+  right := Copy(txt,Length(txt)-len+1,len)
+end;
+
+
+
 function Notestring (num : integer) : String;
 begin
 	Case num of
@@ -2526,7 +2697,8 @@ begin
 		126 : NoteString :='F#8';
 		127 : NoteString :='G 8';
 		188 : NoteString :='---'; //Nothing
-		otherwise NoteString :='Err';
+		//otherwise NoteString :='Err';
+                otherwise NoteString :='---';  //ignore them, because User misconfigurated Midifilter
 	end;
 end;
 procedure TMainForm.LoadFileBClick(Sender: TObject);
@@ -2538,17 +2710,14 @@ Var
    Banki: Integer;
    Songi: Integer;
    Patterni: Integer;
-   Samplesi : Integer;
-   Synthi: Integer;
    Tempo: Integer;
    TempoK: Integer;
    TempoR: Real;
-   NodeCounter : Integer;
+   //NodeCounter : Integer;
    PatternCounter: Integer;
    i: Integer;
    ii: Integer;
    iii: Integer;
-   uselessToday : Integer;
    s: String;
    FileNode: TTreeNode;
    GSNode: TTreeNode;
@@ -2583,6 +2752,7 @@ begin
 
              FileNode := Treeview1.Items.Add (nil,filename);
              FileStream := tFileStream.Create (filename,fmShareDenyNone);
+
              GSNode := Treeview1.Items.AddChild(FileNode ,'Global Settings');
              //Global Settings
              FileStream.Position := 32; //Protect
@@ -2599,13 +2769,11 @@ begin
                       LED_Protect.Color := clRed;
 
 
-             NameNode := Treeview1.Items.AddChild(GSNode, 'Protect');
-             Treeview1.Items.AddChild(NameNode, Instname);
+             NameNode := Treeview1.Items.AddChild(GSNode, 'Protect: ' + Instname);
 
              BytesRead:=Filestream.Read(Mastertune,1);
-             NameNode := Treeview1.Items.AddChild(GSNode, 'Mastertune');
              Mastertune := Mastertune - 50;
-             Treeview1.Items.AddChild(NameNode, inttostr(Mastertune));
+             NameNode := Treeview1.Items.AddChild(GSNode, 'Mastertune: ' + inttostr(Mastertune));
 
              BytesRead:=Filestream.Read(Arpcontrol,1);
              If (Arpcontrol= 0) then
@@ -2618,13 +2786,10 @@ begin
              Else
                  LED_Arp.Color:=ClRed;
 
-             NameNode := Treeview1.Items.AddChild(GSNode, 'Arpcontrol Reverse');
-             Treeview1.Items.AddChild(NameNode, Instname);
+             NameNode := Treeview1.Items.AddChild(GSNode, 'Arpcontrol Reverse: '+ Instname);
 
              //If Protect>1 Or Mastertune > 127 or Arpcontrol > 1 then SomethingWentWrong;
              FileStream.Position := Patternbase;
-
-
 
              //
              //Pattern Read
@@ -2643,19 +2808,19 @@ begin
                      If (Patterni < 10) Then Pttno:='0'+inttostr(Patterni);
                      NameNode := Treeview1.Items.AddChild(BankNode, Pttno + ' ' +Patternname);
                      //Patternsettings
-                     //Tempo
+                     //Tempo Float doesn't work in Pascal
                      BytesRead:=Filestream.Read(Tempo,1);
                      BytesRead:=Filestream.Read(TempoK,1);
                      TempoR:= Tempo*2+TempoK/128; //No idea if i calculate it right. :)
                      //TempoK must have Values between 0.1 and 1.9
                      //
-                     PSNode := Treeview1.Items.AddChild(NameNode, 'Tempo');
-                     Treeview1.Items.AddChild(PSNode, FloatToStr(TempoR));
+                     PSNode := Treeview1.Items.AddChild(NameNode, 'Tempo: '+ FloatToStr(TempoR));
+
                      //Swing Standardwert 56
                      BytesRead:=Filestream.Read(Swing,1);
                      Swing:=Swing+50;
-                     PSNode := Treeview1.Items.AddChild(NameNode, 'Swing');
-                     Treeview1.Items.AddChild(PSNode, inttostr(Swing));
+                     PSNode := Treeview1.Items.AddChild(NameNode, 'Swing: '+ inttostr(Swing));
+
                      //Rolltype, Patternlength, Beat
                      BytesRead:=Filestream.Read(RPB,1);
                      Rolltype := 2;
@@ -2696,12 +2861,10 @@ begin
                            7 : Patternlength := 8;
                       end;
 
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Rolltype');
-                      Treeview1.Items.AddChild(PSNode, inttostr(Rolltype));
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Beattype');
-                      Treeview1.Items.AddChild(PSNode, Beattype);
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Patternlength');
-                      Treeview1.Items.AddChild(PSNode, inttostr(Patternlength));
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Rolltype: '+ inttostr(Rolltype));
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Beattype: '+ Beattype);
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Patternlength: ' + inttostr(Patternlength));
+
                       //Effect Chain
                       BytesRead:=Filestream.Read(FXC,1);
                       FXChain :='No Chain';
@@ -2717,13 +2880,13 @@ begin
                         begin
                              FXChain :='Fx1 + Fx2 + Fx3';
                         End;
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'FX Chain');
-                      Treeview1.Items.AddChild(PSNode, FXChain);
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'FX Chain: '+ FXChain);
+
                       //Laststep (Patternlength per Beat)
                       BytesRead:=Filestream.Read(Laststep,1);
                       Laststep := Laststep + 1;
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Last Step');
-                      Treeview1.Items.AddChild(PSNode, inttostr(Laststep));
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Last Step: '+ inttostr(Laststep));
+
                       // ArpScale (00 Chroma,01 Ionian, 02 Dorian, ..., 0F Raga 2, ..., 1E Octave)
                       BytesRead:=Filestream.Read(ArpScale,1);
                       Case ArpScale of
@@ -2760,14 +2923,12 @@ begin
                            30 : ArpScaleString:='Octave C, C';
                            otherwise ArpScaleString:='Reserved';
                       end;
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Arp Scale');
-                      Treeview1.Items.AddChild(PSNode, ArpScaleString);
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Arp Scale: '+ ArpScaleString);
                       // Arp Center Note
                       // Heute keinen Bock mehr, schon wieder Case :)
                       BytesRead:=Filestream.Read(ArpCenterNote,1);
-                      PSNode := Treeview1.Items.AddChild(NameNode, 'Arpeggiator CenterNote');
-                      // ArpCenterNote noch in String konvertieren
-                      Treeview1.Items.AddChild(PSNode, Notestring(ArpCenterNote));
+                      PSNode := Treeview1.Items.AddChild(NameNode, 'Arpeggiator CenterNote: '+ Notestring(ArpCenterNote));
+
                       // Mute Status
                       BytesRead:=Filestream.Read(MuteStatusP1,1);
                       BytesRead:=Filestream.Read(MuteStatusP2,1);
@@ -3229,6 +3390,7 @@ begin
 
                       //Endlich Sample 1
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 1');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3353,6 +3515,7 @@ begin
                       end;
                        //Endlich Sample 2
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 2');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3477,6 +3640,7 @@ begin
                           end;
                        //Endlich Sample 3
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 3');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3601,6 +3765,8 @@ begin
                           end;
                       //Endlich Sample 4
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 4');
+
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3725,6 +3891,7 @@ begin
                           end;
                       //Endlich Sample 5
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 5');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3849,6 +4016,7 @@ begin
                           end;
                       //Endlich Sample 6A
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 6A');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -3971,8 +4139,9 @@ begin
                               Treeview1.Items.AddChild(ParameterNode,'Position ' + inttostr(i) );
                               Treeview1.Items.AddChild(ParameterNode,s);
                           end;
-                      //Endlich Sample 6A
-                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 6A');
+                      //Endlich Sample 6B
+                      InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 6B');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -4097,6 +4266,7 @@ begin
                           end;
                       //Endlich Sample 7A
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 7A');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -4221,6 +4391,7 @@ begin
                           end;
                       //Endlich Sample 7B
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Drum 7B');
+
                       //Samplebanknumber
                       BytesRead:=Filestream.Read(Samplebanknumber,1);
                       Samplebanknumber:=Samplebanknumber+1;
@@ -4351,6 +4522,7 @@ begin
 
                       //Synth 1
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 1');
+
                       BytesRead:=Filestream.Read(Waveform,1);
                       BytesRead:=Filestream.Read(Syntune,1);
                       BytesRead:=Filestream.Read(Synthoscillator,1);
@@ -4456,7 +4628,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring :='PCM '+ inttostr(Waveform);
+                              Waveformstring := PCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -4583,7 +4755,7 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
 
                       //Synthpattern 128 Bytes
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 1 Notes&Gates');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Notes&Gates');
                       For i:=1 to 8 do
                           begin
                                s :='';
@@ -4631,6 +4803,7 @@ begin
 
                       //Synth 2
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 2');
+
                       BytesRead:=Filestream.Read(Waveform,1);
                       BytesRead:=Filestream.Read(Syntune,1);
                       BytesRead:=Filestream.Read(Synthoscillator,1);
@@ -4736,7 +4909,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring :='PCM '+ inttostr(Waveform);
+                              Waveformstring := PCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -4862,7 +5035,7 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 2 Notes&Gates');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Notes&Gates');
                       For i:=1 to 8 do
                           begin
                                s :='';
@@ -4905,6 +5078,7 @@ begin
                           end;
                       //Synth 3
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 3');
+
                       BytesRead:=Filestream.Read(Waveform,1);
                       BytesRead:=Filestream.Read(Syntune,1);
                       BytesRead:=Filestream.Read(Synthoscillator,1);
@@ -5010,7 +5184,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring :='PCM '+ inttostr(Waveform);
+                              Waveformstring := PCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5136,7 +5310,7 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 3 Notes&Gates');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Notes&Gates');
                       For i:=1 to 8 do
                           begin
                                s :='';
@@ -5184,6 +5358,7 @@ begin
 
                       //Synth 4
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 4');
+
                       BytesRead:=Filestream.Read(Waveform,1);
                       BytesRead:=Filestream.Read(Syntune,1);
                       BytesRead:=Filestream.Read(Synthoscillator,1);
@@ -5289,7 +5464,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring :='PCM '+ inttostr(Waveform);
+                              Waveformstring := PCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5415,7 +5590,7 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 4 Notes&Gates');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Notes&Gates');
                       For i:=1 to 8 do
                           begin
                                s :='';
@@ -5460,6 +5635,7 @@ begin
 
                       //Synth 5
                       InstNode := Treeview1.Items.AddChild(NameNode, 'Synth 5');
+
                       BytesRead:=Filestream.Read(Waveform,1);
                       BytesRead:=Filestream.Read(Syntune,1);
                       BytesRead:=Filestream.Read(Synthoscillator,1);
@@ -5565,7 +5741,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring :='PCM '+ inttostr(Waveform);
+                              Waveformstring := PCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5691,7 +5867,7 @@ begin
                       end;
                       Treeview1.Items.AddChild(InstNode, 'MotionSeq.: ' + MotionSeqStr);
                       //Synthpattern 128 Bytes
-                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Synth 5 Notes&Gates');
+                      ParameterNode := Treeview1.Items.AddChild(InstNode, 'Notes&Gates');
                       For i:=1 to 8 do
                           begin
                                s :='';
@@ -5746,6 +5922,7 @@ begin
 ;
 
                       ParameterNode := Treeview1.Items.AddChild(NameNode, 'Drum Accent Sequence');
+
                       For i := 1 to 8 Do Begin
                           s:='';
                           For ii := 1 to 2 Do Begin
@@ -5894,10 +6071,9 @@ begin
                       For i := 1 to 24 do Begin
                                 // Tabelle 23 noch integrieren
                                 BytesRead:=Filestream.Read(OperationNo,2);
-                                //s := inttostr(Lo(OperationNo)) + inttostr(Hi(OperationNo));
-                                s := HEXFN(Lo(OperationNo)) + HEXFN(Hi(OperationNo));
+                                s := right(HEXFN(Lo(OperationNo)),2) + right(HEXFN(Hi(OperationNo)),2);
+                                // right(const txt:String; len:integer);
 
-                                //s := HEXFN(OperationNo);
                                 If (OperationNo=65535) then s:='Empty ';
                                 ParameterNode := Treeview1.Items.AddChild(InstNode, s);
                                 For ii := 1 to 8 Do Begin
@@ -6049,7 +6225,11 @@ For i:=1 to 207 do begin
         D1Sample8.AddItem(Samplename(i),Nil);
         D1Sample8.ItemIndex:=1;
 end;
-
+EditPattern.Enabled:=false;
+LDP.Enabled:=false;
+LDS.Enabled:=false;
+LSP.enabled:=false;
+LSS.enabled:=false;
 
 end;
 
@@ -6198,6 +6378,36 @@ begin
   EGTimeVSynth1.text := FloatToStr(round(EGTimeSynth1.Position));
 end;
 
+procedure TMainForm.FX1Parameter1Change(Sender: TObject);
+begin
+  FX1VParameter1.text := FloatToStr(round(FX1Parameter1.Position));
+end;
+
+procedure TMainForm.FX1Parameter2Change(Sender: TObject);
+begin
+  FX1VParameter2.text := FloatToStr(round(FX1Parameter2.Position));
+end;
+
+procedure TMainForm.FX2Parameter1Change(Sender: TObject);
+begin
+  FX2VParameter1.text := FloatToStr(round(FX2Parameter1.Position));
+end;
+
+procedure TMainForm.FX2Parameter2Change(Sender: TObject);
+begin
+  FX2VParameter2.text := FloatToStr(round(FX2Parameter2.Position));
+end;
+
+procedure TMainForm.FX3Parameter1Change(Sender: TObject);
+begin
+  FX3VParameter1.text := FloatToStr(round(FX3Parameter1.Position));
+end;
+
+procedure TMainForm.FX3Parameter2Change(Sender: TObject);
+begin
+  FX3VParameter2.text := FloatToStr(round(FX3Parameter2.Position));
+end;
+
 procedure TMainForm.CutoffSynth1Change(Sender: TObject);
 begin
   CutoffVSynth1.text := FloatToStr(round(CutoffSynth1.Position));
@@ -6218,9 +6428,8872 @@ begin
   GlideVSynth1.text := FloatToStr(round(GlideSynth1.Position));
 end;
 
+procedure TMainForm.LDS1Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1.State:=cbchecked
+  Else
+          D1S1.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S2.State:=cbchecked
+  Else
+          D1S2.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S3.State:=cbchecked
+  Else
+          D1S3.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S4.State:=cbchecked
+  Else
+          D1S4.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S5.State:=cbchecked
+  Else
+          D1S5.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S6.State:=cbchecked
+  Else
+          D1S6.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S7.State:=cbchecked
+  Else
+          D1S7.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S8.State:=cbchecked
+  Else
+          D1S8.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S9.State:=cbchecked
+  Else
+          D1S9.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S10.State:=cbchecked
+  Else
+          D1S10.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S11.State:=cbchecked
+  Else
+          D1S11.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S12.State:=cbchecked
+  Else
+          D1S12.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S13.State:=cbchecked
+  Else
+          D1S13.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S14.State:=cbchecked
+  Else
+          D1S14.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S15.State:=cbchecked
+  Else
+          D1S15.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S16.State:=cbchecked
+  Else
+          D1S16.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 2
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S17.State:=cbchecked
+  Else
+          D1S17.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S18.State:=cbchecked
+  Else
+          D1S18.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S19.State:=cbchecked
+  Else
+          D1S19.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S20.State:=cbchecked
+  Else
+          D1S20.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S21.State:=cbchecked
+  Else
+          D1S21.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S22.State:=cbchecked
+  Else
+          D1S22.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S23.State:=cbchecked
+  Else
+          D1S23.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S24.State:=cbchecked
+  Else
+          D1S24.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S25.State:=cbchecked
+  Else
+          D1S25.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S26.State:=cbchecked
+  Else
+          D1S26.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S27.State:=cbchecked
+  Else
+          D1S27.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S28.State:=cbchecked
+  Else
+          D1S28.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S29.State:=cbchecked
+  Else
+          D1S29.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S30.State:=cbchecked
+  Else
+          D1S30.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S31.State:=cbchecked
+  Else
+          D1S31.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S32.State:=cbchecked
+  Else
+          D1S32.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 3
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S33.State:=cbchecked
+  Else
+          D1S33.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S34.State:=cbchecked
+  Else
+          D1S34.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S35.State:=cbchecked
+  Else
+          D1S35.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S36.State:=cbchecked
+  Else
+          D1S36.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S37.State:=cbchecked
+  Else
+          D1S37.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S38.State:=cbchecked
+  Else
+          D1S38.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S39.State:=cbchecked
+  Else
+          D1S39.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S40.State:=cbchecked
+  Else
+          D1S40.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S41.State:=cbchecked
+  Else
+          D1S41.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S42.State:=cbchecked
+  Else
+          D1S42.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S43.State:=cbchecked
+  Else
+          D1S43.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S44.State:=cbchecked
+  Else
+          D1S44.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S45.State:=cbchecked
+  Else
+          D1S45.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S46.State:=cbchecked
+  Else
+          D1S46.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S47.State:=cbchecked
+  Else
+          D1S47.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S48.State:=cbchecked
+  Else
+          D1S48.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 4
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S49.State:=cbchecked
+  Else
+          D1S49.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S50.State:=cbchecked
+  Else
+          D1S50.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S51.State:=cbchecked
+  Else
+          D1S51.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S52.State:=cbchecked
+  Else
+          D1S52.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S53.State:=cbchecked
+  Else
+          D1S53.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S54.State:=cbchecked
+  Else
+          D1S54.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S55.State:=cbchecked
+  Else
+          D1S55.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S56.State:=cbchecked
+  Else
+          D1S56.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S57.State:=cbchecked
+  Else
+          D1S57.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S58.State:=cbchecked
+  Else
+          D1S58.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S59.State:=cbchecked
+  Else
+          D1S59.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S60.State:=cbchecked
+  Else
+          D1S60.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S61.State:=cbchecked
+  Else
+          D1S61.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S62.State:=cbchecked
+  Else
+          D1S62.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S63.State:=cbchecked
+  Else
+          D1S63.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S64.State:=cbchecked
+  Else
+          D1S64.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 5
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S65.State:=cbchecked
+  Else
+          D1S65.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S66.State:=cbchecked
+  Else
+          D1S66.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S67.State:=cbchecked
+  Else
+          D1S67.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S68.State:=cbchecked
+  Else
+          D1S68.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S69.State:=cbchecked
+  Else
+          D1S69.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S70.State:=cbchecked
+  Else
+          D1S70.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S71.State:=cbchecked
+  Else
+          D1S71.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S72.State:=cbchecked
+  Else
+          D1S72.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S73.State:=cbchecked
+  Else
+          D1S73.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S74.State:=cbchecked
+  Else
+          D1S74.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S75.State:=cbchecked
+  Else
+          D1S75.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S76.State:=cbchecked
+  Else
+          D1S76.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S77.State:=cbchecked
+  Else
+          D1S77.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S78.State:=cbchecked
+  Else
+          D1S78.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S79.State:=cbchecked
+  Else
+          D1S79.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S80.State:=cbchecked
+  Else
+          D1S80.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 6
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S81.State:=cbchecked
+  Else
+          D1S81.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S82.State:=cbchecked
+  Else
+          D1S82.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S83.State:=cbchecked
+  Else
+          D1S83.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S84.State:=cbchecked
+  Else
+          D1S84.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S85.State:=cbchecked
+  Else
+          D1S85.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S86.State:=cbchecked
+  Else
+          D1S86.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S87.State:=cbchecked
+  Else
+          D1S87.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S88.State:=cbchecked
+  Else
+          D1S88.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S89.State:=cbchecked
+  Else
+          D1S89.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S90.State:=cbchecked
+  Else
+          D1S90.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S91.State:=cbchecked
+  Else
+          D1S91.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S92.State:=cbchecked
+  Else
+          D1S92.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S93.State:=cbchecked
+  Else
+          D1S93.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S94.State:=cbchecked
+  Else
+          D1S94.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S95.State:=cbchecked
+  Else
+          D1S95.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S96.State:=cbchecked
+  Else
+          D1S96.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 7
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S97.State:=cbchecked
+  Else
+          D1S97.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S98.State:=cbchecked
+  Else
+          D1S98.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S99.State:=cbchecked
+  Else
+          D1S99.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S100.State:=cbchecked
+  Else
+          D1S100.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S101.State:=cbchecked
+  Else
+          D1S101.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S102.State:=cbchecked
+  Else
+          D1S102.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S103.State:=cbchecked
+  Else
+          D1S103.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S104.State:=cbchecked
+  Else
+          D1S104.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S105.State:=cbchecked
+  Else
+          D1S105.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S106.State:=cbchecked
+  Else
+          D1S106.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S107.State:=cbchecked
+  Else
+          D1S107.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S108.State:=cbchecked
+  Else
+          D1S108.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S109.State:=cbchecked
+  Else
+          D1S109.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S110.State:=cbchecked
+  Else
+          D1S110.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S111.State:=cbchecked
+  Else
+          D1S111.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S112.State:=cbchecked
+  Else
+          D1S112.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 8
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S113.State:=cbchecked
+  Else
+          D1S113.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S114.State:=cbchecked
+  Else
+          D1S114.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S115.State:=cbchecked
+  Else
+          D1S115.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S116.State:=cbchecked
+  Else
+          D1S116.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S117.State:=cbchecked
+  Else
+          D1S117.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S118.State:=cbchecked
+  Else
+          D1S118.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S119.State:=cbchecked
+  Else
+          D1S119.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S120.State:=cbchecked
+  Else
+          D1S120.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S121.State:=cbchecked
+  Else
+          D1S121.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S122.State:=cbchecked
+  Else
+          D1S122.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S123.State:=cbchecked
+  Else
+          D1S123.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S124.State:=cbchecked
+  Else
+          D1S124.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S125.State:=cbchecked
+  Else
+          D1S125.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S126.State:=cbchecked
+  Else
+          D1S126.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S127.State:=cbchecked
+  Else
+          D1S127.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S128.State:=cbchecked
+  Else
+          D1S128.State:=cbunchecked;
+  startV:=startV+2;
+
+end;
+
+procedure TMainForm.LDS2Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S129.State:=cbchecked
+    Else
+            D1S129.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S130.State:=cbchecked
+    Else
+            D1S130.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S131.State:=cbchecked
+    Else
+            D1S131.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S132.State:=cbchecked
+    Else
+            D1S132.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S133.State:=cbchecked
+    Else
+            D1S133.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S134.State:=cbchecked
+    Else
+            D1S134.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S135.State:=cbchecked
+    Else
+            D1S135.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S136.State:=cbchecked
+    Else
+            D1S136.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S137.State:=cbchecked
+    Else
+            D1S137.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S138.State:=cbchecked
+    Else
+            D1S138.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S139.State:=cbchecked
+    Else
+            D1S139.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S140.State:=cbchecked
+    Else
+            D1S140.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S141.State:=cbchecked
+    Else
+            D1S141.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S142.State:=cbchecked
+    Else
+            D1S142.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S143.State:=cbchecked
+    Else
+            D1S143.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S144.State:=cbchecked
+    Else
+            D1S144.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S145.State:=cbchecked
+    Else
+            D1S145.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S146.State:=cbchecked
+    Else
+            D1S146.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S147.State:=cbchecked
+    Else
+            D1S147.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S148.State:=cbchecked
+    Else
+            D1S148.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S149.State:=cbchecked
+    Else
+            D1S149.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S150.State:=cbchecked
+    Else
+            D1S150.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S151.State:=cbchecked
+    Else
+            D1S151.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S152.State:=cbchecked
+    Else
+            D1S152.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S153.State:=cbchecked
+    Else
+            D1S153.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S154.State:=cbchecked
+    Else
+            D1S154.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S155.State:=cbchecked
+    Else
+            D1S155.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S156.State:=cbchecked
+    Else
+            D1S156.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S157.State:=cbchecked
+    Else
+            D1S157.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S158.State:=cbchecked
+    Else
+            D1S158.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S159.State:=cbchecked
+    Else
+            D1S159.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S160.State:=cbchecked
+    Else
+            D1S160.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S161.State:=cbchecked
+    Else
+            D1S161.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S162.State:=cbchecked
+    Else
+            D1S162.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S163.State:=cbchecked
+    Else
+            D1S163.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S164.State:=cbchecked
+    Else
+            D1S164.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S165.State:=cbchecked
+    Else
+            D1S165.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S166.State:=cbchecked
+    Else
+            D1S166.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S167.State:=cbchecked
+    Else
+            D1S167.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S168.State:=cbchecked
+    Else
+            D1S168.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S169.State:=cbchecked
+    Else
+            D1S169.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S170.State:=cbchecked
+    Else
+            D1S170.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S171.State:=cbchecked
+    Else
+            D1S171.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S172.State:=cbchecked
+    Else
+            D1S172.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S173.State:=cbchecked
+    Else
+            D1S173.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S174.State:=cbchecked
+    Else
+            D1S174.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S175.State:=cbchecked
+    Else
+            D1S175.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S176.State:=cbchecked
+    Else
+            D1S176.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S177.State:=cbchecked
+    Else
+            D1S177.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S178.State:=cbchecked
+    Else
+            D1S178.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S179.State:=cbchecked
+    Else
+            D1S179.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S180.State:=cbchecked
+    Else
+            D1S180.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S181.State:=cbchecked
+    Else
+            D1S181.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S182.State:=cbchecked
+    Else
+            D1S182.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S183.State:=cbchecked
+    Else
+            D1S183.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S184.State:=cbchecked
+    Else
+            D1S184.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S185.State:=cbchecked
+    Else
+            D1S185.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S186.State:=cbchecked
+    Else
+            D1S186.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S187.State:=cbchecked
+    Else
+            D1S187.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S188.State:=cbchecked
+    Else
+            D1S188.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S189.State:=cbchecked
+    Else
+            D1S189.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S190.State:=cbchecked
+    Else
+            D1S190.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S191.State:=cbchecked
+    Else
+            D1S191.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S192.State:=cbchecked
+    Else
+            D1S192.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S193.State:=cbchecked
+    Else
+            D1S193.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S194.State:=cbchecked
+    Else
+            D1S194.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S195.State:=cbchecked
+    Else
+            D1S195.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S196.State:=cbchecked
+    Else
+            D1S196.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S197.State:=cbchecked
+    Else
+            D1S197.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S198.State:=cbchecked
+    Else
+            D1S198.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S199.State:=cbchecked
+    Else
+            D1S199.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S200.State:=cbchecked
+    Else
+            D1S200.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S201.State:=cbchecked
+    Else
+            D1S201.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S202.State:=cbchecked
+    Else
+            D1S202.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S203.State:=cbchecked
+    Else
+            D1S203.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S204.State:=cbchecked
+    Else
+            D1S204.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S205.State:=cbchecked
+    Else
+            D1S205.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S206.State:=cbchecked
+    Else
+            D1S206.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S207.State:=cbchecked
+    Else
+            D1S207.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S208.State:=cbchecked
+    Else
+            D1S208.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S209.State:=cbchecked
+    Else
+            D1S209.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S210.State:=cbchecked
+    Else
+            D1S210.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S211.State:=cbchecked
+    Else
+            D1S211.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S212.State:=cbchecked
+    Else
+            D1S212.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S213.State:=cbchecked
+    Else
+            D1S213.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S214.State:=cbchecked
+    Else
+            D1S214.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S215.State:=cbchecked
+    Else
+            D1S215.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S216.State:=cbchecked
+    Else
+            D1S216.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S217.State:=cbchecked
+    Else
+            D1S217.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S218.State:=cbchecked
+    Else
+            D1S218.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S219.State:=cbchecked
+    Else
+            D1S219.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S220.State:=cbchecked
+    Else
+            D1S220.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S221.State:=cbchecked
+    Else
+            D1S221.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S222.State:=cbchecked
+    Else
+            D1S222.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S223.State:=cbchecked
+    Else
+            D1S223.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S224.State:=cbchecked
+    Else
+            D1S224.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S225.State:=cbchecked
+    Else
+            D1S225.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S226.State:=cbchecked
+    Else
+            D1S226.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S227.State:=cbchecked
+    Else
+            D1S227.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S228.State:=cbchecked
+    Else
+            D1S228.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S229.State:=cbchecked
+    Else
+            D1S229.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S230.State:=cbchecked
+    Else
+            D1S230.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S231.State:=cbchecked
+    Else
+            D1S231.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S232.State:=cbchecked
+    Else
+            D1S232.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S233.State:=cbchecked
+    Else
+            D1S233.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S234.State:=cbchecked
+    Else
+            D1S234.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S235.State:=cbchecked
+    Else
+            D1S235.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S236.State:=cbchecked
+    Else
+            D1S236.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S237.State:=cbchecked
+    Else
+            D1S237.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S238.State:=cbchecked
+    Else
+            D1S238.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S239.State:=cbchecked
+    Else
+            D1S239.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S240.State:=cbchecked
+    Else
+            D1S240.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S241.State:=cbchecked
+    Else
+            D1S241.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S242.State:=cbchecked
+    Else
+            D1S242.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S243.State:=cbchecked
+    Else
+            D1S243.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S244.State:=cbchecked
+    Else
+            D1S244.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S245.State:=cbchecked
+    Else
+            D1S245.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S246.State:=cbchecked
+    Else
+            D1S246.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S247.State:=cbchecked
+    Else
+            D1S247.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S248.State:=cbchecked
+    Else
+            D1S248.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S249.State:=cbchecked
+    Else
+            D1S249.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S250.State:=cbchecked
+    Else
+            D1S250.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S251.State:=cbchecked
+    Else
+            D1S251.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S252.State:=cbchecked
+    Else
+            D1S252.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S253.State:=cbchecked
+    Else
+            D1S253.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S254.State:=cbchecked
+    Else
+            D1S254.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S255.State:=cbchecked
+    Else
+            D1S255.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S256.State:=cbchecked
+    Else
+            D1S256.State:=cbunchecked;
+    startV:=startV+2;
+
+
+end;
+
+procedure TMainForm.LDS3Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S257.State:=cbchecked
+    Else
+            D1S257.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S258.State:=cbchecked
+    Else
+            D1S258.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S259.State:=cbchecked
+    Else
+            D1S259.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S260.State:=cbchecked
+    Else
+            D1S260.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S261.State:=cbchecked
+    Else
+            D1S261.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S262.State:=cbchecked
+    Else
+            D1S262.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S263.State:=cbchecked
+    Else
+            D1S263.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S264.State:=cbchecked
+    Else
+            D1S264.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S265.State:=cbchecked
+    Else
+            D1S265.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S266.State:=cbchecked
+    Else
+            D1S266.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S267.State:=cbchecked
+    Else
+            D1S267.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S268.State:=cbchecked
+    Else
+            D1S268.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S269.State:=cbchecked
+    Else
+            D1S269.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S270.State:=cbchecked
+    Else
+            D1S270.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S271.State:=cbchecked
+    Else
+            D1S271.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S272.State:=cbchecked
+    Else
+            D1S272.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S273.State:=cbchecked
+    Else
+            D1S273.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S274.State:=cbchecked
+    Else
+            D1S274.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S275.State:=cbchecked
+    Else
+            D1S275.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S276.State:=cbchecked
+    Else
+            D1S276.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S277.State:=cbchecked
+    Else
+            D1S277.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S278.State:=cbchecked
+    Else
+            D1S278.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S279.State:=cbchecked
+    Else
+            D1S279.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S280.State:=cbchecked
+    Else
+            D1S280.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S281.State:=cbchecked
+    Else
+            D1S281.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S282.State:=cbchecked
+    Else
+            D1S282.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S283.State:=cbchecked
+    Else
+            D1S283.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S284.State:=cbchecked
+    Else
+            D1S284.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S285.State:=cbchecked
+    Else
+            D1S285.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S286.State:=cbchecked
+    Else
+            D1S286.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S287.State:=cbchecked
+    Else
+            D1S287.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S288.State:=cbchecked
+    Else
+            D1S288.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S289.State:=cbchecked
+    Else
+            D1S289.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S290.State:=cbchecked
+    Else
+            D1S290.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S291.State:=cbchecked
+    Else
+            D1S291.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S292.State:=cbchecked
+    Else
+            D1S292.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S293.State:=cbchecked
+    Else
+            D1S293.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S294.State:=cbchecked
+    Else
+            D1S294.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S295.State:=cbchecked
+    Else
+            D1S295.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S296.State:=cbchecked
+    Else
+            D1S296.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S297.State:=cbchecked
+    Else
+            D1S297.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S298.State:=cbchecked
+    Else
+            D1S298.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S299.State:=cbchecked
+    Else
+            D1S299.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S300.State:=cbchecked
+    Else
+            D1S300.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S301.State:=cbchecked
+    Else
+            D1S301.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S302.State:=cbchecked
+    Else
+            D1S302.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S303.State:=cbchecked
+    Else
+            D1S303.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S304.State:=cbchecked
+    Else
+            D1S304.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S305.State:=cbchecked
+    Else
+            D1S305.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S306.State:=cbchecked
+    Else
+            D1S306.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S307.State:=cbchecked
+    Else
+            D1S307.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S308.State:=cbchecked
+    Else
+            D1S308.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S309.State:=cbchecked
+    Else
+            D1S309.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S310.State:=cbchecked
+    Else
+            D1S310.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S311.State:=cbchecked
+    Else
+            D1S311.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S312.State:=cbchecked
+    Else
+            D1S312.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S313.State:=cbchecked
+    Else
+            D1S313.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S314.State:=cbchecked
+    Else
+            D1S314.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S315.State:=cbchecked
+    Else
+            D1S315.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S316.State:=cbchecked
+    Else
+            D1S316.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S317.State:=cbchecked
+    Else
+            D1S317.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S318.State:=cbchecked
+    Else
+            D1S318.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S319.State:=cbchecked
+    Else
+            D1S319.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S320.State:=cbchecked
+    Else
+            D1S320.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S321.State:=cbchecked
+    Else
+            D1S321.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S322.State:=cbchecked
+    Else
+            D1S322.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S323.State:=cbchecked
+    Else
+            D1S323.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S324.State:=cbchecked
+    Else
+            D1S324.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S325.State:=cbchecked
+    Else
+            D1S325.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S326.State:=cbchecked
+    Else
+            D1S326.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S327.State:=cbchecked
+    Else
+            D1S327.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S328.State:=cbchecked
+    Else
+            D1S328.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S329.State:=cbchecked
+    Else
+            D1S329.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S330.State:=cbchecked
+    Else
+            D1S330.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S331.State:=cbchecked
+    Else
+            D1S331.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S332.State:=cbchecked
+    Else
+            D1S332.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S333.State:=cbchecked
+    Else
+            D1S333.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S334.State:=cbchecked
+    Else
+            D1S334.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S335.State:=cbchecked
+    Else
+            D1S335.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S336.State:=cbchecked
+    Else
+            D1S336.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S337.State:=cbchecked
+    Else
+            D1S337.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S338.State:=cbchecked
+    Else
+            D1S338.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S339.State:=cbchecked
+    Else
+            D1S339.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S340.State:=cbchecked
+    Else
+            D1S340.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S341.State:=cbchecked
+    Else
+            D1S341.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S342.State:=cbchecked
+    Else
+            D1S342.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S343.State:=cbchecked
+    Else
+            D1S343.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S344.State:=cbchecked
+    Else
+            D1S344.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S345.State:=cbchecked
+    Else
+            D1S345.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S346.State:=cbchecked
+    Else
+            D1S346.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S347.State:=cbchecked
+    Else
+            D1S347.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S348.State:=cbchecked
+    Else
+            D1S348.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S349.State:=cbchecked
+    Else
+            D1S349.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S350.State:=cbchecked
+    Else
+            D1S350.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S351.State:=cbchecked
+    Else
+            D1S351.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S352.State:=cbchecked
+    Else
+            D1S352.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S353.State:=cbchecked
+    Else
+            D1S353.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S354.State:=cbchecked
+    Else
+            D1S354.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S355.State:=cbchecked
+    Else
+            D1S355.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S356.State:=cbchecked
+    Else
+            D1S356.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S357.State:=cbchecked
+    Else
+            D1S357.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S358.State:=cbchecked
+    Else
+            D1S358.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S359.State:=cbchecked
+    Else
+            D1S359.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S360.State:=cbchecked
+    Else
+            D1S360.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S361.State:=cbchecked
+    Else
+            D1S361.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S362.State:=cbchecked
+    Else
+            D1S362.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S363.State:=cbchecked
+    Else
+            D1S363.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S364.State:=cbchecked
+    Else
+            D1S364.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S365.State:=cbchecked
+    Else
+            D1S365.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S366.State:=cbchecked
+    Else
+            D1S366.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S367.State:=cbchecked
+    Else
+            D1S367.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S368.State:=cbchecked
+    Else
+            D1S368.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S369.State:=cbchecked
+    Else
+            D1S369.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S370.State:=cbchecked
+    Else
+            D1S370.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S371.State:=cbchecked
+    Else
+            D1S371.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S372.State:=cbchecked
+    Else
+            D1S372.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S373.State:=cbchecked
+    Else
+            D1S373.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S374.State:=cbchecked
+    Else
+            D1S374.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S375.State:=cbchecked
+    Else
+            D1S375.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S376.State:=cbchecked
+    Else
+            D1S376.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S377.State:=cbchecked
+    Else
+            D1S377.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S378.State:=cbchecked
+    Else
+            D1S378.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S379.State:=cbchecked
+    Else
+            D1S379.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S380.State:=cbchecked
+    Else
+            D1S380.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S381.State:=cbchecked
+    Else
+            D1S381.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S382.State:=cbchecked
+    Else
+            D1S382.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S383.State:=cbchecked
+    Else
+            D1S383.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S384.State:=cbchecked
+    Else
+            D1S384.State:=cbunchecked;
+
+
+end;
+
+procedure TMainForm.LDS4Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  node2:= Node2.GetNextSibling; // Data Name Position 1
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S385.State:=cbchecked
+    Else
+            D1S385.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S386.State:=cbchecked
+    Else
+            D1S386.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S387.State:=cbchecked
+    Else
+            D1S387.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S388.State:=cbchecked
+    Else
+            D1S388.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S389.State:=cbchecked
+    Else
+            D1S389.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S390.State:=cbchecked
+    Else
+            D1S390.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S391.State:=cbchecked
+    Else
+            D1S391.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S392.State:=cbchecked
+    Else
+            D1S392.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S393.State:=cbchecked
+    Else
+            D1S393.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S394.State:=cbchecked
+    Else
+            D1S394.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S395.State:=cbchecked
+    Else
+            D1S395.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S396.State:=cbchecked
+    Else
+            D1S396.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S397.State:=cbchecked
+    Else
+            D1S397.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S398.State:=cbchecked
+    Else
+            D1S398.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S399.State:=cbchecked
+    Else
+            D1S399.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S400.State:=cbchecked
+    Else
+            D1S400.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S401.State:=cbchecked
+    Else
+            D1S401.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S402.State:=cbchecked
+    Else
+            D1S402.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S403.State:=cbchecked
+    Else
+            D1S403.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S404.State:=cbchecked
+    Else
+            D1S404.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S405.State:=cbchecked
+    Else
+            D1S405.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S406.State:=cbchecked
+    Else
+            D1S406.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S407.State:=cbchecked
+    Else
+            D1S407.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S408.State:=cbchecked
+    Else
+            D1S408.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S409.State:=cbchecked
+    Else
+            D1S409.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S410.State:=cbchecked
+    Else
+            D1S410.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S411.State:=cbchecked
+    Else
+            D1S411.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S412.State:=cbchecked
+    Else
+            D1S412.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S413.State:=cbchecked
+    Else
+            D1S413.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S414.State:=cbchecked
+    Else
+            D1S414.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S415.State:=cbchecked
+    Else
+            D1S415.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S416.State:=cbchecked
+    Else
+            D1S416.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S417.State:=cbchecked
+    Else
+            D1S417.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S418.State:=cbchecked
+    Else
+            D1S418.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S419.State:=cbchecked
+    Else
+            D1S419.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S420.State:=cbchecked
+    Else
+            D1S420.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S421.State:=cbchecked
+    Else
+            D1S421.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S422.State:=cbchecked
+    Else
+            D1S422.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S423.State:=cbchecked
+    Else
+            D1S423.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S424.State:=cbchecked
+    Else
+            D1S424.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S425.State:=cbchecked
+    Else
+            D1S425.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S426.State:=cbchecked
+    Else
+            D1S426.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S427.State:=cbchecked
+    Else
+            D1S427.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S428.State:=cbchecked
+    Else
+            D1S428.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S429.State:=cbchecked
+    Else
+            D1S429.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S430.State:=cbchecked
+    Else
+            D1S430.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S431.State:=cbchecked
+    Else
+            D1S431.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S432.State:=cbchecked
+    Else
+            D1S432.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S433.State:=cbchecked
+    Else
+            D1S433.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S434.State:=cbchecked
+    Else
+            D1S434.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S435.State:=cbchecked
+    Else
+            D1S435.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S436.State:=cbchecked
+    Else
+            D1S436.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S437.State:=cbchecked
+    Else
+            D1S437.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S438.State:=cbchecked
+    Else
+            D1S438.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S439.State:=cbchecked
+    Else
+            D1S439.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S440.State:=cbchecked
+    Else
+            D1S440.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S441.State:=cbchecked
+    Else
+            D1S441.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S442.State:=cbchecked
+    Else
+            D1S442.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S443.State:=cbchecked
+    Else
+            D1S443.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S444.State:=cbchecked
+    Else
+            D1S444.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S445.State:=cbchecked
+    Else
+            D1S445.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S446.State:=cbchecked
+    Else
+            D1S446.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S447.State:=cbchecked
+    Else
+            D1S447.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S448.State:=cbchecked
+    Else
+            D1S448.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S449.State:=cbchecked
+    Else
+            D1S449.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S450.State:=cbchecked
+    Else
+            D1S450.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S451.State:=cbchecked
+    Else
+            D1S451.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S452.State:=cbchecked
+    Else
+            D1S452.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S453.State:=cbchecked
+    Else
+            D1S453.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S454.State:=cbchecked
+    Else
+            D1S454.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S455.State:=cbchecked
+    Else
+            D1S455.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S456.State:=cbchecked
+    Else
+            D1S456.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S457.State:=cbchecked
+    Else
+            D1S457.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S458.State:=cbchecked
+    Else
+            D1S458.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S459.State:=cbchecked
+    Else
+            D1S459.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S460.State:=cbchecked
+    Else
+            D1S460.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S461.State:=cbchecked
+    Else
+            D1S461.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S462.State:=cbchecked
+    Else
+            D1S462.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S463.State:=cbchecked
+    Else
+            D1S463.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S464.State:=cbchecked
+    Else
+            D1S464.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S465.State:=cbchecked
+    Else
+            D1S465.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S466.State:=cbchecked
+    Else
+            D1S466.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S467.State:=cbchecked
+    Else
+            D1S467.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S468.State:=cbchecked
+    Else
+            D1S468.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S469.State:=cbchecked
+    Else
+            D1S469.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S470.State:=cbchecked
+    Else
+            D1S470.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S471.State:=cbchecked
+    Else
+            D1S471.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S472.State:=cbchecked
+    Else
+            D1S472.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S473.State:=cbchecked
+    Else
+            D1S473.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S474.State:=cbchecked
+    Else
+            D1S474.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S475.State:=cbchecked
+    Else
+            D1S475.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S476.State:=cbchecked
+    Else
+            D1S476.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S477.State:=cbchecked
+    Else
+            D1S477.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S478.State:=cbchecked
+    Else
+            D1S478.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S479.State:=cbchecked
+    Else
+            D1S479.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S480.State:=cbchecked
+    Else
+            D1S480.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S481.State:=cbchecked
+    Else
+            D1S481.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S482.State:=cbchecked
+    Else
+            D1S482.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S483.State:=cbchecked
+    Else
+            D1S483.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S484.State:=cbchecked
+    Else
+            D1S484.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S485.State:=cbchecked
+    Else
+            D1S485.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S486.State:=cbchecked
+    Else
+            D1S486.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S487.State:=cbchecked
+    Else
+            D1S487.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S488.State:=cbchecked
+    Else
+            D1S488.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S489.State:=cbchecked
+    Else
+            D1S489.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S490.State:=cbchecked
+    Else
+            D1S490.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S491.State:=cbchecked
+    Else
+            D1S491.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S492.State:=cbchecked
+    Else
+            D1S492.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S493.State:=cbchecked
+    Else
+            D1S493.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S494.State:=cbchecked
+    Else
+            D1S494.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S495.State:=cbchecked
+    Else
+            D1S495.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S496.State:=cbchecked
+    Else
+            D1S496.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S497.State:=cbchecked
+    Else
+            D1S497.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S498.State:=cbchecked
+    Else
+            D1S498.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S499.State:=cbchecked
+    Else
+            D1S499.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S500.State:=cbchecked
+    Else
+            D1S500.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S501.State:=cbchecked
+    Else
+            D1S501.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S502.State:=cbchecked
+    Else
+            D1S502.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S503.State:=cbchecked
+    Else
+            D1S503.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S504.State:=cbchecked
+    Else
+            D1S504.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S505.State:=cbchecked
+    Else
+            D1S505.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S506.State:=cbchecked
+    Else
+            D1S506.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S507.State:=cbchecked
+    Else
+            D1S507.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S508.State:=cbchecked
+    Else
+            D1S508.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S509.State:=cbchecked
+    Else
+            D1S509.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S510.State:=cbchecked
+    Else
+            D1S510.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S511.State:=cbchecked
+    Else
+            D1S511.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S512.State:=cbchecked
+    Else
+            D1S512.State:=cbunchecked;
+
+end;
+
+procedure TMainForm.LDS5Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S513.State:=cbchecked
+    Else
+            D1S513.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S514.State:=cbchecked
+    Else
+            D1S514.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S515.State:=cbchecked
+    Else
+            D1S515.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S516.State:=cbchecked
+    Else
+            D1S516.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S517.State:=cbchecked
+    Else
+            D1S517.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S518.State:=cbchecked
+    Else
+            D1S518.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S519.State:=cbchecked
+    Else
+            D1S519.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S520.State:=cbchecked
+    Else
+            D1S520.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S521.State:=cbchecked
+    Else
+            D1S521.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S522.State:=cbchecked
+    Else
+            D1S522.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S523.State:=cbchecked
+    Else
+            D1S523.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S524.State:=cbchecked
+    Else
+            D1S524.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S525.State:=cbchecked
+    Else
+            D1S525.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S526.State:=cbchecked
+    Else
+            D1S526.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S527.State:=cbchecked
+    Else
+            D1S527.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S528.State:=cbchecked
+    Else
+            D1S528.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S529.State:=cbchecked
+    Else
+            D1S529.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S530.State:=cbchecked
+    Else
+            D1S530.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S531.State:=cbchecked
+    Else
+            D1S531.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S532.State:=cbchecked
+    Else
+            D1S532.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S533.State:=cbchecked
+    Else
+            D1S533.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S534.State:=cbchecked
+    Else
+            D1S534.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S535.State:=cbchecked
+    Else
+            D1S535.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S536.State:=cbchecked
+    Else
+            D1S536.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S537.State:=cbchecked
+    Else
+            D1S537.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S538.State:=cbchecked
+    Else
+            D1S538.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S539.State:=cbchecked
+    Else
+            D1S539.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S540.State:=cbchecked
+    Else
+            D1S540.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S541.State:=cbchecked
+    Else
+            D1S541.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S542.State:=cbchecked
+    Else
+            D1S542.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S543.State:=cbchecked
+    Else
+            D1S543.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S544.State:=cbchecked
+    Else
+            D1S544.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S545.State:=cbchecked
+    Else
+            D1S545.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S546.State:=cbchecked
+    Else
+            D1S546.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S547.State:=cbchecked
+    Else
+            D1S547.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S548.State:=cbchecked
+    Else
+            D1S548.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S549.State:=cbchecked
+    Else
+            D1S549.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S550.State:=cbchecked
+    Else
+            D1S550.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S551.State:=cbchecked
+    Else
+            D1S551.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S552.State:=cbchecked
+    Else
+            D1S552.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S553.State:=cbchecked
+    Else
+            D1S553.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S554.State:=cbchecked
+    Else
+            D1S554.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S555.State:=cbchecked
+    Else
+            D1S555.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S556.State:=cbchecked
+    Else
+            D1S556.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S557.State:=cbchecked
+    Else
+            D1S557.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S558.State:=cbchecked
+    Else
+            D1S558.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S559.State:=cbchecked
+    Else
+            D1S559.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S560.State:=cbchecked
+    Else
+            D1S560.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S561.State:=cbchecked
+    Else
+            D1S561.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S562.State:=cbchecked
+    Else
+            D1S562.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S563.State:=cbchecked
+    Else
+            D1S563.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S564.State:=cbchecked
+    Else
+            D1S564.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S565.State:=cbchecked
+    Else
+            D1S565.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S566.State:=cbchecked
+    Else
+            D1S566.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S567.State:=cbchecked
+    Else
+            D1S567.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S568.State:=cbchecked
+    Else
+            D1S568.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S569.State:=cbchecked
+    Else
+            D1S569.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S570.State:=cbchecked
+    Else
+            D1S570.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S571.State:=cbchecked
+    Else
+            D1S571.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S572.State:=cbchecked
+    Else
+            D1S572.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S573.State:=cbchecked
+    Else
+            D1S573.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S574.State:=cbchecked
+    Else
+            D1S574.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S575.State:=cbchecked
+    Else
+            D1S575.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S576.State:=cbchecked
+    Else
+            D1S576.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S577.State:=cbchecked
+    Else
+            D1S577.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S578.State:=cbchecked
+    Else
+            D1S578.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S579.State:=cbchecked
+    Else
+            D1S579.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S580.State:=cbchecked
+    Else
+            D1S580.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S581.State:=cbchecked
+    Else
+            D1S581.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S582.State:=cbchecked
+    Else
+            D1S582.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S583.State:=cbchecked
+    Else
+            D1S583.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S584.State:=cbchecked
+    Else
+            D1S584.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S585.State:=cbchecked
+    Else
+            D1S585.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S586.State:=cbchecked
+    Else
+            D1S586.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S587.State:=cbchecked
+    Else
+            D1S587.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S588.State:=cbchecked
+    Else
+            D1S588.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S589.State:=cbchecked
+    Else
+            D1S589.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S590.State:=cbchecked
+    Else
+            D1S590.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S591.State:=cbchecked
+    Else
+            D1S591.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S592.State:=cbchecked
+    Else
+            D1S592.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S593.State:=cbchecked
+    Else
+            D1S593.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S594.State:=cbchecked
+    Else
+            D1S594.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S595.State:=cbchecked
+    Else
+            D1S595.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S596.State:=cbchecked
+    Else
+            D1S596.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S597.State:=cbchecked
+    Else
+            D1S597.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S598.State:=cbchecked
+    Else
+            D1S598.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S599.State:=cbchecked
+    Else
+            D1S599.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S600.State:=cbchecked
+    Else
+            D1S600.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S601.State:=cbchecked
+    Else
+            D1S601.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S602.State:=cbchecked
+    Else
+            D1S602.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S603.State:=cbchecked
+    Else
+            D1S603.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S604.State:=cbchecked
+    Else
+            D1S604.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S605.State:=cbchecked
+    Else
+            D1S605.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S606.State:=cbchecked
+    Else
+            D1S606.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S607.State:=cbchecked
+    Else
+            D1S607.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S608.State:=cbchecked
+    Else
+            D1S608.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S609.State:=cbchecked
+    Else
+            D1S609.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S610.State:=cbchecked
+    Else
+            D1S610.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S611.State:=cbchecked
+    Else
+            D1S611.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S612.State:=cbchecked
+    Else
+            D1S612.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S613.State:=cbchecked
+    Else
+            D1S613.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S614.State:=cbchecked
+    Else
+            D1S614.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S615.State:=cbchecked
+    Else
+            D1S615.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S616.State:=cbchecked
+    Else
+            D1S616.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S617.State:=cbchecked
+    Else
+            D1S617.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S618.State:=cbchecked
+    Else
+            D1S618.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S619.State:=cbchecked
+    Else
+            D1S619.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S620.State:=cbchecked
+    Else
+            D1S620.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S621.State:=cbchecked
+    Else
+            D1S621.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S622.State:=cbchecked
+    Else
+            D1S622.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S623.State:=cbchecked
+    Else
+            D1S623.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S624.State:=cbchecked
+    Else
+            D1S624.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S625.State:=cbchecked
+    Else
+            D1S625.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S626.State:=cbchecked
+    Else
+            D1S626.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S627.State:=cbchecked
+    Else
+            D1S627.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S628.State:=cbchecked
+    Else
+            D1S628.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S629.State:=cbchecked
+    Else
+            D1S629.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S630.State:=cbchecked
+    Else
+            D1S630.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S631.State:=cbchecked
+    Else
+            D1S631.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S632.State:=cbchecked
+    Else
+            D1S632.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S633.State:=cbchecked
+    Else
+            D1S633.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S634.State:=cbchecked
+    Else
+            D1S634.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S635.State:=cbchecked
+    Else
+            D1S635.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S636.State:=cbchecked
+    Else
+            D1S636.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S637.State:=cbchecked
+    Else
+            D1S637.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S638.State:=cbchecked
+    Else
+            D1S638.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S639.State:=cbchecked
+    Else
+            D1S639.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S640.State:=cbchecked
+    Else
+            D1S640.State:=cbunchecked;
+
+end;
+
+procedure TMainForm.LDS6AClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  node2:= Node2.GetNextSibling; // Data Name Position 1
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S641.State:=cbchecked
+    Else
+            D1S641.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S642.State:=cbchecked
+    Else
+            D1S642.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S643.State:=cbchecked
+    Else
+            D1S643.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S644.State:=cbchecked
+    Else
+            D1S644.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S645.State:=cbchecked
+    Else
+            D1S645.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S646.State:=cbchecked
+    Else
+            D1S646.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S647.State:=cbchecked
+    Else
+            D1S647.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S648.State:=cbchecked
+    Else
+            D1S648.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S649.State:=cbchecked
+    Else
+            D1S649.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S650.State:=cbchecked
+    Else
+            D1S650.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S651.State:=cbchecked
+    Else
+            D1S651.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S652.State:=cbchecked
+    Else
+            D1S652.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S653.State:=cbchecked
+    Else
+            D1S653.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S654.State:=cbchecked
+    Else
+            D1S654.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S655.State:=cbchecked
+    Else
+            D1S655.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S656.State:=cbchecked
+    Else
+            D1S656.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S657.State:=cbchecked
+    Else
+            D1S657.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S658.State:=cbchecked
+    Else
+            D1S658.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S659.State:=cbchecked
+    Else
+            D1S659.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S660.State:=cbchecked
+    Else
+            D1S660.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S661.State:=cbchecked
+    Else
+            D1S661.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S662.State:=cbchecked
+    Else
+            D1S662.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S663.State:=cbchecked
+    Else
+            D1S663.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S664.State:=cbchecked
+    Else
+            D1S664.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S665.State:=cbchecked
+    Else
+            D1S665.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S666.State:=cbchecked
+    Else
+            D1S666.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S667.State:=cbchecked
+    Else
+            D1S667.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S668.State:=cbchecked
+    Else
+            D1S668.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S669.State:=cbchecked
+    Else
+            D1S669.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S670.State:=cbchecked
+    Else
+            D1S670.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S671.State:=cbchecked
+    Else
+            D1S671.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S672.State:=cbchecked
+    Else
+            D1S672.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S673.State:=cbchecked
+    Else
+            D1S673.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S674.State:=cbchecked
+    Else
+            D1S674.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S675.State:=cbchecked
+    Else
+            D1S675.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S676.State:=cbchecked
+    Else
+            D1S676.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S677.State:=cbchecked
+    Else
+            D1S677.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S678.State:=cbchecked
+    Else
+            D1S678.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S679.State:=cbchecked
+    Else
+            D1S679.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S680.State:=cbchecked
+    Else
+            D1S680.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S681.State:=cbchecked
+    Else
+            D1S681.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S682.State:=cbchecked
+    Else
+            D1S682.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S683.State:=cbchecked
+    Else
+            D1S683.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S684.State:=cbchecked
+    Else
+            D1S684.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S685.State:=cbchecked
+    Else
+            D1S685.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S686.State:=cbchecked
+    Else
+            D1S686.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S687.State:=cbchecked
+    Else
+            D1S687.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S688.State:=cbchecked
+    Else
+            D1S688.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S689.State:=cbchecked
+    Else
+            D1S689.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S690.State:=cbchecked
+    Else
+            D1S690.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S691.State:=cbchecked
+    Else
+            D1S691.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S692.State:=cbchecked
+    Else
+            D1S692.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S693.State:=cbchecked
+    Else
+            D1S693.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S694.State:=cbchecked
+    Else
+            D1S694.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S695.State:=cbchecked
+    Else
+            D1S695.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S696.State:=cbchecked
+    Else
+            D1S696.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S697.State:=cbchecked
+    Else
+            D1S697.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S698.State:=cbchecked
+    Else
+            D1S698.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S699.State:=cbchecked
+    Else
+            D1S699.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S700.State:=cbchecked
+    Else
+            D1S700.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S701.State:=cbchecked
+    Else
+            D1S701.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S702.State:=cbchecked
+    Else
+            D1S702.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S703.State:=cbchecked
+    Else
+            D1S703.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S704.State:=cbchecked
+    Else
+            D1S704.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S705.State:=cbchecked
+    Else
+            D1S705.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S706.State:=cbchecked
+    Else
+            D1S706.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S707.State:=cbchecked
+    Else
+            D1S707.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S708.State:=cbchecked
+    Else
+            D1S708.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S709.State:=cbchecked
+    Else
+            D1S709.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S710.State:=cbchecked
+    Else
+            D1S710.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S711.State:=cbchecked
+    Else
+            D1S711.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S712.State:=cbchecked
+    Else
+            D1S712.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S713.State:=cbchecked
+    Else
+            D1S713.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S714.State:=cbchecked
+    Else
+            D1S714.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S715.State:=cbchecked
+    Else
+            D1S715.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S716.State:=cbchecked
+    Else
+            D1S716.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S717.State:=cbchecked
+    Else
+            D1S717.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S718.State:=cbchecked
+    Else
+            D1S718.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S719.State:=cbchecked
+    Else
+            D1S719.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S720.State:=cbchecked
+    Else
+            D1S720.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S721.State:=cbchecked
+    Else
+            D1S721.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S722.State:=cbchecked
+    Else
+            D1S722.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S723.State:=cbchecked
+    Else
+            D1S723.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S724.State:=cbchecked
+    Else
+            D1S724.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S725.State:=cbchecked
+    Else
+            D1S725.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S726.State:=cbchecked
+    Else
+            D1S726.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S727.State:=cbchecked
+    Else
+            D1S727.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S728.State:=cbchecked
+    Else
+            D1S728.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S729.State:=cbchecked
+    Else
+            D1S729.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S730.State:=cbchecked
+    Else
+            D1S730.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S731.State:=cbchecked
+    Else
+            D1S731.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S732.State:=cbchecked
+    Else
+            D1S732.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S733.State:=cbchecked
+    Else
+            D1S733.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S734.State:=cbchecked
+    Else
+            D1S734.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S735.State:=cbchecked
+    Else
+            D1S735.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S736.State:=cbchecked
+    Else
+            D1S736.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S737.State:=cbchecked
+    Else
+            D1S737.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S738.State:=cbchecked
+    Else
+            D1S738.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S739.State:=cbchecked
+    Else
+            D1S739.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S740.State:=cbchecked
+    Else
+            D1S740.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S741.State:=cbchecked
+    Else
+            D1S741.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S742.State:=cbchecked
+    Else
+            D1S742.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S743.State:=cbchecked
+    Else
+            D1S743.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S744.State:=cbchecked
+    Else
+            D1S744.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S745.State:=cbchecked
+    Else
+            D1S745.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S746.State:=cbchecked
+    Else
+            D1S746.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S747.State:=cbchecked
+    Else
+            D1S747.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S748.State:=cbchecked
+    Else
+            D1S748.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S749.State:=cbchecked
+    Else
+            D1S749.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S750.State:=cbchecked
+    Else
+            D1S750.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S751.State:=cbchecked
+    Else
+            D1S751.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S752.State:=cbchecked
+    Else
+            D1S752.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S753.State:=cbchecked
+    Else
+            D1S753.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S754.State:=cbchecked
+    Else
+            D1S754.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S755.State:=cbchecked
+    Else
+            D1S755.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S756.State:=cbchecked
+    Else
+            D1S756.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S757.State:=cbchecked
+    Else
+            D1S757.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S758.State:=cbchecked
+    Else
+            D1S758.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S759.State:=cbchecked
+    Else
+            D1S759.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S760.State:=cbchecked
+    Else
+            D1S760.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S761.State:=cbchecked
+    Else
+            D1S761.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S762.State:=cbchecked
+    Else
+            D1S762.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S763.State:=cbchecked
+    Else
+            D1S763.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S764.State:=cbchecked
+    Else
+            D1S764.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S765.State:=cbchecked
+    Else
+            D1S765.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S766.State:=cbchecked
+    Else
+            D1S766.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S767.State:=cbchecked
+    Else
+            D1S767.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S768.State:=cbchecked
+    Else
+            D1S768.State:=cbunchecked;
+
+end;
+
+procedure TMainForm.LDS6BClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S769.State:=cbchecked
+  Else
+          D1S769.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S770.State:=cbchecked
+  Else
+          D1S770.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S771.State:=cbchecked
+  Else
+          D1S771.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S772.State:=cbchecked
+  Else
+          D1S772.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S773.State:=cbchecked
+  Else
+          D1S773.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S774.State:=cbchecked
+  Else
+          D1S774.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S775.State:=cbchecked
+  Else
+          D1S775.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S776.State:=cbchecked
+  Else
+          D1S776.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S777.State:=cbchecked
+  Else
+          D1S777.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S778.State:=cbchecked
+  Else
+          D1S778.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S779.State:=cbchecked
+  Else
+          D1S779.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S780.State:=cbchecked
+  Else
+          D1S780.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S781.State:=cbchecked
+  Else
+          D1S781.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S782.State:=cbchecked
+  Else
+          D1S782.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S783.State:=cbchecked
+  Else
+          D1S783.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S784.State:=cbchecked
+  Else
+          D1S784.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 2
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S785.State:=cbchecked
+  Else
+          D1S785.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S786.State:=cbchecked
+  Else
+          D1S786.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S787.State:=cbchecked
+  Else
+          D1S787.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S788.State:=cbchecked
+  Else
+          D1S788.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S789.State:=cbchecked
+  Else
+          D1S789.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S790.State:=cbchecked
+  Else
+          D1S790.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S791.State:=cbchecked
+  Else
+          D1S791.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S792.State:=cbchecked
+  Else
+          D1S792.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S793.State:=cbchecked
+  Else
+          D1S793.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S794.State:=cbchecked
+  Else
+          D1S794.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S795.State:=cbchecked
+  Else
+          D1S795.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S796.State:=cbchecked
+  Else
+          D1S796.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S797.State:=cbchecked
+  Else
+          D1S797.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S798.State:=cbchecked
+  Else
+          D1S798.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S799.State:=cbchecked
+  Else
+          D1S799.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S800.State:=cbchecked
+  Else
+          D1S800.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 3
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S801.State:=cbchecked
+  Else
+          D1S801.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S802.State:=cbchecked
+  Else
+          D1S802.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S803.State:=cbchecked
+  Else
+          D1S803.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S804.State:=cbchecked
+  Else
+          D1S804.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S805.State:=cbchecked
+  Else
+          D1S805.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S806.State:=cbchecked
+  Else
+          D1S806.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S807.State:=cbchecked
+  Else
+          D1S807.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S808.State:=cbchecked
+  Else
+          D1S808.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S809.State:=cbchecked
+  Else
+          D1S809.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S810.State:=cbchecked
+  Else
+          D1S810.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S811.State:=cbchecked
+  Else
+          D1S811.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S812.State:=cbchecked
+  Else
+          D1S812.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S813.State:=cbchecked
+  Else
+          D1S813.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S814.State:=cbchecked
+  Else
+          D1S814.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S815.State:=cbchecked
+  Else
+          D1S815.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S816.State:=cbchecked
+  Else
+          D1S816.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 4
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S817.State:=cbchecked
+  Else
+          D1S817.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S818.State:=cbchecked
+  Else
+          D1S818.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S819.State:=cbchecked
+  Else
+          D1S819.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S820.State:=cbchecked
+  Else
+          D1S820.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S821.State:=cbchecked
+  Else
+          D1S821.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S822.State:=cbchecked
+  Else
+          D1S822.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S823.State:=cbchecked
+  Else
+          D1S823.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S824.State:=cbchecked
+  Else
+          D1S824.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S825.State:=cbchecked
+  Else
+          D1S825.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S826.State:=cbchecked
+  Else
+          D1S826.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S827.State:=cbchecked
+  Else
+          D1S827.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S828.State:=cbchecked
+  Else
+          D1S828.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S829.State:=cbchecked
+  Else
+          D1S829.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S830.State:=cbchecked
+  Else
+          D1S830.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S831.State:=cbchecked
+  Else
+          D1S831.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S832.State:=cbchecked
+  Else
+          D1S832.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 5
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S833.State:=cbchecked
+  Else
+          D1S833.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S834.State:=cbchecked
+  Else
+          D1S834.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S835.State:=cbchecked
+  Else
+          D1S835.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S836.State:=cbchecked
+  Else
+          D1S836.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S837.State:=cbchecked
+  Else
+          D1S837.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S838.State:=cbchecked
+  Else
+          D1S838.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S839.State:=cbchecked
+  Else
+          D1S839.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S840.State:=cbchecked
+  Else
+          D1S840.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S841.State:=cbchecked
+  Else
+          D1S841.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S842.State:=cbchecked
+  Else
+          D1S842.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S843.State:=cbchecked
+  Else
+          D1S843.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S844.State:=cbchecked
+  Else
+          D1S844.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S845.State:=cbchecked
+  Else
+          D1S845.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S846.State:=cbchecked
+  Else
+          D1S846.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S847.State:=cbchecked
+  Else
+          D1S847.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S848.State:=cbchecked
+  Else
+          D1S848.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 6
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S849.State:=cbchecked
+  Else
+          D1S849.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S850.State:=cbchecked
+  Else
+          D1S850.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S851.State:=cbchecked
+  Else
+          D1S851.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S852.State:=cbchecked
+  Else
+          D1S852.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S853.State:=cbchecked
+  Else
+          D1S853.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S854.State:=cbchecked
+  Else
+          D1S854.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S855.State:=cbchecked
+  Else
+          D1S855.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S856.State:=cbchecked
+  Else
+          D1S856.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S857.State:=cbchecked
+  Else
+          D1S857.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S858.State:=cbchecked
+  Else
+          D1S858.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S859.State:=cbchecked
+  Else
+          D1S859.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S860.State:=cbchecked
+  Else
+          D1S860.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S861.State:=cbchecked
+  Else
+          D1S861.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S862.State:=cbchecked
+  Else
+          D1S862.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S863.State:=cbchecked
+  Else
+          D1S863.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S864.State:=cbchecked
+  Else
+          D1S864.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 7
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S865.State:=cbchecked
+  Else
+          D1S865.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S866.State:=cbchecked
+  Else
+          D1S866.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S867.State:=cbchecked
+  Else
+          D1S867.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S868.State:=cbchecked
+  Else
+          D1S868.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S869.State:=cbchecked
+  Else
+          D1S869.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S870.State:=cbchecked
+  Else
+          D1S870.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S871.State:=cbchecked
+  Else
+          D1S871.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S872.State:=cbchecked
+  Else
+          D1S872.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S873.State:=cbchecked
+  Else
+          D1S873.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S874.State:=cbchecked
+  Else
+          D1S874.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S875.State:=cbchecked
+  Else
+          D1S875.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S876.State:=cbchecked
+  Else
+          D1S876.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S877.State:=cbchecked
+  Else
+          D1S877.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S878.State:=cbchecked
+  Else
+          D1S878.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S879.State:=cbchecked
+  Else
+          D1S879.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S880.State:=cbchecked
+  Else
+          D1S880.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 8
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S881.State:=cbchecked
+  Else
+          D1S881.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S882.State:=cbchecked
+  Else
+          D1S882.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S883.State:=cbchecked
+  Else
+          D1S883.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S884.State:=cbchecked
+  Else
+          D1S884.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S885.State:=cbchecked
+  Else
+          D1S885.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S886.State:=cbchecked
+  Else
+          D1S886.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S887.State:=cbchecked
+  Else
+          D1S887.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S888.State:=cbchecked
+  Else
+          D1S888.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S889.State:=cbchecked
+  Else
+          D1S889.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S890.State:=cbchecked
+  Else
+          D1S890.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S891.State:=cbchecked
+  Else
+          D1S891.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S892.State:=cbchecked
+  Else
+          D1S892.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S893.State:=cbchecked
+  Else
+          D1S893.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S894.State:=cbchecked
+  Else
+          D1S894.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S895.State:=cbchecked
+  Else
+          D1S895.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S896.State:=cbchecked
+  Else
+          D1S896.State:=cbunchecked;
+  startV:=startV+2;
+
+
+end;
+
+procedure TMainForm.LDS7AClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S897.State:=cbchecked
+  Else
+          D1S897.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S898.State:=cbchecked
+  Else
+          D1S898.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S899.State:=cbchecked
+  Else
+          D1S899.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S900.State:=cbchecked
+  Else
+          D1S900.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S901.State:=cbchecked
+  Else
+          D1S901.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S902.State:=cbchecked
+  Else
+          D1S902.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S903.State:=cbchecked
+  Else
+          D1S903.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S904.State:=cbchecked
+  Else
+          D1S904.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S905.State:=cbchecked
+  Else
+          D1S905.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S906.State:=cbchecked
+  Else
+          D1S906.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S907.State:=cbchecked
+  Else
+          D1S907.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S908.State:=cbchecked
+  Else
+          D1S908.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S909.State:=cbchecked
+  Else
+          D1S909.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S910.State:=cbchecked
+  Else
+          D1S910.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S911.State:=cbchecked
+  Else
+          D1S911.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S912.State:=cbchecked
+  Else
+          D1S912.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 2
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S913.State:=cbchecked
+  Else
+          D1S913.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S914.State:=cbchecked
+  Else
+          D1S914.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S915.State:=cbchecked
+  Else
+          D1S915.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S916.State:=cbchecked
+  Else
+          D1S916.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S917.State:=cbchecked
+  Else
+          D1S917.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S918.State:=cbchecked
+  Else
+          D1S918.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S919.State:=cbchecked
+  Else
+          D1S919.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S920.State:=cbchecked
+  Else
+          D1S920.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S921.State:=cbchecked
+  Else
+          D1S921.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S922.State:=cbchecked
+  Else
+          D1S922.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S923.State:=cbchecked
+  Else
+          D1S923.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S924.State:=cbchecked
+  Else
+          D1S924.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S925.State:=cbchecked
+  Else
+          D1S925.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S926.State:=cbchecked
+  Else
+          D1S926.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S927.State:=cbchecked
+  Else
+          D1S927.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S928.State:=cbchecked
+  Else
+          D1S928.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 3
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S929.State:=cbchecked
+  Else
+          D1S929.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S930.State:=cbchecked
+  Else
+          D1S930.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S931.State:=cbchecked
+  Else
+          D1S931.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S932.State:=cbchecked
+  Else
+          D1S932.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S933.State:=cbchecked
+  Else
+          D1S933.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S934.State:=cbchecked
+  Else
+          D1S934.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S935.State:=cbchecked
+  Else
+          D1S935.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S936.State:=cbchecked
+  Else
+          D1S936.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S937.State:=cbchecked
+  Else
+          D1S937.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S938.State:=cbchecked
+  Else
+          D1S938.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S939.State:=cbchecked
+  Else
+          D1S939.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S940.State:=cbchecked
+  Else
+          D1S940.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S941.State:=cbchecked
+  Else
+          D1S941.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S942.State:=cbchecked
+  Else
+          D1S942.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S943.State:=cbchecked
+  Else
+          D1S943.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S944.State:=cbchecked
+  Else
+          D1S944.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 4
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S945.State:=cbchecked
+  Else
+          D1S945.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S946.State:=cbchecked
+  Else
+          D1S946.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S947.State:=cbchecked
+  Else
+          D1S947.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S948.State:=cbchecked
+  Else
+          D1S948.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S949.State:=cbchecked
+  Else
+          D1S949.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S950.State:=cbchecked
+  Else
+          D1S950.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S951.State:=cbchecked
+  Else
+          D1S951.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S952.State:=cbchecked
+  Else
+          D1S952.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S953.State:=cbchecked
+  Else
+          D1S953.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S954.State:=cbchecked
+  Else
+          D1S954.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S955.State:=cbchecked
+  Else
+          D1S955.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S956.State:=cbchecked
+  Else
+          D1S956.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S957.State:=cbchecked
+  Else
+          D1S957.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S958.State:=cbchecked
+  Else
+          D1S958.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S959.State:=cbchecked
+  Else
+          D1S959.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S960.State:=cbchecked
+  Else
+          D1S960.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 5
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S961.State:=cbchecked
+  Else
+          D1S961.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S962.State:=cbchecked
+  Else
+          D1S962.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S963.State:=cbchecked
+  Else
+          D1S963.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S964.State:=cbchecked
+  Else
+          D1S964.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S965.State:=cbchecked
+  Else
+          D1S965.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S966.State:=cbchecked
+  Else
+          D1S966.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S967.State:=cbchecked
+  Else
+          D1S967.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S968.State:=cbchecked
+  Else
+          D1S968.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S969.State:=cbchecked
+  Else
+          D1S969.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S970.State:=cbchecked
+  Else
+          D1S970.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S971.State:=cbchecked
+  Else
+          D1S971.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S972.State:=cbchecked
+  Else
+          D1S972.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S973.State:=cbchecked
+  Else
+          D1S973.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S974.State:=cbchecked
+  Else
+          D1S974.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S975.State:=cbchecked
+  Else
+          D1S975.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S976.State:=cbchecked
+  Else
+          D1S976.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 6
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S977.State:=cbchecked
+  Else
+          D1S977.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S978.State:=cbchecked
+  Else
+          D1S978.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S979.State:=cbchecked
+  Else
+          D1S979.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S980.State:=cbchecked
+  Else
+          D1S980.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S981.State:=cbchecked
+  Else
+          D1S981.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S982.State:=cbchecked
+  Else
+          D1S982.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S983.State:=cbchecked
+  Else
+          D1S983.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S984.State:=cbchecked
+  Else
+          D1S984.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S985.State:=cbchecked
+  Else
+          D1S985.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S986.State:=cbchecked
+  Else
+          D1S986.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S987.State:=cbchecked
+  Else
+          D1S987.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S988.State:=cbchecked
+  Else
+          D1S988.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S989.State:=cbchecked
+  Else
+          D1S989.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S990.State:=cbchecked
+  Else
+          D1S990.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S991.State:=cbchecked
+  Else
+          D1S991.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S992.State:=cbchecked
+  Else
+          D1S992.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 7
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S993.State:=cbchecked
+  Else
+          D1S993.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S994.State:=cbchecked
+  Else
+          D1S994.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S995.State:=cbchecked
+  Else
+          D1S995.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S996.State:=cbchecked
+  Else
+          D1S996.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S997.State:=cbchecked
+  Else
+          D1S997.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S998.State:=cbchecked
+  Else
+          D1S998.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S999.State:=cbchecked
+  Else
+          D1S999.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1000.State:=cbchecked
+  Else
+          D1S1000.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1001.State:=cbchecked
+  Else
+          D1S1001.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1002.State:=cbchecked
+  Else
+          D1S1002.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1003.State:=cbchecked
+  Else
+          D1S1003.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1004.State:=cbchecked
+  Else
+          D1S1004.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1005.State:=cbchecked
+  Else
+          D1S1005.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1006.State:=cbchecked
+  Else
+          D1S1006.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1007.State:=cbchecked
+  Else
+          D1S1007.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1008.State:=cbchecked
+  Else
+          D1S1008.State:=cbunchecked;
+  startV:=startV+2;
+node2:= Node2.GetNextSibling; // Data Name Position 8
+node2:= Node2.GetNextSibling; // Data String
+startV :=1;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1009.State:=cbchecked
+  Else
+          D1S1009.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1010.State:=cbchecked
+  Else
+          D1S1010.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1011.State:=cbchecked
+  Else
+          D1S1011.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1012.State:=cbchecked
+  Else
+          D1S1012.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1013.State:=cbchecked
+  Else
+          D1S1013.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1014.State:=cbchecked
+  Else
+          D1S1014.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1015.State:=cbchecked
+  Else
+          D1S1015.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1016.State:=cbchecked
+  Else
+          D1S1016.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1017.State:=cbchecked
+  Else
+          D1S1017.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1018.State:=cbchecked
+  Else
+          D1S1018.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1019.State:=cbchecked
+  Else
+          D1S1019.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1020.State:=cbchecked
+  Else
+          D1S1020.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1021.State:=cbchecked
+  Else
+          D1S1021.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1022.State:=cbchecked
+  Else
+          D1S1022.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1023.State:=cbchecked
+  Else
+          D1S1023.State:=cbunchecked;
+  startV:=startV+2;
+s:= midstr(node2.text,startV,1);
+  If (s='1') then
+          D1S1024.State:=cbchecked
+  Else
+          D1S1024.State:=cbunchecked;
+  startV:=startV+2;
+
+end;
+
+procedure TMainForm.LDS7BClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1025.State:=cbchecked
+    Else
+            D1S1025.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1026.State:=cbchecked
+    Else
+            D1S1026.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1027.State:=cbchecked
+    Else
+            D1S1027.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1028.State:=cbchecked
+    Else
+            D1S1028.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1029.State:=cbchecked
+    Else
+            D1S1029.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1030.State:=cbchecked
+    Else
+            D1S1030.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1031.State:=cbchecked
+    Else
+            D1S1031.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1032.State:=cbchecked
+    Else
+            D1S1032.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1033.State:=cbchecked
+    Else
+            D1S1033.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1034.State:=cbchecked
+    Else
+            D1S1034.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1035.State:=cbchecked
+    Else
+            D1S1035.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1036.State:=cbchecked
+    Else
+            D1S1036.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1037.State:=cbchecked
+    Else
+            D1S1037.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1038.State:=cbchecked
+    Else
+            D1S1038.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1039.State:=cbchecked
+    Else
+            D1S1039.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1040.State:=cbchecked
+    Else
+            D1S1040.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1041.State:=cbchecked
+    Else
+            D1S1041.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1042.State:=cbchecked
+    Else
+            D1S1042.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1043.State:=cbchecked
+    Else
+            D1S1043.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1044.State:=cbchecked
+    Else
+            D1S1044.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1045.State:=cbchecked
+    Else
+            D1S1045.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1046.State:=cbchecked
+    Else
+            D1S1046.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1047.State:=cbchecked
+    Else
+            D1S1047.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1048.State:=cbchecked
+    Else
+            D1S1048.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1049.State:=cbchecked
+    Else
+            D1S1049.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1050.State:=cbchecked
+    Else
+            D1S1050.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1051.State:=cbchecked
+    Else
+            D1S1051.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1052.State:=cbchecked
+    Else
+            D1S1052.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1053.State:=cbchecked
+    Else
+            D1S1053.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1054.State:=cbchecked
+    Else
+            D1S1054.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1055.State:=cbchecked
+    Else
+            D1S1055.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1056.State:=cbchecked
+    Else
+            D1S1056.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1057.State:=cbchecked
+    Else
+            D1S1057.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1058.State:=cbchecked
+    Else
+            D1S1058.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1059.State:=cbchecked
+    Else
+            D1S1059.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1060.State:=cbchecked
+    Else
+            D1S1060.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1061.State:=cbchecked
+    Else
+            D1S1061.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1062.State:=cbchecked
+    Else
+            D1S1062.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1063.State:=cbchecked
+    Else
+            D1S1063.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1064.State:=cbchecked
+    Else
+            D1S1064.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1065.State:=cbchecked
+    Else
+            D1S1065.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1066.State:=cbchecked
+    Else
+            D1S1066.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1067.State:=cbchecked
+    Else
+            D1S1067.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1068.State:=cbchecked
+    Else
+            D1S1068.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1069.State:=cbchecked
+    Else
+            D1S1069.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1070.State:=cbchecked
+    Else
+            D1S1070.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1071.State:=cbchecked
+    Else
+            D1S1071.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1072.State:=cbchecked
+    Else
+            D1S1072.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1073.State:=cbchecked
+    Else
+            D1S1073.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1074.State:=cbchecked
+    Else
+            D1S1074.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1075.State:=cbchecked
+    Else
+            D1S1075.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1076.State:=cbchecked
+    Else
+            D1S1076.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1077.State:=cbchecked
+    Else
+            D1S1077.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1078.State:=cbchecked
+    Else
+            D1S1078.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1079.State:=cbchecked
+    Else
+            D1S1079.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1080.State:=cbchecked
+    Else
+            D1S1080.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1081.State:=cbchecked
+    Else
+            D1S1081.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1082.State:=cbchecked
+    Else
+            D1S1082.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1083.State:=cbchecked
+    Else
+            D1S1083.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1084.State:=cbchecked
+    Else
+            D1S1084.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1085.State:=cbchecked
+    Else
+            D1S1085.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1086.State:=cbchecked
+    Else
+            D1S1086.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1087.State:=cbchecked
+    Else
+            D1S1087.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1088.State:=cbchecked
+    Else
+            D1S1088.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1089.State:=cbchecked
+    Else
+            D1S1089.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1090.State:=cbchecked
+    Else
+            D1S1090.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1091.State:=cbchecked
+    Else
+            D1S1091.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1092.State:=cbchecked
+    Else
+            D1S1092.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1093.State:=cbchecked
+    Else
+            D1S1093.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1094.State:=cbchecked
+    Else
+            D1S1094.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1095.State:=cbchecked
+    Else
+            D1S1095.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1096.State:=cbchecked
+    Else
+            D1S1096.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1097.State:=cbchecked
+    Else
+            D1S1097.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1098.State:=cbchecked
+    Else
+            D1S1098.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1099.State:=cbchecked
+    Else
+            D1S1099.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1100.State:=cbchecked
+    Else
+            D1S1100.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1101.State:=cbchecked
+    Else
+            D1S1101.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1102.State:=cbchecked
+    Else
+            D1S1102.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1103.State:=cbchecked
+    Else
+            D1S1103.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1104.State:=cbchecked
+    Else
+            D1S1104.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1105.State:=cbchecked
+    Else
+            D1S1105.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1106.State:=cbchecked
+    Else
+            D1S1106.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1107.State:=cbchecked
+    Else
+            D1S1107.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1108.State:=cbchecked
+    Else
+            D1S1108.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1109.State:=cbchecked
+    Else
+            D1S1109.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1110.State:=cbchecked
+    Else
+            D1S1110.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1111.State:=cbchecked
+    Else
+            D1S1111.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1112.State:=cbchecked
+    Else
+            D1S1112.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1113.State:=cbchecked
+    Else
+            D1S1113.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1114.State:=cbchecked
+    Else
+            D1S1114.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1115.State:=cbchecked
+    Else
+            D1S1115.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1116.State:=cbchecked
+    Else
+            D1S1116.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1117.State:=cbchecked
+    Else
+            D1S1117.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1118.State:=cbchecked
+    Else
+            D1S1118.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1119.State:=cbchecked
+    Else
+            D1S1119.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1120.State:=cbchecked
+    Else
+            D1S1120.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1121.State:=cbchecked
+    Else
+            D1S1121.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1122.State:=cbchecked
+    Else
+            D1S1122.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1123.State:=cbchecked
+    Else
+            D1S1123.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1124.State:=cbchecked
+    Else
+            D1S1124.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1125.State:=cbchecked
+    Else
+            D1S1125.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1126.State:=cbchecked
+    Else
+            D1S1126.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1127.State:=cbchecked
+    Else
+            D1S1127.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1128.State:=cbchecked
+    Else
+            D1S1128.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1129.State:=cbchecked
+    Else
+            D1S1129.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1130.State:=cbchecked
+    Else
+            D1S1130.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1131.State:=cbchecked
+    Else
+            D1S1131.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1132.State:=cbchecked
+    Else
+            D1S1132.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1133.State:=cbchecked
+    Else
+            D1S1133.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1134.State:=cbchecked
+    Else
+            D1S1134.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1135.State:=cbchecked
+    Else
+            D1S1135.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1136.State:=cbchecked
+    Else
+            D1S1136.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1137.State:=cbchecked
+    Else
+            D1S1137.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1138.State:=cbchecked
+    Else
+            D1S1138.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1139.State:=cbchecked
+    Else
+            D1S1139.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1140.State:=cbchecked
+    Else
+            D1S1140.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1141.State:=cbchecked
+    Else
+            D1S1141.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1142.State:=cbchecked
+    Else
+            D1S1142.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1143.State:=cbchecked
+    Else
+            D1S1143.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1144.State:=cbchecked
+    Else
+            D1S1144.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1145.State:=cbchecked
+    Else
+            D1S1145.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1146.State:=cbchecked
+    Else
+            D1S1146.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1147.State:=cbchecked
+    Else
+            D1S1147.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1148.State:=cbchecked
+    Else
+            D1S1148.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1149.State:=cbchecked
+    Else
+            D1S1149.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1150.State:=cbchecked
+    Else
+            D1S1150.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1151.State:=cbchecked
+    Else
+            D1S1151.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1152.State:=cbchecked
+    Else
+            D1S1152.State:=cbunchecked;
+    startV:=startV+2;
+
+end;
+
+procedure TMainForm.LDSDSClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1153.State:=cbchecked
+    Else
+            D1S1153.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1154.State:=cbchecked
+    Else
+            D1S1154.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1155.State:=cbchecked
+    Else
+            D1S1155.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1156.State:=cbchecked
+    Else
+            D1S1156.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1157.State:=cbchecked
+    Else
+            D1S1157.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1158.State:=cbchecked
+    Else
+            D1S1158.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1159.State:=cbchecked
+    Else
+            D1S1159.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1160.State:=cbchecked
+    Else
+            D1S1160.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1161.State:=cbchecked
+    Else
+            D1S1161.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1162.State:=cbchecked
+    Else
+            D1S1162.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1163.State:=cbchecked
+    Else
+            D1S1163.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1164.State:=cbchecked
+    Else
+            D1S1164.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1165.State:=cbchecked
+    Else
+            D1S1165.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1166.State:=cbchecked
+    Else
+            D1S1166.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1167.State:=cbchecked
+    Else
+            D1S1167.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1168.State:=cbchecked
+    Else
+            D1S1168.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1169.State:=cbchecked
+    Else
+            D1S1169.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1170.State:=cbchecked
+    Else
+            D1S1170.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1171.State:=cbchecked
+    Else
+            D1S1171.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1172.State:=cbchecked
+    Else
+            D1S1172.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1173.State:=cbchecked
+    Else
+            D1S1173.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1174.State:=cbchecked
+    Else
+            D1S1174.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1175.State:=cbchecked
+    Else
+            D1S1175.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1176.State:=cbchecked
+    Else
+            D1S1176.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1177.State:=cbchecked
+    Else
+            D1S1177.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1178.State:=cbchecked
+    Else
+            D1S1178.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1179.State:=cbchecked
+    Else
+            D1S1179.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1180.State:=cbchecked
+    Else
+            D1S1180.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1181.State:=cbchecked
+    Else
+            D1S1181.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1182.State:=cbchecked
+    Else
+            D1S1182.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1183.State:=cbchecked
+    Else
+            D1S1183.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1184.State:=cbchecked
+    Else
+            D1S1184.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1185.State:=cbchecked
+    Else
+            D1S1185.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1186.State:=cbchecked
+    Else
+            D1S1186.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1187.State:=cbchecked
+    Else
+            D1S1187.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1188.State:=cbchecked
+    Else
+            D1S1188.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1189.State:=cbchecked
+    Else
+            D1S1189.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1190.State:=cbchecked
+    Else
+            D1S1190.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1191.State:=cbchecked
+    Else
+            D1S1191.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1192.State:=cbchecked
+    Else
+            D1S1192.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1193.State:=cbchecked
+    Else
+            D1S1193.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1194.State:=cbchecked
+    Else
+            D1S1194.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1195.State:=cbchecked
+    Else
+            D1S1195.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1196.State:=cbchecked
+    Else
+            D1S1196.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1197.State:=cbchecked
+    Else
+            D1S1197.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1198.State:=cbchecked
+    Else
+            D1S1198.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1199.State:=cbchecked
+    Else
+            D1S1199.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1200.State:=cbchecked
+    Else
+            D1S1200.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1201.State:=cbchecked
+    Else
+            D1S1201.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1202.State:=cbchecked
+    Else
+            D1S1202.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1203.State:=cbchecked
+    Else
+            D1S1203.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1204.State:=cbchecked
+    Else
+            D1S1204.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1205.State:=cbchecked
+    Else
+            D1S1205.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1206.State:=cbchecked
+    Else
+            D1S1206.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1207.State:=cbchecked
+    Else
+            D1S1207.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1208.State:=cbchecked
+    Else
+            D1S1208.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1209.State:=cbchecked
+    Else
+            D1S1209.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1210.State:=cbchecked
+    Else
+            D1S1210.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1211.State:=cbchecked
+    Else
+            D1S1211.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1212.State:=cbchecked
+    Else
+            D1S1212.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1213.State:=cbchecked
+    Else
+            D1S1213.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1214.State:=cbchecked
+    Else
+            D1S1214.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1215.State:=cbchecked
+    Else
+            D1S1215.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1216.State:=cbchecked
+    Else
+            D1S1216.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1217.State:=cbchecked
+    Else
+            D1S1217.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1218.State:=cbchecked
+    Else
+            D1S1218.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1219.State:=cbchecked
+    Else
+            D1S1219.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1220.State:=cbchecked
+    Else
+            D1S1220.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1221.State:=cbchecked
+    Else
+            D1S1221.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1222.State:=cbchecked
+    Else
+            D1S1222.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1223.State:=cbchecked
+    Else
+            D1S1223.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1224.State:=cbchecked
+    Else
+            D1S1224.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1225.State:=cbchecked
+    Else
+            D1S1225.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1226.State:=cbchecked
+    Else
+            D1S1226.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1227.State:=cbchecked
+    Else
+            D1S1227.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1228.State:=cbchecked
+    Else
+            D1S1228.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1229.State:=cbchecked
+    Else
+            D1S1229.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1230.State:=cbchecked
+    Else
+            D1S1230.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1231.State:=cbchecked
+    Else
+            D1S1231.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1232.State:=cbchecked
+    Else
+            D1S1232.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1233.State:=cbchecked
+    Else
+            D1S1233.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1234.State:=cbchecked
+    Else
+            D1S1234.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1235.State:=cbchecked
+    Else
+            D1S1235.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1236.State:=cbchecked
+    Else
+            D1S1236.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1237.State:=cbchecked
+    Else
+            D1S1237.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1238.State:=cbchecked
+    Else
+            D1S1238.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1239.State:=cbchecked
+    Else
+            D1S1239.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1240.State:=cbchecked
+    Else
+            D1S1240.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1241.State:=cbchecked
+    Else
+            D1S1241.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1242.State:=cbchecked
+    Else
+            D1S1242.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1243.State:=cbchecked
+    Else
+            D1S1243.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1244.State:=cbchecked
+    Else
+            D1S1244.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1245.State:=cbchecked
+    Else
+            D1S1245.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1246.State:=cbchecked
+    Else
+            D1S1246.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1247.State:=cbchecked
+    Else
+            D1S1247.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1248.State:=cbchecked
+    Else
+            D1S1248.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1249.State:=cbchecked
+    Else
+            D1S1249.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1250.State:=cbchecked
+    Else
+            D1S1250.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1251.State:=cbchecked
+    Else
+            D1S1251.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1252.State:=cbchecked
+    Else
+            D1S1252.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1253.State:=cbchecked
+    Else
+            D1S1253.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1254.State:=cbchecked
+    Else
+            D1S1254.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1255.State:=cbchecked
+    Else
+            D1S1255.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1256.State:=cbchecked
+    Else
+            D1S1256.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1257.State:=cbchecked
+    Else
+            D1S1257.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1258.State:=cbchecked
+    Else
+            D1S1258.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1259.State:=cbchecked
+    Else
+            D1S1259.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1260.State:=cbchecked
+    Else
+            D1S1260.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1261.State:=cbchecked
+    Else
+            D1S1261.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1262.State:=cbchecked
+    Else
+            D1S1262.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1263.State:=cbchecked
+    Else
+            D1S1263.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1264.State:=cbchecked
+    Else
+            D1S1264.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1265.State:=cbchecked
+    Else
+            D1S1265.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1266.State:=cbchecked
+    Else
+            D1S1266.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1267.State:=cbchecked
+    Else
+            D1S1267.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1268.State:=cbchecked
+    Else
+            D1S1268.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1269.State:=cbchecked
+    Else
+            D1S1269.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1270.State:=cbchecked
+    Else
+            D1S1270.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1271.State:=cbchecked
+    Else
+            D1S1271.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1272.State:=cbchecked
+    Else
+            D1S1272.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1273.State:=cbchecked
+    Else
+            D1S1273.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1274.State:=cbchecked
+    Else
+            D1S1274.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1275.State:=cbchecked
+    Else
+            D1S1275.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1276.State:=cbchecked
+    Else
+            D1S1276.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1277.State:=cbchecked
+    Else
+            D1S1277.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1278.State:=cbchecked
+    Else
+            D1S1278.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1279.State:=cbchecked
+    Else
+            D1S1279.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1280.State:=cbchecked
+    Else
+            D1S1280.State:=cbunchecked;
+    startV:=startV+2;
+
+end;
+
+procedure TMainForm.LDSSAClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  i:integer;
+  startV:integer;
+  s:string;
+begin
+  Node := TreeView1.Selected;
+  //Position 1
+  node2:= node.GetFirstChild;   // Position 1 Text
+  node2:= Node2.GetNextSibling; // Data Position
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1281.State:=cbchecked
+    Else
+            D1S1281.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1282.State:=cbchecked
+    Else
+            D1S1282.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1283.State:=cbchecked
+    Else
+            D1S1283.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1284.State:=cbchecked
+    Else
+            D1S1284.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1285.State:=cbchecked
+    Else
+            D1S1285.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1286.State:=cbchecked
+    Else
+            D1S1286.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1287.State:=cbchecked
+    Else
+            D1S1287.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1288.State:=cbchecked
+    Else
+            D1S1288.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1289.State:=cbchecked
+    Else
+            D1S1289.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1290.State:=cbchecked
+    Else
+            D1S1290.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1291.State:=cbchecked
+    Else
+            D1S1291.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1292.State:=cbchecked
+    Else
+            D1S1292.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1293.State:=cbchecked
+    Else
+            D1S1293.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1294.State:=cbchecked
+    Else
+            D1S1294.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1295.State:=cbchecked
+    Else
+            D1S1295.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1296.State:=cbchecked
+    Else
+            D1S1296.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 2
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1297.State:=cbchecked
+    Else
+            D1S1297.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1298.State:=cbchecked
+    Else
+            D1S1298.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1299.State:=cbchecked
+    Else
+            D1S1299.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1300.State:=cbchecked
+    Else
+            D1S1300.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1301.State:=cbchecked
+    Else
+            D1S1301.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1302.State:=cbchecked
+    Else
+            D1S1302.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1303.State:=cbchecked
+    Else
+            D1S1303.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1304.State:=cbchecked
+    Else
+            D1S1304.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1305.State:=cbchecked
+    Else
+            D1S1305.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1306.State:=cbchecked
+    Else
+            D1S1306.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1307.State:=cbchecked
+    Else
+            D1S1307.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1308.State:=cbchecked
+    Else
+            D1S1308.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1309.State:=cbchecked
+    Else
+            D1S1309.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1310.State:=cbchecked
+    Else
+            D1S1310.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1311.State:=cbchecked
+    Else
+            D1S1311.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1312.State:=cbchecked
+    Else
+            D1S1312.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 3
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1313.State:=cbchecked
+    Else
+            D1S1313.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1314.State:=cbchecked
+    Else
+            D1S1314.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1315.State:=cbchecked
+    Else
+            D1S1315.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1316.State:=cbchecked
+    Else
+            D1S1316.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1317.State:=cbchecked
+    Else
+            D1S1317.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1318.State:=cbchecked
+    Else
+            D1S1318.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1319.State:=cbchecked
+    Else
+            D1S1319.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1320.State:=cbchecked
+    Else
+            D1S1320.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1321.State:=cbchecked
+    Else
+            D1S1321.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1322.State:=cbchecked
+    Else
+            D1S1322.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1323.State:=cbchecked
+    Else
+            D1S1323.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1324.State:=cbchecked
+    Else
+            D1S1324.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1325.State:=cbchecked
+    Else
+            D1S1325.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1326.State:=cbchecked
+    Else
+            D1S1326.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1327.State:=cbchecked
+    Else
+            D1S1327.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1328.State:=cbchecked
+    Else
+            D1S1328.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 4
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1329.State:=cbchecked
+    Else
+            D1S1329.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1330.State:=cbchecked
+    Else
+            D1S1330.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1331.State:=cbchecked
+    Else
+            D1S1331.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1332.State:=cbchecked
+    Else
+            D1S1332.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1333.State:=cbchecked
+    Else
+            D1S1333.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1334.State:=cbchecked
+    Else
+            D1S1334.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1335.State:=cbchecked
+    Else
+            D1S1335.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1336.State:=cbchecked
+    Else
+            D1S1336.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1337.State:=cbchecked
+    Else
+            D1S1337.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1338.State:=cbchecked
+    Else
+            D1S1338.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1339.State:=cbchecked
+    Else
+            D1S1339.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1340.State:=cbchecked
+    Else
+            D1S1340.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1341.State:=cbchecked
+    Else
+            D1S1341.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1342.State:=cbchecked
+    Else
+            D1S1342.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1343.State:=cbchecked
+    Else
+            D1S1343.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1344.State:=cbchecked
+    Else
+            D1S1344.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 5
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1345.State:=cbchecked
+    Else
+            D1S1345.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1346.State:=cbchecked
+    Else
+            D1S1346.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1347.State:=cbchecked
+    Else
+            D1S1347.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1348.State:=cbchecked
+    Else
+            D1S1348.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1349.State:=cbchecked
+    Else
+            D1S1349.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1350.State:=cbchecked
+    Else
+            D1S1350.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1351.State:=cbchecked
+    Else
+            D1S1351.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1352.State:=cbchecked
+    Else
+            D1S1352.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1353.State:=cbchecked
+    Else
+            D1S1353.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1354.State:=cbchecked
+    Else
+            D1S1354.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1355.State:=cbchecked
+    Else
+            D1S1355.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1356.State:=cbchecked
+    Else
+            D1S1356.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1357.State:=cbchecked
+    Else
+            D1S1357.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1358.State:=cbchecked
+    Else
+            D1S1358.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1359.State:=cbchecked
+    Else
+            D1S1359.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1360.State:=cbchecked
+    Else
+            D1S1360.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 6
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1361.State:=cbchecked
+    Else
+            D1S1361.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1362.State:=cbchecked
+    Else
+            D1S1362.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1363.State:=cbchecked
+    Else
+            D1S1363.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1364.State:=cbchecked
+    Else
+            D1S1364.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1365.State:=cbchecked
+    Else
+            D1S1365.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1366.State:=cbchecked
+    Else
+            D1S1366.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1367.State:=cbchecked
+    Else
+            D1S1367.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1368.State:=cbchecked
+    Else
+            D1S1368.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1369.State:=cbchecked
+    Else
+            D1S1369.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1370.State:=cbchecked
+    Else
+            D1S1370.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1371.State:=cbchecked
+    Else
+            D1S1371.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1372.State:=cbchecked
+    Else
+            D1S1372.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1373.State:=cbchecked
+    Else
+            D1S1373.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1374.State:=cbchecked
+    Else
+            D1S1374.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1375.State:=cbchecked
+    Else
+            D1S1375.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1376.State:=cbchecked
+    Else
+            D1S1376.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 7
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1377.State:=cbchecked
+    Else
+            D1S1377.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1378.State:=cbchecked
+    Else
+            D1S1378.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1379.State:=cbchecked
+    Else
+            D1S1379.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1380.State:=cbchecked
+    Else
+            D1S1380.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1381.State:=cbchecked
+    Else
+            D1S1381.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1382.State:=cbchecked
+    Else
+            D1S1382.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1383.State:=cbchecked
+    Else
+            D1S1383.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1384.State:=cbchecked
+    Else
+            D1S1384.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1385.State:=cbchecked
+    Else
+            D1S1385.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1386.State:=cbchecked
+    Else
+            D1S1386.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1387.State:=cbchecked
+    Else
+            D1S1387.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1388.State:=cbchecked
+    Else
+            D1S1388.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1389.State:=cbchecked
+    Else
+            D1S1389.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1390.State:=cbchecked
+    Else
+            D1S1390.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1391.State:=cbchecked
+    Else
+            D1S1391.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1392.State:=cbchecked
+    Else
+            D1S1392.State:=cbunchecked;
+    startV:=startV+2;
+  node2:= Node2.GetNextSibling; // Data Name Position 8
+  node2:= Node2.GetNextSibling; // Data String
+  startV :=1;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1393.State:=cbchecked
+    Else
+            D1S1393.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1394.State:=cbchecked
+    Else
+            D1S1394.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1395.State:=cbchecked
+    Else
+            D1S1395.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1396.State:=cbchecked
+    Else
+            D1S1396.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1397.State:=cbchecked
+    Else
+            D1S1397.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1398.State:=cbchecked
+    Else
+            D1S1398.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1399.State:=cbchecked
+    Else
+            D1S1399.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1400.State:=cbchecked
+    Else
+            D1S1400.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1401.State:=cbchecked
+    Else
+            D1S1401.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1402.State:=cbchecked
+    Else
+            D1S1402.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1403.State:=cbchecked
+    Else
+            D1S1403.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1404.State:=cbchecked
+    Else
+            D1S1404.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1405.State:=cbchecked
+    Else
+            D1S1405.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1406.State:=cbchecked
+    Else
+            D1S1406.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1407.State:=cbchecked
+    Else
+            D1S1407.State:=cbunchecked;
+    startV:=startV+2;
+  s:= midstr(node2.text,startV,1);
+    If (s='1') then
+            D1S1408.State:=cbchecked
+    Else
+            D1S1408.State:=cbunchecked;
+    startV:=startV+2;
+
+end;
+
 procedure TMainForm.PanSynth1Change(Sender: TObject);
 begin
   PanVSynth1.text := FloatToStr(round(PanSynth1.Position));
+end;
+
+procedure TMainForm.RadioButton1Change(Sender: TObject);
+begin
+
 end;
 
 procedure TMainForm.ResonanceSynth1Change(Sender: TObject);
@@ -6229,6 +15302,8 @@ begin
 end;
 
 procedure TMainForm.RndSoundClick(Sender: TObject);
+Var
+   i:integer;
 begin
   SynthoscSynth1.ItemIndex:=Random(16);
   WaveformSynth1.Items.clear;
@@ -6239,7 +15314,7 @@ begin
  		WaveformSynth1.AddItem('Pulse',NIL);
  		WaveformSynth1.AddItem('Tri',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
-              WaveformSynthC1.Caption:='4';
+                WaveformSynthC1.Caption:='4';
  end;
  If (SynthoscSynth1.ItemIndex=1) or (SynthoscSynth1.ItemIndex=4) or (SynthoscSynth1.ItemIndex=6) then
  	begin
@@ -6264,14 +15339,14 @@ begin
  		WaveformSynth1.AddItem('SinTri',NIL);
  		WaveformSynth1.AddItem('SinSin',NIL);
  		WaveformSynth1.AddItem('SinNs',NIL);
-              WaveformSynthC1.Caption:='20';
+                WaveformSynthC1.Caption:='20';
  	end;
  If (SynthoscSynth1.ItemIndex=2) or (SynthoscSynth1.ItemIndex=5) then
  begin
 
  		WaveformSynth1.AddItem('Saw',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
-              WaveformSynthC1.Caption:='2';
+                WaveformSynthC1.Caption:='2';
  end;
  If (SynthoscSynth1.ItemIndex=3) then
  	begin
@@ -6292,14 +15367,14 @@ begin
  		WaveformSynth1.AddItem('4Sin',NIL);
  		WaveformSynth1.AddItem('5Sin',NIL);
  		WaveformSynth1.AddItem('6Sin',NIL);
-              WaveformSynthC1.Caption:='16';
+                WaveformSynthC1.Caption:='16';
  end;
  If (SynthoscSynth1.ItemIndex=8) then
  	begin
 
  		WaveformSynth1.AddItem('Type 1',NIL);
  		WaveformSynth1.AddItem('Type 2',NIL);
-              WaveformSynthC1.Caption:='20';
+                WaveformSynthC1.Caption:='20';
  end;
  If (SynthoscSynth1.ItemIndex=10) then
  	begin
@@ -6309,7 +15384,7 @@ begin
  		WaveformSynth1.AddItem('Tri',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
  		WaveformSynth1.AddItem('Noise',NIL);
-              WaveformSynthC1.Caption:='5';
+                WaveformSynthC1.Caption:='5';
  end;
  If (SynthoscSynth1.ItemIndex=11) or (SynthoscSynth1.ItemIndex=12) or (SynthoscSynth1.ItemIndex=15) then
       Begin
@@ -6319,30 +15394,38 @@ begin
 
 
  If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
- 		Waveform := Waveform + 1;
- 		WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
-              WaveformSynthC1.Caption:='1';  //Wenn die Funktion PCMFunktion da ist 76
+ 		Waveform := Random(77);
+                For i:=1 to 76 do begin
+                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
+                    end;
+                //WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
+                WaveformSynthC1.Caption:='76';
  end;
   WaveformSynth1.ItemIndex:=0;
-  EGTimeSynth1.Position:=Random(127);
-  TuneSynth1.Position:=Random(127);
-  OscEdit1Synth1.Position:=Random(127);
-  OscEdit2Synth1.Position:=Random(127);
-  GlideSynth1.Position:=Random(127);
-  FilterTypeSynth1.ItemIndex:=Random(4);
-  CutoffSynth1.Position:=Random(127);
-  ResonanceSynth1.Position:=Random(127);
-  DriveSynth1.Position:=Random(127);
-  ModSpeedSynth1.Position:=Random(127);
-  ModDepthSynth1.Position:=Random(127);
-  ModTypeSynth1.ItemIndex:=Random(5);
-  ModDestSynth1.ItemIndex:=Random(6);
+  EGTimeSynth1.Position:=Random(128);
+  TuneSynth1.Position:=Random(101)-50;
+  OscEdit1Synth1.Position:=Random(128);
+  OscEdit2Synth1.Position:=Random(128);
+  GlideSynth1.Position:=Random(128);
+  FilterTypeSynth1.ItemIndex:=Random(5);
+  CutoffSynth1.Position:=Random(128);
+  ResonanceSynth1.Position:=Random(128);
+  DriveSynth1.Position:=Random(128);
+  ModSpeedSynth1.Position:=Random(128);
+  ModDepthSynth1.Position:=Random(128)-64;
+  ModTypeSynth1.ItemIndex:=Random(6);
+  ModDestSynth1.ItemIndex:=Random(7);
+  EGIntSynth1.Position:=Random(128)-64;
+  MotionSeqSynth1.ItemIndex:=Random(3);
   WaveformSynth1.ItemIndex:=Random(StrToInt(WaveformSynthC1.Caption));
 
 end;
 
-procedure TMainForm.SynthoscSynth1Change(Sender: TObject);
 
+
+procedure TMainForm.SynthoscSynth1Change(Sender: TObject);
+Var
+   i:integer;
 begin
 WaveformSynth1.Items.clear;
  If (SynthoscSynth1.ItemIndex=0) or (SynthoscSynth1.ItemIndex=7) or (SynthoscSynth1.ItemIndex=9) then
@@ -6352,7 +15435,7 @@ WaveformSynth1.Items.clear;
  		WaveformSynth1.AddItem('Pulse',NIL);
  		WaveformSynth1.AddItem('Tri',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
-              WaveformSynthC1.Caption:='4';
+                WaveformSynthC1.Caption:='4';
  end;
  If (SynthoscSynth1.ItemIndex=1) or (SynthoscSynth1.ItemIndex=4) or (SynthoscSynth1.ItemIndex=6) then
  	begin
@@ -6377,14 +15460,14 @@ WaveformSynth1.Items.clear;
  		WaveformSynth1.AddItem('SinTri',NIL);
  		WaveformSynth1.AddItem('SinSin',NIL);
  		WaveformSynth1.AddItem('SinNs',NIL);
-              WaveformSynthC1.Caption:='20';
+                WaveformSynthC1.Caption:='20';
  	end;
  If (SynthoscSynth1.ItemIndex=2) or (SynthoscSynth1.ItemIndex=5) then
  begin
 
  		WaveformSynth1.AddItem('Saw',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
-              WaveformSynthC1.Caption:='2';
+                WaveformSynthC1.Caption:='2';
  end;
  If (SynthoscSynth1.ItemIndex=3) then
  	begin
@@ -6405,14 +15488,14 @@ WaveformSynth1.Items.clear;
  		WaveformSynth1.AddItem('4Sin',NIL);
  		WaveformSynth1.AddItem('5Sin',NIL);
  		WaveformSynth1.AddItem('6Sin',NIL);
-              WaveformSynthC1.Caption:='16';
+                WaveformSynthC1.Caption:='16';
  end;
  If (SynthoscSynth1.ItemIndex=8) then
  	begin
 
  		WaveformSynth1.AddItem('Type 1',NIL);
  		WaveformSynth1.AddItem('Type 2',NIL);
-              WaveformSynthC1.Caption:='20';
+                WaveformSynthC1.Caption:='20';
  end;
  If (SynthoscSynth1.ItemIndex=10) then
  	begin
@@ -6422,7 +15505,7 @@ WaveformSynth1.Items.clear;
  		WaveformSynth1.AddItem('Tri',NIL);
  		WaveformSynth1.AddItem('Sin',NIL);
  		WaveformSynth1.AddItem('Noise',NIL);
-              WaveformSynthC1.Caption:='5';
+                WaveformSynthC1.Caption:='5';
  end;
  If (SynthoscSynth1.ItemIndex=11) or (SynthoscSynth1.ItemIndex=12) or (SynthoscSynth1.ItemIndex=15) then
       Begin
@@ -6432,11 +15515,143 @@ WaveformSynth1.Items.clear;
 
 
  If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
- 		Waveform := Waveform + 1;
- 		WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
-              WaveformSynthC1.Caption:='1';  //Wenn die Funktion PCMFunktion da ist 76
+ 		Waveform := Random(77);
+                For i:=1 to 76 do begin
+                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
+                    end;
+                WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
+                WaveformSynthC1.Caption:='76';
  end;
  WaveformSynth1.ItemIndex:=0;
+
+end;
+
+procedure TMainForm.TreeView1Click(Sender: TObject);
+var
+  node:TTreeNode;
+
+begin
+  node := TreeView1.Selected;
+  if not (node=nil) then begin
+       //Showmessage(node.text);
+        If (node.text='Drum 1') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 2') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 3') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 4') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 5') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 6A') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 6B') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 7A') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Drum 7B') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=true;
+             LDS.Enabled:=false;
+             LSP.enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Synth 1') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=true;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Synth 2') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=true;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Synth 3') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=true;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Synth 4') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=true;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Synth 5') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=true;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Sequence') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=true;
+             LSP.Enabled:=false;
+             LSS.enabled:=false;
+        end;
+        If (node.text='Notes&Gates') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=false;
+             LSS.enabled:=true;
+        end;
+
+
+  end;
+
+
+
 
 end;
 
@@ -6610,32 +15825,17 @@ begin
 D1PitchV.text := FloatToStr(round(D1Pitch.Position));
 end;
 
-procedure TMainForm.PatternChange(Sender: TObject);
-begin
-
-end;
-
 procedure TMainForm.SALevelChange(Sender: TObject);
 begin
   SALevelV.text :=  FloatToStr(round(SALevel.Position));
 end;
 
-
-
 procedure TMainForm.SaveFileBClick(Sender: TObject);
 begin
-   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 6 days. ;)');
+   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 7 days. ;)');
 end;
 
-procedure TMainForm.Led_ArpChange(Sender: TObject);
-begin
 
-end;
-
-procedure TMainForm.WaveformSynth1Change(Sender: TObject);
-begin
-
-end;
 
 
 

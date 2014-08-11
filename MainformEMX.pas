@@ -29,6 +29,28 @@ type
     D1MotionSeq5: TRadioGroup;
     D1MotionSeq6: TRadioGroup;
     D1MotionSeq7: TRadioGroup;
+    D1S385: TToggleBox;
+    Image1: TImage;
+    Image10: TImage;
+    Image11: TImage;
+    Image12: TImage;
+    Image13: TImage;
+    Image14: TImage;
+    Image15: TImage;
+    Image16: TImage;
+    Image17: TImage;
+    Image18: TImage;
+    Image19: TImage;
+    Image2: TImage;
+    Image20: TImage;
+    Image3: TImage;
+    Image4: TImage;
+    Image5: TImage;
+    Image6: TImage;
+    Image7: TImage;
+    Image8: TImage;
+    Image9: TImage;
+    Label167: TLabel;
     LDP: TMenuItem;
     LDS1: TMenuItem;
     EditPattern: TMenuItem;
@@ -118,8 +140,8 @@ type
     Label166: TLabel;
     StaticText10: TStaticText;
     WaveformSynthC1: TStaticText;
-    uELED19: TuELED;
-    uELED20: TuELED;
+    EnvLED2_S1: TuELED;
+    EnvLED1_S1: TuELED;
     WaveformSynth1: TComboBox;
     SynthoscSynth1: TComboBox;
     OscEdit1Synth1: TuEKnob;
@@ -180,22 +202,22 @@ type
     D1DrumSequence7: TGroupBox;
     D1DrumSequence8: TGroupBox;
     D1DrumSequence9: TGroupBox;
-    D1EQTime1: TuEKnob;
-    D1EQTime2: TuEKnob;
-    D1EQTime3: TuEKnob;
-    D1EQTime4: TuEKnob;
-    D1EQTime5: TuEKnob;
-    D1EQTime6: TuEKnob;
-    D1EQTime7: TuEKnob;
-    D1EQTime8: TuEKnob;
-    D1EQTimeV1: TEdit;
-    D1EQTimeV2: TEdit;
-    D1EQTimeV3: TEdit;
-    D1EQTimeV4: TEdit;
-    D1EQTimeV5: TEdit;
-    D1EQTimeV6: TEdit;
-    D1EQTimeV7: TEdit;
-    D1EQTimeV8: TEdit;
+    D1EGTime1: TuEKnob;
+    D1EGTime2: TuEKnob;
+    D1EGTime3: TuEKnob;
+    D1EGTime4: TuEKnob;
+    D1EGTime5: TuEKnob;
+    D1EGTime6: TuEKnob;
+    D1EGTime7: TuEKnob;
+    D1EGTime8: TuEKnob;
+    D1EGTimeV1: TEdit;
+    D1EGTimeV2: TEdit;
+    D1EGTimeV3: TEdit;
+    D1EGTimeV4: TEdit;
+    D1EGTimeV5: TEdit;
+    D1EGTimeV6: TEdit;
+    D1EGTimeV7: TEdit;
+    D1EGTimeV8: TEdit;
     D1FXSelect: TComboBox;
     D1BPMSync: TToggleBox;
     D1FXSelect1: TComboBox;
@@ -1009,7 +1031,6 @@ type
     D1S382: TToggleBox;
     D1S383: TToggleBox;
     D1S384: TToggleBox;
-    D1S385: TToggleBox;
     D1S386: TToggleBox;
     D1S387: TToggleBox;
     D1S388: TToggleBox;
@@ -1788,7 +1809,7 @@ type
     OpenDialog1: TOpenDialog;
     D1LevelV: TEdit;
     D1PanV: TEdit;
-    D1EQTimeV: TEdit;
+    D1EGTimeV: TEdit;
     ProgressBar1: TProgressBar;
     FX1VParameter1: TEdit;
     FX1VParameter2: TEdit;
@@ -1826,7 +1847,7 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    PageControl1: TPageControl;
+    EnvLED2_9: TPageControl;
     Drum1: TTabSheet;
     DAccent: TTabSheet;
     StaticText1: TStaticText;
@@ -1995,28 +2016,40 @@ type
     D1Pitch: TuEKnob;
     D1Level: TuEKnob;
     D1Pan: TuEKnob;
-    D1EQTime: TuEKnob;
-    uELED1: TuELED;
-    uELED10: TuELED;
-    uELED11: TuELED;
-    uELED12: TuELED;
-    uELED13: TuELED;
-    uELED14: TuELED;
-    uELED15: TuELED;
-    uELED16: TuELED;
-    uELED17: TuELED;
+    D1EGTime: TuEKnob;
+    EnvLED1_1: TuELED;
+    EnvLED2_5: TuELED;
+    EnvLED1_6: TuELED;
+    EnvLED2_6: TuELED;
+    EnvLED1_7: TuELED;
+    EnvLED2_7: TuELED;
+    EnvLED1_8: TuELED;
+    EnvLED2_8: TuELED;
+    EnvLED1_9: TuELED;
     uELED18: TuELED;
     DAccentTrigHoldLED: TuELED;
-    uELED2: TuELED;
-    uELED3: TuELED;
-    uELED4: TuELED;
-    uELED5: TuELED;
-    uELED6: TuELED;
-    uELED7: TuELED;
-    uELED8: TuELED;
-    uELED9: TuELED;
+    EnvLED2_1: TuELED;
+    EnvLED1_2: TuELED;
+    EnvLED2_2: TuELED;
+    EnvLED1_3: TuELED;
+    EnvLED2_3: TuELED;
+    EnvLED1_4: TuELED;
+    EnvLED2_4: TuELED;
+    EnvLED1_5: TuELED;
     uESelector2: TuESelector;
+    procedure AmpEGSynth1Change(Sender: TObject);
+    procedure BPMSyncSynth1Change(Sender: TObject);
     procedure CutoffSynth1Change(Sender: TObject);
+    procedure D1AmpEGB1Change(Sender: TObject);
+    procedure D1AmpEGB2Change(Sender: TObject);
+    procedure D1AmpEGB3Change(Sender: TObject);
+    procedure D1AmpEGB4Change(Sender: TObject);
+    procedure D1AmpEGB5Change(Sender: TObject);
+    procedure D1AmpEGB6Change(Sender: TObject);
+    procedure D1AmpEGB7Change(Sender: TObject);
+    procedure D1AmpEGB8Change(Sender: TObject);
+    procedure D1AmpEGBChange(Sender: TObject);
+    procedure DAccentTrigHoldBChange(Sender: TObject);
     procedure DriveSynth1Change(Sender: TObject);
     procedure EGIntSynth1Change(Sender: TObject);
     procedure EGTimeSynth1Change(Sender: TObject);
@@ -2027,6 +2060,15 @@ type
     procedure FX3Parameter1Change(Sender: TObject);
     procedure FX3Parameter2Change(Sender: TObject);
     procedure GlideSynth1Change(Sender: TObject);
+    procedure LDP1Click(Sender: TObject);
+    procedure LDP2Click(Sender: TObject);
+    procedure LDP3Click(Sender: TObject);
+    procedure LDP4Click(Sender: TObject);
+    procedure LDP5Click(Sender: TObject);
+    procedure LDP6AClick(Sender: TObject);
+    procedure LDP6BClick(Sender: TObject);
+    procedure LDP7AClick(Sender: TObject);
+    procedure LDP7BClick(Sender: TObject);
     procedure LDS1Click(Sender: TObject);
     procedure LDS2Click(Sender: TObject);
     procedure LDS3Click(Sender: TObject);
@@ -2039,6 +2081,7 @@ type
     procedure LDSDSClick(Sender: TObject);
     procedure LDSSAClick(Sender: TObject);
     procedure LevelSynth1Change(Sender: TObject);
+    procedure LSP1Click(Sender: TObject);
     procedure ModDepthSynth1Change(Sender: TObject);
     procedure ModSpeedSynth1Change(Sender: TObject);
     procedure OscEdit1Synth1Change(Sender: TObject);
@@ -2047,24 +2090,25 @@ type
     procedure RadioButton1Change(Sender: TObject);
     procedure ResonanceSynth1Change(Sender: TObject);
     procedure RndSoundClick(Sender: TObject);
+    procedure SAccentTrigHoldBChange(Sender: TObject);
     procedure SynthoscSynth1Change(Sender: TObject);
     procedure TreeView1Click(Sender: TObject);
     procedure TuneSynth1Change(Sender: TObject);
-    procedure D1EQTime4Change(Sender: TObject);
-    procedure D1EQTime5Change(Sender: TObject);
-    procedure D1EQTime6Change(Sender: TObject);
-    procedure D1EQTime7Change(Sender: TObject);
-    procedure D1EQTime8Change(Sender: TObject);
+    procedure D1EGTime4Change(Sender: TObject);
+    procedure D1EGTime5Change(Sender: TObject);
+    procedure D1EGTime6Change(Sender: TObject);
+    procedure D1EGTime7Change(Sender: TObject);
+    procedure D1EGTime8Change(Sender: TObject);
     procedure DALevelChange(Sender: TObject);
     procedure D1Level5Change(Sender: TObject);
     procedure D1Level6Change(Sender: TObject);
     procedure D1Level8Change(Sender: TObject);
     procedure D1Level7Change(Sender: TObject);
     procedure D1ModDepth3Change(Sender: TObject);
-    procedure D1EQTime1Change(Sender: TObject);
-    procedure D1EQTime2Change(Sender: TObject);
-    procedure D1EQTime3Change(Sender: TObject);
-    procedure D1EQTimeChange(Sender: TObject);
+    procedure D1EGTime1Change(Sender: TObject);
+    procedure D1EGTime2Change(Sender: TObject);
+    procedure D1EGTime3Change(Sender: TObject);
+    procedure D1EGTimeChange(Sender: TObject);
     procedure D1Level1Change(Sender: TObject);
     procedure D1Level2Change(Sender: TObject);
     procedure D1Level3Change(Sender: TObject);
@@ -2113,6 +2157,7 @@ type
     procedure MenuItem21Click(Sender: TObject);
     procedure SALevelChange(Sender: TObject);
     procedure SaveFileBClick(Sender: TObject);
+    procedure WaveformSynth1Update();
   private
     { private declarations }
   public
@@ -2150,7 +2195,7 @@ type
      Pitch : Integer;
      DLevel : Integer;
      DPan : Integer;
-     DEQTime : Integer;
+     DEGTime : Integer;
      FSSSRA : Integer;
      FXSelected : String;
      FXSend : String;
@@ -3396,15 +3441,15 @@ begin
                       Samplebanknumber:=Samplebanknumber+1;
                       s:=Samplename(Samplebanknumber);
                       Treeview1.Items.AddChild(InstNode, 'Sample: ' + s);
-                      Treeview1.Items.AddChild(InstNode, 'Samplebanknumber ' + inttostr(Samplebanknumber));
+                      Treeview1.Items.AddChild(InstNode, 'Samplebanknumber:  ' + inttostr(Samplebanknumber));
                       BytesRead:=Filestream.Read(Pitch,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pitch ' + inttostr(Pitch));
+                      Treeview1.Items.AddChild(InstNode, 'Pitch:  ' + inttostr(Pitch));
                       BytesRead:=Filestream.Read(DLevel,1);
-                      Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
+                      Treeview1.Items.AddChild(InstNode, 'Level:  ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
-                      Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      Treeview1.Items.AddChild(InstNode, 'Pan:  ' + inttostr(DPan));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time:  ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -3435,9 +3480,9 @@ begin
                               FXSelected := 'FX2';
                           End;
                       Treeview1.Items.AddChild(InstNode, 'AMP EG: ' + AMPEG);
-                      Treeview1.Items.AddChild(InstNode, 'Roll ' + Roll);
-                      Treeview1.Items.AddChild(InstNode, 'FX Send ' + FXSend);
-                      Treeview1.Items.AddChild(InstNode, 'FX Send to ' + FXSelected);
+                      Treeview1.Items.AddChild(InstNode, 'Roll: ' + Roll);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send: ' + FXSend);
+                      Treeview1.Items.AddChild(InstNode, 'FX Send to: ' + FXSelected);
 
                       BytesRead:=Filestream.Read(MTDBS,1);
                       MType :='Saw';
@@ -3477,13 +3522,13 @@ begin
                            otherwise MDestination:='Error';
                       end;
                       Treeview1.Items.AddChild(InstNode, 'Modulation Type: ' + MType);
-                      Treeview1.Items.AddChild(InstNode, 'Destination ' + MDestination);
-                      Treeview1.Items.AddChild(InstNode, 'BPM Sync ' + MBPMSync);
+                      Treeview1.Items.AddChild(InstNode, 'Destination: ' + MDestination);
+                      Treeview1.Items.AddChild(InstNode, 'BPM Sync: ' + MBPMSync);
 
                       BytesRead:=Filestream.Read(ModulationSpeed,1);
-                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed ' + inttostr(ModulationSpeed));
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Speed:  ' + inttostr(ModulationSpeed));
                       BytesRead:=Filestream.Read(ModulationDepth,1);
-                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth ' + inttostr(ModulationDepth));
+                      Treeview1.Items.AddChild(InstNode, 'Modulation Depth:  ' + inttostr(ModulationDepth));
 
                       BytesRead:=Filestream.Read(MotionSeqS,1);
                       Case MotionSeqS of
@@ -3528,8 +3573,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -3653,8 +3698,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -3779,8 +3824,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -3904,8 +3949,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -4029,8 +4074,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -4154,8 +4199,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -4279,8 +4324,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -4404,8 +4449,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
 
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
@@ -4661,8 +4706,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -4942,8 +4987,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -5217,8 +5262,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -5497,8 +5542,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -5774,8 +5819,8 @@ begin
                       Treeview1.Items.AddChild(InstNode, 'Level ' + inttostr(DLevel));
                       BytesRead:=Filestream.Read(DPan,1);
                       Treeview1.Items.AddChild(InstNode, 'Pan ' + inttostr(DPan));
-                      BytesRead:=Filestream.Read(DEQTime,1);
-                      Treeview1.Items.AddChild(InstNode, 'EQ Time ' + inttostr(DEQTime));
+                      BytesRead:=Filestream.Read(DEGTime,1);
+                      Treeview1.Items.AddChild(InstNode, 'EG Time ' + inttostr(DEGTime));
                       BytesRead:=Filestream.Read(FSSSRA,1);
                       AMPEG :='Square';
                       Roll :='Off';
@@ -6328,14 +6373,14 @@ begin
   D1PanV8.text := FloatToStr(round(D1Pan8.Position));
 end;
 
-procedure TMainForm.D1EQTimeChange(Sender: TObject);
+procedure TMainForm.D1EGTimeChange(Sender: TObject);
 begin
-   D1EQTimeV.text := FloatToStr(round(D1EQTime.Position));
+   D1EGTimeV.text := FloatToStr(round(D1EGTime.Position));
 end;
 
-procedure TMainForm.D1EQTime1Change(Sender: TObject);
+procedure TMainForm.D1EGTime1Change(Sender: TObject);
 begin
-   D1EQTimeV1.text := FloatToStr(round(D1EQTime1.Position));
+   D1EGTimeV1.text := FloatToStr(round(D1EGTime1.Position));
 end;
 
 procedure TMainForm.D1ModDepth3Change(Sender: TObject);
@@ -6343,14 +6388,155 @@ begin
    D1ModDepthV3.text := FloatToStr(round(D1ModDepth3.Position));
 end;
 
-procedure TMainForm.D1EQTime4Change(Sender: TObject);
+procedure TMainForm.D1EGTime4Change(Sender: TObject);
 begin
-  D1EQTimeV4.text := FloatToStr(round(D1EQTime4.Position));
+  D1EGTimeV4.text := FloatToStr(round(D1EGTime4.Position));
 end;
 
 procedure TMainForm.LevelSynth1Change(Sender: TObject);
 begin
  LevelVSynth1.text := FloatToStr(round(LevelSynth1.Position));
+end;
+
+procedure TMainForm.LSP1Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Synthbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Synthbase := 24;
+  Node := TreeView1.Selected; //Which Synth ?
+  Case Node.Text of
+	   'Synth 1' : Synthbase := 258;
+	   'Synth 2' : Synthbase := 534;
+	   'Synth 3' : Synthbase := 810;
+	   'Synth 4' : Synthbase := 1086;
+	   'Synth 5' : Synthbase := 1362;
+  end;
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Synthbase;
+
+  // Let's Rock
+  BytesRead:=Filestream.Read(Waveform,1);
+  BytesRead:=Filestream.Read(Syntune,1);
+  BytesRead:=Filestream.Read(Synthoscillator,1);
+  SynthoscSynth1.ItemIndex:=Synthoscillator;
+  WaveformSynth1Update();
+  TuneSynth1.position := Syntune-50;
+
+
+  BytesRead:=Filestream.Read(OscEdit1,1);
+  OscEdit1Synth1.Position := OscEdit1;
+  BytesRead:=Filestream.Read(OscEdit2,1);
+  OscEdit2Synth1.Position:=OscEdit2;
+  BytesRead:=Filestream.Read(PitchGlide ,1);
+  GlideSynth1.Position:=PitchGlide;
+
+  BytesRead:=Filestream.Read(Filtertype ,1);
+  FilterTypeSynth1.ItemIndex:=Filtertype;
+  BytesRead:=Filestream.Read(Cutoff ,1);
+  CutoffSynth1.Position:=Cutoff;
+  BytesRead:=Filestream.Read(Resonance  ,1);
+  ResonanceSynth1.Position:=Resonance;
+  BytesRead:=Filestream.Read(EGInt,1);
+  EGIntSynth1.Position:=EGInt-64;
+  BytesRead:=Filestream.Read(Drive,1);
+  DriveSynth1.Position:=Drive;
+  BytesRead:=Filestream.Read(DLevel,1);
+  LevelSynth1.Position:=Dlevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  PanSynth1.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  EGTimeSynth1.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  AmpEGSynth1.state := cbUnchecked;
+  RollSynth1.State:= cbUnchecked;
+  FXSendSynth1.State:= cbUnchecked;
+  FXSelectSynth1.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+  begin
+	  AmpEGSynth1.state := cbChecked;
+	  FSSSRA:=FSSSRA-16;
+  End;
+  If (FSSSRA > 7) Then
+   begin
+	  RollSynth1.State:= cbChecked;
+	  FSSSRA:=FSSSRA-8;
+   End;
+  If (FSSSRA > 3) Then
+  begin
+	  FXSendSynth1.State:= cbChecked;
+	  FSSSRA:=FSSSRA-4;
+ End;
+ If (FSSSRA = 2) Then
+ begin
+	  FXSelectSynth1.ItemIndex:=2;
+ End;
+ If (FSSSRA = 1) Then
+  begin
+	  FXSelectSynth1.ItemIndex:=1;
+  End;
+
+  BytesRead:=Filestream.Read(Reserved,1); //Reserved
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  ModTypeSynth1.ItemIndex:=0;
+  BPMSyncSynth1.state:=cbUnchecked;
+
+  MType :='Saw';
+  MBPMSync :='Off';
+  If (MTDBS > 127) Then
+  begin
+	  BPMSyncSynth1.state:=cbChecked;
+	  MTDBS:=MTDBS-128;
+  End;
+  If (MTDBS > 63) Then
+  begin
+	  ModTypeSynth1.ItemIndex:=4;
+	  MTDBS:=MTDBS-64;
+  End;
+  If (MTDBS > 47) Then
+   begin
+	  ModTypeSynth1.ItemIndex:=3;
+	  MTDBS:=MTDBS-48;
+   End;
+  If (MTDBS > 31) Then
+  begin
+	  ModTypeSynth1.ItemIndex:=2;
+	  MTDBS:=MTDBS-32;
+  End;
+  If (MTDBS > 15) Then
+   begin
+	  ModTypeSynth1.ItemIndex:=1;
+	  MTDBS:=MTDBS-16;
+   End;
+  ModDestSynth1.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  ModSpeedSynth1.position:= ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  ModDepthSynth1.Position:=ModulationDepth;
+
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  MotionSeqSynth1.ItemIndex:=MotionSeqS;
+  WaveformSynth1.ItemIndex:= Waveform;
 end;
 
 procedure TMainForm.ModDepthSynth1Change(Sender: TObject);
@@ -6413,6 +6599,146 @@ begin
   CutoffVSynth1.text := FloatToStr(round(CutoffSynth1.Position));
 end;
 
+procedure TMainForm.AmpEGSynth1Change(Sender: TObject);
+begin
+  If (AmpEGSynth1.state=cbUnchecked) then begin
+     EnvLED2_S1.Color := $004080FF;
+     EnvLED1_S1.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_S1.Color := clSilver;
+      EnvLED1_S1.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.BPMSyncSynth1Change(Sender: TObject);
+begin
+  If (BPMSyncSynth1.state=cbUnchecked) then begin
+     BPMSyncSynth1.Caption:='BPM Sync Off';
+  end
+  Else begin
+      BPMSyncSynth1.Caption:='BPM Sync On';
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB1Change(Sender: TObject);
+begin
+  If (D1AmpEGB1.state=cbUnchecked) then begin
+     EnvLED2_2.Color := $004080FF;
+     EnvLED1_2.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_2.Color := clSilver;
+      EnvLED1_2.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB2Change(Sender: TObject);
+begin
+  If (D1AmpEGB2.state=cbUnchecked) then begin
+     EnvLED2_3.Color := $004080FF;
+     EnvLED1_3.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_3.Color := clSilver;
+      EnvLED1_3.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB3Change(Sender: TObject);
+begin
+  If (D1AmpEGB3.state=cbUnchecked) then begin
+     EnvLED2_4.Color := $004080FF;
+     EnvLED1_4.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_4.Color := clSilver;
+      EnvLED1_4.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB4Change(Sender: TObject);
+begin
+  If (D1AmpEGB4.state=cbUnchecked) then begin
+     EnvLED2_5.Color := $004080FF;
+     EnvLED1_5.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_5.Color := clSilver;
+      EnvLED1_5.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB5Change(Sender: TObject);
+begin
+  If (D1AmpEGB5.state=cbUnchecked) then begin
+     EnvLED2_6.Color := $004080FF;
+     EnvLED1_6.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_6.Color := clSilver;
+      EnvLED1_6.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB6Change(Sender: TObject);
+begin
+  If (D1AmpEGB6.state=cbUnchecked) then begin
+     EnvLED2_7.Color := $004080FF;
+     EnvLED1_7.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_7.Color := clSilver;
+      EnvLED1_7.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB7Change(Sender: TObject);
+begin
+  If (D1AmpEGB7.state=cbUnchecked) then begin
+     EnvLED2_8.Color := $004080FF;
+     EnvLED1_8.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_8.Color := clSilver;
+      EnvLED1_8.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGB8Change(Sender: TObject);
+begin
+  If (D1AmpEGB8.state=cbUnchecked) then begin
+     EnvLED2_9.Color := $004080FF;
+     EnvLED1_9.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_9.Color := clSilver;
+      EnvLED1_9.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.D1AmpEGBChange(Sender: TObject);
+begin
+  If (D1AmpEGB.state=cbUnchecked) then begin
+     EnvLED2_1.Color := $004080FF;
+     EnvLED1_1.Color := clSilver;
+  end
+  Else begin
+      EnvLED2_1.Color := clSilver;
+      EnvLED1_1.Color := $004080FF;
+  end;
+end;
+
+procedure TMainForm.DAccentTrigHoldBChange(Sender: TObject);
+begin
+  If (DAccentTrigHoldB.state=cbUnchecked) then begin
+     DAccentTrigHoldLED.Color := clSilver;
+  end
+  Else begin
+     DAccentTrigHoldLED.Color := $004080FF;
+  end;
+end;
+
 procedure TMainForm.DriveSynth1Change(Sender: TObject);
 begin
   DriveVSynth1.text := FloatToStr(round(DriveSynth1.Position));
@@ -6428,11 +6754,1109 @@ begin
   GlideVSynth1.text := FloatToStr(round(GlideSynth1.Position));
 end;
 
+procedure TMainForm.LDP1Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB.state := cbUnchecked;
+  D1RollB.State:= cbUnchecked;
+  D1FXSend.State:= cbUnchecked;
+  D1FXSelect.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType.ItemIndex:=0;
+  D1BPMSync.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  //ShowMessage(inttostr(MotionSeqS));
+  D1MotionSeq.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP2Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample1.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch1.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level1.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan1.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime1.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB1.state := cbUnchecked;
+  D1RollB1.State:= cbUnchecked;
+  D1FXSend1.State:= cbUnchecked;
+  D1FXSelect1.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB1.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB1.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend1.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect1.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect1.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType1.ItemIndex:=0;
+  D1BPMSync1.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync1.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType1.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType1.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType1.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType1.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest1.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed1.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth1.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq1.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP3Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample2.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch2.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level2.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan2.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime2.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB2.state := cbUnchecked;
+  D1RollB2.State:= cbUnchecked;
+  D1FXSend2.State:= cbUnchecked;
+  D1FXSelect2.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB2.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB2.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend2.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect2.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect2.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType2.ItemIndex:=0;
+  D1BPMSync2.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync2.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType2.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType2.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType2.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType2.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest2.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed2.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth2.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq2.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP4Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample3.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch3.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level3.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan3.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime3.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB3.state := cbUnchecked;
+  D1RollB3.State:= cbUnchecked;
+  D1FXSend3.State:= cbUnchecked;
+  D1FXSelect3.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB3.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB3.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend3.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect3.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect3.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType3.ItemIndex:=0;
+  D1BPMSync3.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync3.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType3.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType3.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType3.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType3.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest3.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed3.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth3.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq3.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP5Click(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample4.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch4.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level4.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan4.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime4.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB4.state := cbUnchecked;
+  D1RollB4.State:= cbUnchecked;
+  D1FXSend4.State:= cbUnchecked;
+  D1FXSelect4.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB4.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB4.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend4.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect4.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect4.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType4.ItemIndex:=0;
+  D1BPMSync4.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync4.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType4.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType4.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType4.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType4.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest4.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed4.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth4.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq4.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP6AClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample5.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch5.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level5.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan5.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime5.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB5.state := cbUnchecked;
+  D1RollB5.State:= cbUnchecked;
+  D1FXSend5.State:= cbUnchecked;
+  D1FXSelect5.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB5.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB5.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend5.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect5.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect5.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType5.ItemIndex:=0;
+  D1BPMSync5.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync5.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType5.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType5.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType5.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType5.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest5.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed5.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth5.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq5.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP6BClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample6.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch6.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level6.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan6.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime6.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB6.state := cbUnchecked;
+  D1RollB6.State:= cbUnchecked;
+  D1FXSend6.State:= cbUnchecked;
+  D1FXSelect6.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB6.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB6.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend6.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect6.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect6.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType6.ItemIndex:=0;
+  D1BPMSync6.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync6.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType6.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType6.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType6.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType6.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest6.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed6.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth6.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq6.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP7AClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample7.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch7.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level7.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan7.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime7.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB7.state := cbUnchecked;
+  D1RollB7.State:= cbUnchecked;
+  D1FXSend7.State:= cbUnchecked;
+  D1FXSelect7.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB7.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB7.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend7.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect7.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect7.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType7.ItemIndex:=0;
+  D1BPMSync7.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync7.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType7.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType7.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType7.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType7.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest7.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed7.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth7.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq7.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
+procedure TMainForm.LDP7BClick(Sender: TObject);
+var
+  node:TTreeNode;
+  node2:ttreeNode;
+  node3:ttreeNode;
+  Drumbase:Integer;
+  Patternnummer:Integer;
+  BytesRead : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  Bankname:string;
+begin
+  Drumbase := 24;
+  Node := TreeView1.Selected; //Which Drum ?
+  Case Node.Text of
+	   'Drum 1' : Drumbase := 24;
+	   'Drum 2' : Drumbase := 50;
+	   'Drum 3' : Drumbase := 76;
+	   'Drum 4' : Drumbase := 102;
+	   'Drum 5' : Drumbase := 128;
+	   'Drum 6A' : Drumbase := 154;
+	   'Drum 6B' : Drumbase := 180;
+	   'Drum 7A' : Drumbase := 206;
+	   'Drum 7B' : Drumbase := 232;
+  end;
+
+
+  node := node.Parent; //Patternname
+  node2:= node.Parent; //Bank
+  node3:= node2.Parent; //Filename
+  Patternnummer := (strtoint(leftstr(node.text,2))-1)*4806;
+  Bankname := Node2.text;
+  filename := Node3.text;
+  If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
+  If (Bankname='Bank B') Then Patternbase:=512+64*4806+Patternnummer;
+  If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
+  If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
+  FileStream := tFileStream.Create (filename,fmShareDenyNone);
+  FileStream.Position := Patternbase+Drumbase;
+  // Let's Rock
+  BytesRead:=Filestream.Read(Samplebanknumber,1);
+  D1Sample8.ItemIndex:=Samplebanknumber;
+  BytesRead:=Filestream.Read(Pitch,1);
+  D1Pitch8.Position:=Pitch-64;
+  BytesRead:=Filestream.Read(DLevel,1);
+  D1Level8.Position := DLevel;
+  BytesRead:=Filestream.Read(DPan,1);
+  D1Pan8.Position:=DPan-64;
+  BytesRead:=Filestream.Read(DEGTime,1);
+  D1EGTime8.Position:=DEGTime;
+
+  BytesRead:=Filestream.Read(FSSSRA,1);
+  D1AmpEGB8.state := cbUnchecked;
+  D1RollB8.State:= cbUnchecked;
+  D1FXSend8.State:= cbUnchecked;
+  D1FXSelect8.ItemIndex:=0;
+  If (FSSSRA > 15) Then
+	 begin
+		  D1AmpEGB8.state := cbchecked;
+		  FSSSRA:=FSSSRA-16;
+	 End;
+  If (FSSSRA > 7) Then
+	 begin
+		  D1RollB8.State:= cbchecked;
+		  FSSSRA:=FSSSRA-8;
+	 End;
+  If (FSSSRA > 3) Then
+	 begin
+		  D1FXSend8.State:= cbchecked;
+		  FSSSRA:=FSSSRA-4;
+	 End;
+   If (FSSSRA = 2) Then
+	 begin
+		  D1FXSelect8.ItemIndex:=2;
+	 End;
+   If (FSSSRA = 1) Then
+	  begin
+		  D1FXSelect8.ItemIndex:=1;
+	  End;
+
+
+  BytesRead:=Filestream.Read(MTDBS,1);
+  D1ModType8.ItemIndex:=0;
+  D1BPMSync8.state:=cbUnchecked;
+  If (MTDBS > 127) Then
+	 begin
+		  D1BPMSync8.state:=cbChecked;
+		  MTDBS:=MTDBS-128;
+	 End;
+  If (MTDBS > 63) Then
+	 begin
+		  D1ModType8.ItemIndex:=4;
+		  MTDBS:=MTDBS-64;
+	 End;
+  If (MTDBS > 47) Then
+	 begin
+		  D1ModType8.ItemIndex:=3;
+		  MTDBS:=MTDBS-48;
+	 End;
+  If (MTDBS > 31) Then
+	 begin
+		  D1ModType8.ItemIndex:=2;
+		  MTDBS:=MTDBS-32;
+	 End;
+  If (MTDBS > 15) Then
+	 begin
+		  D1ModType8.ItemIndex:=0;
+		  MTDBS:=MTDBS-16;
+	 End;
+  D1ModDest8.ItemIndex:=MTDBS;
+
+  BytesRead:=Filestream.Read(ModulationSpeed,1);
+  D1ModSpeed8.Position := ModulationSpeed;
+  BytesRead:=Filestream.Read(ModulationDepth,1);
+  D1ModDepth8.Position := ModulationDepth-64;
+  BytesRead:=Filestream.Read(MotionSeqS,1);
+  D1MotionSeq8.ItemIndex :=MotionSeqS;
+
+  //Ende File lesen
+  FileStream.Free;
+end;
+
 procedure TMainForm.LDS1Click(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -7229,7 +8653,6 @@ s:= midstr(node2.text,startV,1);
           D1S128.State:=cbchecked
   Else
           D1S128.State:=cbunchecked;
-  startV:=startV+2;
 
 end;
 
@@ -7237,7 +8660,6 @@ procedure TMainForm.LDS2Click(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -8043,7 +9465,6 @@ procedure TMainForm.LDS3Click(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -8848,7 +10269,6 @@ procedure TMainForm.LDS4Click(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -9652,7 +11072,6 @@ procedure TMainForm.LDS5Click(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -10456,7 +11875,6 @@ procedure TMainForm.LDS6AClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -11262,7 +12680,6 @@ procedure TMainForm.LDS6BClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -12068,7 +13485,6 @@ procedure TMainForm.LDS7AClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -12873,7 +14289,6 @@ procedure TMainForm.LDS7BClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -13678,7 +15093,6 @@ procedure TMainForm.LDSDSClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -14475,7 +15889,6 @@ begin
             D1S1280.State:=cbchecked
     Else
             D1S1280.State:=cbunchecked;
-    startV:=startV+2;
 
 end;
 
@@ -14483,7 +15896,6 @@ procedure TMainForm.LDSSAClick(Sender: TObject);
 var
   node:TTreeNode;
   node2:ttreeNode;
-  i:integer;
   startV:integer;
   s:string;
 begin
@@ -15280,7 +16692,6 @@ begin
             D1S1408.State:=cbchecked
     Else
             D1S1408.State:=cbunchecked;
-    startV:=startV+2;
 
 end;
 
@@ -15304,104 +16715,10 @@ Var
    i:integer;
 begin
   SynthoscSynth1.ItemIndex:=Random(16);
-  WaveformSynth1.Items.clear;
- If (SynthoscSynth1.ItemIndex=0) or (SynthoscSynth1.ItemIndex=7) or (SynthoscSynth1.ItemIndex=9) then
- 	begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Pulse',NIL);
- 		WaveformSynth1.AddItem('Tri',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
-                WaveformSynthC1.Caption:='4';
- end;
- If (SynthoscSynth1.ItemIndex=1) or (SynthoscSynth1.ItemIndex=4) or (SynthoscSynth1.ItemIndex=6) then
- 	begin
-
- 		WaveformSynth1.AddItem('SawSaw',NIL);
- 		WaveformSynth1.AddItem('SawSqu',NIL);
- 		WaveformSynth1.AddItem('SawTri',NIL);
- 		WaveformSynth1.AddItem('SawSin',NIL);
- 		WaveformSynth1.AddItem('SawNs',NIL);
- 		WaveformSynth1.AddItem('SquSaw',NIL);
- 		WaveformSynth1.AddItem('SquSqu',NIL);
- 		WaveformSynth1.AddItem('SquTri',NIL);
- 		WaveformSynth1.AddItem('SquSin',NIL);
- 		WaveformSynth1.AddItem('SquNs',NIL);
- 		WaveformSynth1.AddItem('TriSaw',NIL);
- 		WaveformSynth1.AddItem('TriSqu',NIL);
- 		WaveformSynth1.AddItem('TriTri',NIL);
- 		WaveformSynth1.AddItem('TriSin',NIL);
- 		WaveformSynth1.AddItem('TriNs',NIL);
- 		WaveformSynth1.AddItem('SinSaw',NIL);
- 		WaveformSynth1.AddItem('SinSqu',NIL);
- 		WaveformSynth1.AddItem('SinTri',NIL);
- 		WaveformSynth1.AddItem('SinSin',NIL);
- 		WaveformSynth1.AddItem('SinNs',NIL);
-                WaveformSynthC1.Caption:='20';
- 	end;
- If (SynthoscSynth1.ItemIndex=2) or (SynthoscSynth1.ItemIndex=5) then
- begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
-                WaveformSynthC1.Caption:='2';
- end;
- If (SynthoscSynth1.ItemIndex=3) then
- 	begin
-
- 		WaveformSynth1.AddItem('3Saw',NIL);
- 		WaveformSynth1.AddItem('4Saw',NIL);
- 		WaveformSynth1.AddItem('5Saw',NIL);
- 		WaveformSynth1.AddItem('6Saw',NIL);
- 		WaveformSynth1.AddItem('3Squ',NIL);
- 		WaveformSynth1.AddItem('4Squ',NIL);
- 		WaveformSynth1.AddItem('5Squ',NIL);
- 		WaveformSynth1.AddItem('6Squ',NIL);
- 		WaveformSynth1.AddItem('3Tri',NIL);
- 		WaveformSynth1.AddItem('4Tri',NIL);
- 		WaveformSynth1.AddItem('5Tri',NIL);
- 		WaveformSynth1.AddItem('6Tri',NIL);
- 		WaveformSynth1.AddItem('3Sin',NIL);
- 		WaveformSynth1.AddItem('4Sin',NIL);
- 		WaveformSynth1.AddItem('5Sin',NIL);
- 		WaveformSynth1.AddItem('6Sin',NIL);
-                WaveformSynthC1.Caption:='16';
- end;
- If (SynthoscSynth1.ItemIndex=8) then
- 	begin
-
- 		WaveformSynth1.AddItem('Type 1',NIL);
- 		WaveformSynth1.AddItem('Type 2',NIL);
-                WaveformSynthC1.Caption:='20';
- end;
- If (SynthoscSynth1.ItemIndex=10) then
- 	begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Pulse',NIL);
- 		WaveformSynth1.AddItem('Tri',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
- 		WaveformSynth1.AddItem('Noise',NIL);
-                WaveformSynthC1.Caption:='5';
- end;
- If (SynthoscSynth1.ItemIndex=11) or (SynthoscSynth1.ItemIndex=12) or (SynthoscSynth1.ItemIndex=15) then
-      Begin
-            WaveformSynth1.AddItem('------',NIL);
-            WaveformSynthC1.Caption:='1';
-      end;
-
-
- If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
- 		Waveform := Random(77);
-                For i:=1 to 76 do begin
-                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
-                    end;
-                //WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
-                WaveformSynthC1.Caption:='76';
- end;
+  WaveformSynth1Update();
   WaveformSynth1.ItemIndex:=0;
   EGTimeSynth1.Position:=Random(128);
-  TuneSynth1.Position:=Random(101)-50;
+  //TuneSynth1.Position:=Random(101)-50;
   OscEdit1Synth1.Position:=Random(128);
   OscEdit2Synth1.Position:=Random(128);
   GlideSynth1.Position:=Random(128);
@@ -15419,117 +16736,32 @@ begin
 
 end;
 
+procedure TMainForm.SAccentTrigHoldBChange(Sender: TObject);
+begin
+  If (SAccentTrigHoldB.state=cbUnchecked) then begin
+     SAccentTrigHoldLED.Color := clSilver;
+  end
+  Else begin
+     SAccentTrigHoldLED.Color := $004080FF;
+  end;
+end;
+
 
 
 procedure TMainForm.SynthoscSynth1Change(Sender: TObject);
-Var
-   i:integer;
 begin
-WaveformSynth1.Items.clear;
- If (SynthoscSynth1.ItemIndex=0) or (SynthoscSynth1.ItemIndex=7) or (SynthoscSynth1.ItemIndex=9) then
- 	begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Pulse',NIL);
- 		WaveformSynth1.AddItem('Tri',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
-                WaveformSynthC1.Caption:='4';
- end;
- If (SynthoscSynth1.ItemIndex=1) or (SynthoscSynth1.ItemIndex=4) or (SynthoscSynth1.ItemIndex=6) then
- 	begin
-
- 		WaveformSynth1.AddItem('SawSaw',NIL);
- 		WaveformSynth1.AddItem('SawSqu',NIL);
- 		WaveformSynth1.AddItem('SawTri',NIL);
- 		WaveformSynth1.AddItem('SawSin',NIL);
- 		WaveformSynth1.AddItem('SawNs',NIL);
- 		WaveformSynth1.AddItem('SquSaw',NIL);
- 		WaveformSynth1.AddItem('SquSqu',NIL);
- 		WaveformSynth1.AddItem('SquTri',NIL);
- 		WaveformSynth1.AddItem('SquSin',NIL);
- 		WaveformSynth1.AddItem('SquNs',NIL);
- 		WaveformSynth1.AddItem('TriSaw',NIL);
- 		WaveformSynth1.AddItem('TriSqu',NIL);
- 		WaveformSynth1.AddItem('TriTri',NIL);
- 		WaveformSynth1.AddItem('TriSin',NIL);
- 		WaveformSynth1.AddItem('TriNs',NIL);
- 		WaveformSynth1.AddItem('SinSaw',NIL);
- 		WaveformSynth1.AddItem('SinSqu',NIL);
- 		WaveformSynth1.AddItem('SinTri',NIL);
- 		WaveformSynth1.AddItem('SinSin',NIL);
- 		WaveformSynth1.AddItem('SinNs',NIL);
-                WaveformSynthC1.Caption:='20';
- 	end;
- If (SynthoscSynth1.ItemIndex=2) or (SynthoscSynth1.ItemIndex=5) then
- begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
-                WaveformSynthC1.Caption:='2';
- end;
- If (SynthoscSynth1.ItemIndex=3) then
- 	begin
-
- 		WaveformSynth1.AddItem('3Saw',NIL);
- 		WaveformSynth1.AddItem('4Saw',NIL);
- 		WaveformSynth1.AddItem('5Saw',NIL);
- 		WaveformSynth1.AddItem('6Saw',NIL);
- 		WaveformSynth1.AddItem('3Squ',NIL);
- 		WaveformSynth1.AddItem('4Squ',NIL);
- 		WaveformSynth1.AddItem('5Squ',NIL);
- 		WaveformSynth1.AddItem('6Squ',NIL);
- 		WaveformSynth1.AddItem('3Tri',NIL);
- 		WaveformSynth1.AddItem('4Tri',NIL);
- 		WaveformSynth1.AddItem('5Tri',NIL);
- 		WaveformSynth1.AddItem('6Tri',NIL);
- 		WaveformSynth1.AddItem('3Sin',NIL);
- 		WaveformSynth1.AddItem('4Sin',NIL);
- 		WaveformSynth1.AddItem('5Sin',NIL);
- 		WaveformSynth1.AddItem('6Sin',NIL);
-                WaveformSynthC1.Caption:='16';
- end;
- If (SynthoscSynth1.ItemIndex=8) then
- 	begin
-
- 		WaveformSynth1.AddItem('Type 1',NIL);
- 		WaveformSynth1.AddItem('Type 2',NIL);
-                WaveformSynthC1.Caption:='20';
- end;
- If (SynthoscSynth1.ItemIndex=10) then
- 	begin
-
- 		WaveformSynth1.AddItem('Saw',NIL);
- 		WaveformSynth1.AddItem('Pulse',NIL);
- 		WaveformSynth1.AddItem('Tri',NIL);
- 		WaveformSynth1.AddItem('Sin',NIL);
- 		WaveformSynth1.AddItem('Noise',NIL);
-                WaveformSynthC1.Caption:='5';
- end;
- If (SynthoscSynth1.ItemIndex=11) or (SynthoscSynth1.ItemIndex=12) or (SynthoscSynth1.ItemIndex=15) then
-      Begin
-            WaveformSynth1.AddItem('------',NIL);
-            WaveformSynthC1.Caption:='1';
-      end;
-
-
- If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
- 		Waveform := Random(77);
-                For i:=1 to 76 do begin
-                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
-                    end;
-                WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
-                WaveformSynthC1.Caption:='76';
- end;
- WaveformSynth1.ItemIndex:=0;
+  WaveformSynth1Update();
 
 end;
 
 procedure TMainForm.TreeView1Click(Sender: TObject);
 var
   node:TTreeNode;
+  MenuDead:Boolean;
 
 begin
   node := TreeView1.Selected;
+  MenuDead := True;
   if not (node=nil) then begin
        //Showmessage(node.text);
         If (node.text='Drum 1') then begin
@@ -15538,6 +16770,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 2') then begin
              EditPattern.Enabled:=false;
@@ -15545,6 +16778,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 3') then begin
              EditPattern.Enabled:=false;
@@ -15552,6 +16786,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 4') then begin
              EditPattern.Enabled:=false;
@@ -15559,6 +16794,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 5') then begin
              EditPattern.Enabled:=false;
@@ -15566,6 +16802,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 6A') then begin
              EditPattern.Enabled:=false;
@@ -15573,6 +16810,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 6B') then begin
              EditPattern.Enabled:=false;
@@ -15580,6 +16818,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 7A') then begin
              EditPattern.Enabled:=false;
@@ -15587,6 +16826,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Drum 7B') then begin
              EditPattern.Enabled:=false;
@@ -15594,6 +16834,7 @@ begin
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Synth 1') then begin
              EditPattern.Enabled:=false;
@@ -15601,6 +16842,7 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Synth 2') then begin
              EditPattern.Enabled:=false;
@@ -15608,6 +16850,7 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Synth 3') then begin
              EditPattern.Enabled:=false;
@@ -15615,6 +16858,7 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Synth 4') then begin
              EditPattern.Enabled:=false;
@@ -15622,6 +16866,7 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Synth 5') then begin
              EditPattern.Enabled:=false;
@@ -15629,6 +16874,7 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Sequence') then begin
              EditPattern.Enabled:=false;
@@ -15636,6 +16882,23 @@ begin
              LDS.Enabled:=true;
              LSP.Enabled:=false;
              LSS.enabled:=false;
+             MenuDead := False;
+        end;
+        If (node.text='Drum Accent Sequence') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=true;
+             LSP.Enabled:=false;
+             LSS.enabled:=false;
+             MenuDead := False;
+        end;
+        If (node.text='Synth Accent Sequence') then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=true;
+             LSP.Enabled:=false;
+             LSS.enabled:=false;
+             MenuDead := False;
         end;
         If (node.text='Notes&Gates') then begin
              EditPattern.Enabled:=false;
@@ -15643,8 +16906,15 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=false;
              LSS.enabled:=true;
+             MenuDead := False;
         end;
-
+        If (MenuDead) then begin
+             EditPattern.Enabled:=false;
+             LDP.Enabled:=false;
+             LDS.Enabled:=false;
+             LSP.Enabled:=false;
+             LSS.enabled:=false;
+        end;
 
   end;
 
@@ -15658,24 +16928,24 @@ begin
   TuneVSynth1.text := FloatToStr(round(TuneSynth1.Position));
 end;
 
-procedure TMainForm.D1EQTime5Change(Sender: TObject);
+procedure TMainForm.D1EGTime5Change(Sender: TObject);
 begin
-  D1EQTimeV5.text := FloatToStr(round(D1EQTime5.Position));
+  D1EGTimeV5.text := FloatToStr(round(D1EGTime5.Position));
 end;
 
-procedure TMainForm.D1EQTime6Change(Sender: TObject);
+procedure TMainForm.D1EGTime6Change(Sender: TObject);
 begin
-  D1EQTimeV6.text := FloatToStr(round(D1EQTime6.Position));
+  D1EGTimeV6.text := FloatToStr(round(D1EGTime6.Position));
 end;
 
-procedure TMainForm.D1EQTime7Change(Sender: TObject);
+procedure TMainForm.D1EGTime7Change(Sender: TObject);
 begin
-  D1EQTimeV7.text := FloatToStr(round(D1EQTime7.Position));
+  D1EGTimeV7.text := FloatToStr(round(D1EGTime7.Position));
 end;
 
-procedure TMainForm.D1EQTime8Change(Sender: TObject);
+procedure TMainForm.D1EGTime8Change(Sender: TObject);
 begin
-  D1EQTimeV8.text := FloatToStr(round(D1EQTime8.Position));
+  D1EGTimeV8.text := FloatToStr(round(D1EGTime8.Position));
 end;
 
 procedure TMainForm.DALevelChange(Sender: TObject);
@@ -15703,14 +16973,14 @@ begin
   D1LevelV7.text := FloatToStr(round(D1Level7.Position));
 end;
 
-procedure TMainForm.D1EQTime2Change(Sender: TObject);
+procedure TMainForm.D1EGTime2Change(Sender: TObject);
 begin
-   D1EQTimeV2.text := FloatToStr(round(D1EQTime2.Position));
+   D1EGTimeV2.text := FloatToStr(round(D1EGTime2.Position));
 end;
 
-procedure TMainForm.D1EQTime3Change(Sender: TObject);
+procedure TMainForm.D1EGTime3Change(Sender: TObject);
 begin
-  D1EQTimeV3.text := FloatToStr(round(D1EQTime3.Position));
+  D1EGTimeV3.text := FloatToStr(round(D1EGTime3.Position));
 end;
 
 procedure TMainForm.D1Level1Change(Sender: TObject);
@@ -15830,9 +17100,111 @@ end;
 
 procedure TMainForm.SaveFileBClick(Sender: TObject);
 begin
-   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 7 days. ;)');
+   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 8 days. ;)');
 end;
 
+procedure TMainForm.WaveformSynth1Update();
+Var
+   i:integer;
+begin
+WaveformSynth1.Items.clear;
+ If (SynthoscSynth1.ItemIndex=0) or (SynthoscSynth1.ItemIndex=7) or (SynthoscSynth1.ItemIndex=9) then
+ 	begin
+
+ 		WaveformSynth1.AddItem('Saw',NIL);
+ 		WaveformSynth1.AddItem('Pulse',NIL);
+ 		WaveformSynth1.AddItem('Tri',NIL);
+ 		WaveformSynth1.AddItem('Sin',NIL);
+                WaveformSynthC1.Caption:='4';
+ end;
+ If (SynthoscSynth1.ItemIndex=1) or (SynthoscSynth1.ItemIndex=4) or (SynthoscSynth1.ItemIndex=6) then
+ 	begin
+
+ 		WaveformSynth1.AddItem('SawSaw',NIL);
+ 		WaveformSynth1.AddItem('SawSqu',NIL);
+ 		WaveformSynth1.AddItem('SawTri',NIL);
+ 		WaveformSynth1.AddItem('SawSin',NIL);
+ 		WaveformSynth1.AddItem('SawNs',NIL);
+ 		WaveformSynth1.AddItem('SquSaw',NIL);
+ 		WaveformSynth1.AddItem('SquSqu',NIL);
+ 		WaveformSynth1.AddItem('SquTri',NIL);
+ 		WaveformSynth1.AddItem('SquSin',NIL);
+ 		WaveformSynth1.AddItem('SquNs',NIL);
+ 		WaveformSynth1.AddItem('TriSaw',NIL);
+ 		WaveformSynth1.AddItem('TriSqu',NIL);
+ 		WaveformSynth1.AddItem('TriTri',NIL);
+ 		WaveformSynth1.AddItem('TriSin',NIL);
+ 		WaveformSynth1.AddItem('TriNs',NIL);
+ 		WaveformSynth1.AddItem('SinSaw',NIL);
+ 		WaveformSynth1.AddItem('SinSqu',NIL);
+ 		WaveformSynth1.AddItem('SinTri',NIL);
+ 		WaveformSynth1.AddItem('SinSin',NIL);
+ 		WaveformSynth1.AddItem('SinNs',NIL);
+                WaveformSynthC1.Caption:='20';
+ 	end;
+ If (SynthoscSynth1.ItemIndex=2) or (SynthoscSynth1.ItemIndex=5) then
+ begin
+
+ 		WaveformSynth1.AddItem('Saw',NIL);
+ 		WaveformSynth1.AddItem('Sin',NIL);
+                WaveformSynthC1.Caption:='2';
+ end;
+ If (SynthoscSynth1.ItemIndex=3) then
+ 	begin
+
+ 		WaveformSynth1.AddItem('3Saw',NIL);
+ 		WaveformSynth1.AddItem('4Saw',NIL);
+ 		WaveformSynth1.AddItem('5Saw',NIL);
+ 		WaveformSynth1.AddItem('6Saw',NIL);
+ 		WaveformSynth1.AddItem('3Squ',NIL);
+ 		WaveformSynth1.AddItem('4Squ',NIL);
+ 		WaveformSynth1.AddItem('5Squ',NIL);
+ 		WaveformSynth1.AddItem('6Squ',NIL);
+ 		WaveformSynth1.AddItem('3Tri',NIL);
+ 		WaveformSynth1.AddItem('4Tri',NIL);
+ 		WaveformSynth1.AddItem('5Tri',NIL);
+ 		WaveformSynth1.AddItem('6Tri',NIL);
+ 		WaveformSynth1.AddItem('3Sin',NIL);
+ 		WaveformSynth1.AddItem('4Sin',NIL);
+ 		WaveformSynth1.AddItem('5Sin',NIL);
+ 		WaveformSynth1.AddItem('6Sin',NIL);
+                WaveformSynthC1.Caption:='16';
+ end;
+ If (SynthoscSynth1.ItemIndex=8) then
+ 	begin
+
+ 		WaveformSynth1.AddItem('Type 1',NIL);
+ 		WaveformSynth1.AddItem('Type 2',NIL);
+                WaveformSynthC1.Caption:='20';
+ end;
+ If (SynthoscSynth1.ItemIndex=10) then
+ 	begin
+
+ 		WaveformSynth1.AddItem('Saw',NIL);
+ 		WaveformSynth1.AddItem('Pulse',NIL);
+ 		WaveformSynth1.AddItem('Tri',NIL);
+ 		WaveformSynth1.AddItem('Sin',NIL);
+ 		WaveformSynth1.AddItem('Noise',NIL);
+                WaveformSynthC1.Caption:='5';
+ end;
+ If (SynthoscSynth1.ItemIndex=11) or (SynthoscSynth1.ItemIndex=12) or (SynthoscSynth1.ItemIndex=15) then
+      Begin
+            WaveformSynth1.AddItem('------',NIL);
+            WaveformSynthC1.Caption:='1';
+      end;
+
+
+ If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
+ 		Waveform := Random(77);
+                For i:=1 to 76 do begin
+                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
+                    end;
+                WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
+                WaveformSynthC1.Caption:='76';
+ end;
+ WaveformSynth1.ItemIndex:=0;
+
+end;
 
 
 

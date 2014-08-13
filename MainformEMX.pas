@@ -7,15 +7,11 @@ interface
 uses
   Classes, SysUtils, FileUtil, TAGraph, uPSComponent, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, Buttons, Grids, ueled, uEKnob,
-  uERotImage, uESelector, types, strutils;
+  uERotImage, uESelector, types, strutils, EMXFunctions;
 
 type
 
-  TMyTreeNode = class(TTreeNode)
-  public
-    tvType: String;
-    PopUpMenu: Integer;
-  end;
+
   { TMainForm }
 
   TMainForm = class(TForm)
@@ -1847,7 +1843,7 @@ type
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    EnvLED2_9: TPageControl;
+    PageControl1: TPageControl;
     Drum1: TTabSheet;
     DAccent: TTabSheet;
     StaticText1: TStaticText;
@@ -2026,7 +2022,7 @@ type
     EnvLED1_8: TuELED;
     EnvLED2_8: TuELED;
     EnvLED1_9: TuELED;
-    uELED18: TuELED;
+    EnvLED2_9: TuELED;
     DAccentTrigHoldLED: TuELED;
     EnvLED2_1: TuELED;
     EnvLED1_2: TuELED;
@@ -2049,6 +2045,24 @@ type
     procedure D1AmpEGB7Change(Sender: TObject);
     procedure D1AmpEGB8Change(Sender: TObject);
     procedure D1AmpEGBChange(Sender: TObject);
+    procedure D1FXSend1Change(Sender: TObject);
+    procedure D1FXSend2Change(Sender: TObject);
+    procedure D1FXSend3Change(Sender: TObject);
+    procedure D1FXSend4Change(Sender: TObject);
+    procedure D1FXSend5Change(Sender: TObject);
+    procedure D1FXSend6Change(Sender: TObject);
+    procedure D1FXSend7Change(Sender: TObject);
+    procedure D1FXSend8Change(Sender: TObject);
+    procedure D1FXSendChange(Sender: TObject);
+    procedure D1RollB1Change(Sender: TObject);
+    procedure D1RollB2Change(Sender: TObject);
+    procedure D1RollB3Change(Sender: TObject);
+    procedure D1RollB4Change(Sender: TObject);
+    procedure D1RollB5Change(Sender: TObject);
+    procedure D1RollB6Change(Sender: TObject);
+    procedure D1RollB7Change(Sender: TObject);
+    procedure D1RollB8Change(Sender: TObject);
+    procedure D1RollBChange(Sender: TObject);
     procedure DAccentTrigHoldBChange(Sender: TObject);
     procedure DriveSynth1Change(Sender: TObject);
     procedure EGIntSynth1Change(Sender: TObject);
@@ -2059,6 +2073,7 @@ type
     procedure FX2Parameter2Change(Sender: TObject);
     procedure FX3Parameter1Change(Sender: TObject);
     procedure FX3Parameter2Change(Sender: TObject);
+    procedure FXSendSynth1Change(Sender: TObject);
     procedure GlideSynth1Change(Sender: TObject);
     procedure LDP1Click(Sender: TObject);
     procedure LDP2Click(Sender: TObject);
@@ -2090,9 +2105,11 @@ type
     procedure RadioButton1Change(Sender: TObject);
     procedure ResonanceSynth1Change(Sender: TObject);
     procedure RndSoundClick(Sender: TObject);
+    procedure RollSynth1Change(Sender: TObject);
     procedure SAccentTrigHoldBChange(Sender: TObject);
     procedure SynthoscSynth1Change(Sender: TObject);
     procedure TreeView1Click(Sender: TObject);
+    procedure TreeView1SelectionChanged(Sender: TObject);
     procedure TuneSynth1Change(Sender: TObject);
     procedure D1EGTime4Change(Sender: TObject);
     procedure D1EGTime5Change(Sender: TObject);
@@ -2158,6 +2175,7 @@ type
     procedure SALevelChange(Sender: TObject);
     procedure SaveFileBClick(Sender: TObject);
     procedure WaveformSynth1Update();
+    procedure LoadEMX();
   private
     { private declarations }
   public
@@ -2267,330 +2285,11 @@ implementation
 {$R *.lfm}
 
 { TMainForm }
-function PCMSynthName (num : integer) : String;
-//Function provided by Elke Peuser
-begin
-	Case num of
-		//Keyboard
-		1 : PCMSynthName:='Piano';
-		2 : PCMSynthName:='E-Piano';
-		3 : PCMSynthName:='Clav';
-		4 : PCMSynthName:='M1-Organ';
-		5 : PCMSynthName:='Organ';
-		//Mallet
-		6 : PCMSynthName:='Marimba';
-		7 : PCMSynthName:='Vibe';
-		8 : PCMSynthName:='Cymbell';
-		//Woodwind
-		9 : PCMSynthName:='Flute';
-		10 : PCMSynthName:='AltoSax';
-		11 : PCMSynthName:='M1-T.Sax';
-		//Brass
-		12 : PCMSynthName:='Trumpet';
-		13 : PCMSynthName:='MuteTp';
-		14 : PCMSynthName:='BrassEns';
-		//Choir
-		15 : PCMSynthName:='VoiceAh';
-		16 : PCMSynthName:='M1-Choir';
-		17 : PCMSynthName:='VoiceWav';
-		//String
-		18 : PCMSynthName:='Violin';
-		19 : PCMSynthName:='Strings';
-		20 : PCMSynthName:='Pizzicat';
-		//Guitar
-		21 : PCMSynthName:='F.Guitar';
-		22 : PCMSynthName:='A.Guitar';
-		23 : PCMSynthName:='MuteGtr';
-		24 : PCMSynthName:='FunkGtr';
-		25 : PCMSynthName:='Sitar';
-		//Bass
-		26 : PCMSynthName:='A.Bass';
-		27 : PCMSynthName:='E.Bass';
-		28 : PCMSynthName:='M1-Bass';
-		29 : PCMSynthName:='PickBass';
-		30 : PCMSynthName:='SlapBass';
-		//SynthWave
-		31 : PCMSynthName:='FMBass';
-		32 : PCMSynthName:='88Bass';
-		33 : PCMSynthName:='BoostSaw';
-		34 : PCMSynthName:='SawSqMix';
-		35 : PCMSynthName:='HPFSaw';
-		36 : PCMSynthName:='OctBass1';
-		37 : PCMSynthName:='OctBass2';
-		38 : PCMSynthName:='Saw5th';
-		39 : PCMSynthName:='Squ5th';
-		40 : PCMSynthName:='SynSin1';
-		41 : PCMSynthName:='SynSin2';
-		42 : PCMSynthName:='SynSin3';
-		43 : PCMSynthName:='SynSin4';
-		44 : PCMSynthName:='SynSin5';
-		45 : PCMSynthName:='SynWire1';
-		46 : PCMSynthName:='SynWire2';
-		47 : PCMSynthName:='Digi1';
-		48 : PCMSynthName:='Digi2';
-		49 : PCMSynthName:='Digi3';
-		50 : PCMSynthName:='Digi4';
-		51 : PCMSynthName:='SynVox1';
-		52 : PCMSynthName:='SynVox2';
-		53 : PCMSynthName:='Endless';
-		//Motion
-		54 : PCMSynthName:='Syn-FX1';
-		55 : PCMSynthName:='Syn-Fx2';
-		//Hit
-		56 : PCMSynthName:='OrchHit';
-		57 : PCMSynthName:='BandHit1';
-		58 : PCMSynthName:='Bandhit2';
-		59 : PCMSynthName:='DiscoHit';
-		60 : PCMSynthName:='RaveHit1';
-		61 : PCMSynthName:='RaveHit2';
-		62 : PCMSynthName:='RaveHit3';
-		63 : PCMSynthName:='RaveHit4';
-		64 : PCMSynthName:='RaveHit5';
-		65 : PCMSynthName:='RaveHit6';
-		//Chordset (Maj,min,Maj7,min7)
-		66 : PCMSynthName:='CH-Piano';
-		67 : PCMSynthName:='CH-M1Pia';
-		68 : PCMSynthName:='CH-EPian';
-		69 : PCMSynthName:='CH-Organ';
-		70 : PCMSynthName:='CH-Strgs';
-		//Chordset (min,sus47,min7)
-		71 : PCMSynthName:='CH-Gtr1';
-		//Chordset (min,min,sus4,)
-		72 : PCMSynthName:='CH-gtr2';
-		//Drumset
-		73 : PCMSynthName:='DR-BDs';
-		74 : PCMSynthName:='DR-SDs';
-		75 : PCMSynthName:='DR-CymTym';
-		76 : PCMSynthName:='DR-Percs';
-	end;
-end;
 
 
 
-function Samplename (num : integer) : String;
-//Slavejob
-begin
-	Case num of
-     	1 : Samplename:='BD-Dark';
-     	2 : Samplename:='BD-99 1';
-     	3 : Samplename:='BD-99 2';
-     	4 : Samplename:='BD-Syn1';
-     	5 : Samplename:='BD-Syn2';
-     	6 : Samplename:='BD-Syn3';
-     	7 : Samplename:='BD-Syn4';
-     	8 : Samplename:='BD-Syn5';
-     	9 : Samplename:='BD-Syn6';
-     	10 : Samplename:='BD-Syn7';
-     	11 : Samplename:='BD-Syn8';
-     	12 : Samplename:='BD-Syn9';
-     	13 : Samplename:='BD-Syn10';
-     	14 : Samplename:='BD-Dist1';
-     	15 : Samplename:='BD-Dist2';
-     	16 : Samplename:='BD-Dist3';
-     	17 : Samplename:='BD-Dist4';
-     	18 : Samplename:='BD-Dist5';
-     	19 : Samplename:='BD-Dist6';
-     	20 : Samplename:='BD-Dist7';
-     	21 : Samplename:='BD-Squas';
-     	22 : Samplename:='BD-88 1';
-     	23 : Samplename:='BD-88 2';
-     	24 : Samplename:='BD-Digi';
-     	25 : Samplename:='BD-DDD1';
-     	26 : Samplename:='BD-DDD2';
-     	27 : Samplename:='BD-Lynn';
-     	28 : Samplename:='BD-Dry1';
-     	29 : Samplename:='BD-Dry2';
-     	30 : Samplename:='BD-Dry3';
-     	31 : Samplename:='BD-Dry4';
-     	32 : Samplename:='BD-Soft';
-     	33 : Samplename:='BD-Hip';
-     	34 : Samplename:='BD-R&B';
-     	35 : Samplename:='BD-Jazz';
-     	36 : Samplename:='BD-Break';
-     	37 : Samplename:='BD-Ambi';
-     	38 : Samplename:='BD-Def';
-     	39 : Samplename:='BD-D&B1';
-     	40 : Samplename:='BD-D&B2';
-     	41 : Samplename:='BigBreak';
-     	//Snaredrums
-     	42 : Samplename:='SD-99 1';
-     	43 : Samplename:='SD-99 2';
-     	44 : Samplename:='SD-99 3';
-     	45 : Samplename:='SD-99 4';
-     	46 : Samplename:='SD-99 5';
-     	47 : Samplename:='SD-88 1';
-     	48 : Samplename:='SD-88 2';
-     	49 : Samplename:='SD-88 3';
-     	50 : Samplename:='SD-Syn1';
-     	51 : Samplename:='SD-Syn2';
-     	52 : Samplename:='SD-77';
-     	53 : Samplename:='SD-Lynn';
-     	54 : Samplename:='SD-Disco';
-     	55 : Samplename:='SD-Dry 1';
-     	56 : Samplename:='SD-Dry 2';
-     	57 : Samplename:='SD-Dry 3';
-     	58 : Samplename:='SD-Dry 4';
-     	59 : Samplename:='SD-Dry 5';
-     	60 : Samplename:='SD-Dry 6';
-     	61 : Samplename:='SD-Ambi1';
-     	62 : Samplename:='SD-Ambi2';
-     	63 : Samplename:='SD-Ambi3';
-     	64 : Samplename:='SD-Picl1';
-     	65 : Samplename:='SD-Picl2';
-     	66 : Samplename:='SD-Picl3';
-     	67 : Samplename:='SD-Bras1';
-     	68 : Samplename:='SD-Bras2';
-     	69 : Samplename:='SD-Crckl';
-     	70 : Samplename:='SD-Brk1';
-     	71 : Samplename:='SD-Brk2';
-     	72 : Samplename:='SD-Brk3';
-     	73 : Samplename:='SD-Brk4';
-     	74 : Samplename:='SD-D&B';
-     	75 : Samplename:='SD-Clap1';
-     	76 : Samplename:='SD-Clap2';
-     	77 : Samplename:='SD-R&B1';
-     	78 : Samplename:='SD-R&B2';
-     	79 : Samplename:='SD-R&B3';
-     	80 : Samplename:='SD-R&B4';
-     	81 : Samplename:='SD-R&B5';
-     	//Rim
-     	82 : Samplename:='RM-Ambi1';
-     	83 : Samplename:='RM-Ambi2';
-     	84 : Samplename:='RM-Dry';
-     	85 : Samplename:='RM-DDD';
-     	86 : Samplename:='RM-Lynn';
-     	87 : Samplename:='RM-88';
-     	//Clap
-     	88 : Samplename:='Clp-99 1';
-     	89 : Samplename:='Clp-99 2';
-     	90 : Samplename:='Clp-88 1';
-     	91 : Samplename:='Clp-88 2';
-     	92 : Samplename:='Clp-Nois';
-     	93 : Samplename:='Clp-R&B1';
-     	94 : Samplename:='Clp-R&B2';
-     	//Hihat
-     	95 : Samplename:='HH-99 1C';
-     	96 : Samplename:='HH-99 1O';
-     	97 : Samplename:='HH-99 2C';
-     	98 : Samplename:='HH-99 2H';
-     	99 : Samplename:='HH-99 2O';
-     	100 : Samplename:='HH-99 3C';
-     	101 : Samplename:='HH-99 3O';
-     	102 : Samplename:='HH-88 C';
-     	103 : Samplename:='HH-88 O';
-     	104 : Samplename:='HH-Syn1C';
-     	105 : Samplename:='HH-Syn1H';
-     	106 : Samplename:='HH-Syn1O';
-     	107 : Samplename:='HH-Syn2C';
-     	108 : Samplename:='HH-Syn2O';
-     	109 : Samplename:='HH-Syn3C';
-     	110 : Samplename:='HH-Syn3O';
-     	111 : Samplename:='HH-Nrm1C';
-     	112 : Samplename:='HH-Nrm1O';
-     	113 : Samplename:='HH-Nrm2C';
-     	114 : Samplename:='HH-Nrm2O';
-     	115 : Samplename:='HH-CrspC';
-     	116 : Samplename:='HH-CrspO';
-     	117 : Samplename:='HH-OldC';
-     	118 : Samplename:='HH-OldO';
-     	119 : Samplename:='HH-LynnC';
-     	120 : Samplename:='HH-LynnO';
-     	//Ride Cymbal
-     	121 : Samplename:='Rid-99 1';
-     	122 : Samplename:='Rid-99 2';
-     	123 : Samplename:='Rid-KPR';
-     	124 : Samplename:='Rid-Edg1';
-     	125 : Samplename:='Rid-Edg2';
-     	126 : Samplename:='Rid-Jazz';
-     	//Crash Cymbal
-     	127 : Samplename:='Crs-99 1';
-     	128 : Samplename:='Crs-99 2';
-     	129 : Samplename:='Crs-Nrm';
-     	130 : Samplename:='Crs-Spls';
-     	//Tom
-     	131 : Samplename:='Tom-99';
-     	132 : Samplename:='Tom-88';
-     	133 : Samplename:='Tom-Simm';
-     	134 : Samplename:='Tom-NrmH';
-     	135 : Samplename:='Tom-NrmL';
-     	136 : Samplename:='Tom-NrmF';
-     	137 : Samplename:='Tom-Jazz';
-     	//Percussions
-     	138 : Samplename:='Bng-Hi';
-     	139 : Samplename:='Bng-Slap';
-     	140 : Samplename:='Bng-Lo1';
-     	141 : Samplename:='Bng-Lo2';
-     	142 : Samplename:='Cng-Hi1';
-     	143 : Samplename:='Cng-Hi2';
-     	144 : Samplename:='Cng-HiMt';
-     	145 : Samplename:='Cng-Lo1';
-     	146 : Samplename:='Cng-Lo2';
-     	147 : Samplename:='Cng-LoMt';
-     	148 : Samplename:='Cng-LynH';
-     	149 : Samplename:='Cng-LynL';
-     	150 : Samplename:='Timb-Hi1';
-     	151 : Samplename:='Timb-Hi2';
-     	152 : Samplename:='Timb-Lo1';
-     	153 : Samplename:='Timb-Lo2';
-     	154 : Samplename:='Timb-Rim';
-     	155 : Samplename:='Claves';
-     	156 : Samplename:='Cowbell';
-     	157 : Samplename:='ChaChaBl';
-     	158 : Samplename:='MamboBel';
-     	159 : Samplename:='Agogo';
-     	160 : Samplename:='Triangle';
-     	161 : Samplename:='Tambouri';
-     	162 : Samplename:='Junk1';
-     	163 : Samplename:='Junk2';
-     	164 : Samplename:='SleightBl';
-     	165 : Samplename:='Shaker1';
-     	166 : Samplename:='Shaker2';
-     	167 : Samplename:='Cabasa1';
-     	168 : Samplename:='Cabasa2';
-     	169 : Samplename:='Cabasa3';
-     	170 : Samplename:='Guiro-S';
-     	171 : Samplename:='Guiro-L';
-     	172 : Samplename:='Wbl-DDDH';
-     	173 : Samplename:='Wbl-DDD';
-     	174 : Samplename:='Whistle';
-     	175 : Samplename:='Baya-Ghe';
-     	176 : Samplename:='Baya-Mt1';
-     	177 : Samplename:='Baya-Mt2';
-     	178 : Samplename:='Tbla-Na';
-     	179 : Samplename:='Tbla-Tin';
-     	180 : Samplename:='Tbla-Mt1';
-     	181 : Samplename:='Tbla-Mt2';
-     	182 : Samplename:='Djmb-1a';
-     	183 : Samplename:='Djmb-1b';
-     	184 : Samplename:='Djmb-1c';
-     	185 : Samplename:='Djmb-2a';
-     	186 : Samplename:='Djmb-2b';
-     	187 : Samplename:='Djmb-2c';
-     	188 : Samplename:='Udu';
-     	189 : Samplename:='Taiko-Op';
-     	190 : Samplename:='Taiko-Rm';
-     	191 : Samplename:='Tsuzumi';
-     	//Synth Perc
-     	192 : Samplename:='GtrWah';
-     	193 : Samplename:='Zap1';
-     	194 : Samplename:='Zap2';
-     	195 : Samplename:='SynPerc1';
-     	196 : Samplename:='SynPerc2';
-     	197 : Samplename:='SynPerc3';
-     	198 : Samplename:='SynPerc4';
-     	199 : Samplename:='SynPerc5';
-     	200 : Samplename:='SynPerc6';
-     	//Reverse
-     	201 : Samplename:='Rev-BD';
-     	202 : Samplename:='Rev-SD1';
-     	203 : Samplename:='Rev-SD2';
-     	204 : Samplename:='Rev-Crsh';
-     	//Scratch
-     	205 : Samplename:='Scratch1';
-     	206 : Samplename:='Scratch2';
-     	207 : Samplename:='Scratch3';
-	end;
-end;
+
+
 function HEXFN (decimal : word) : string;
 const hexDigit : array [0..15] of char = '0123456789ABCDEF';
   begin
@@ -2611,141 +2310,7 @@ end;
 
 
 
-function Notestring (num : integer) : String;
-begin
-	Case num of
-                0 : NoteString :='C-2';
-		1 : NoteString :='C#-2';
-		2 : NoteString :='D-2';
-		3 : NoteString :='D#-2';
-		5 : NoteString :='E-2';
-		6 : NoteString :='F-2';
-		7 : NoteString :='F#-2';
-		8 : NoteString :='G-2';
-		9 : NoteString :='G#-2';
-		10 : NoteString :='A-2';
-		11 : NoteString :='A#-2';
-		12 : NoteString :='B-2';
-		13 : NoteString :='C-1';
-		14 : NoteString :='C#-1';
-		15 : NoteString :='D-1';
-		16 : NoteString :='E-1';
-		17 : NoteString :='F-1';
-		18 : NoteString :='F#-1';
-		19 : NoteString :='G-1';
-		20 : NoteString :='G#-1';
-		21 : NoteString :='A-1';
-		22 : NoteString :='A#-1';
-		23 : NoteString :='B-1';
-		24 : NoteString :='C 0';
-		25 : NoteString :='C#0';
-		26 : NoteString :='D 0';
-		27 : NoteString :='D#0';
-		28 : NoteString :='E 0';
-		29 : NoteString :='F 0';
-		30 : NoteString :='F#0';
-		31 : NoteString :='G 0';
-		32 : NoteString :='G#0';
-		33 : NoteString :='A 0';
-		34 : NoteString :='A#0';
-		35 : NoteString :='B 0';
-		36 : NoteString :='C 1';
-		37 : NoteString :='C#1';
-		38 : NoteString :='D 1';
-		39 : NoteString :='D#1';
-		40 : NoteString :='E 1';
-		41 : NoteString :='F 1';
-		42 : NoteString :='F#1';
-		43 : NoteString :='G 1';
-		44 : NoteString :='G#1';
-		45 : NoteString :='A 1';
-		46 : NoteString :='A#1';
-		47 : NoteString :='B 1';
-		48 : NoteString :='C 2';
-		49 : NoteString :='C#2';
-		50 : NoteString :='D 2';
-		51 : NoteString :='D#2';
-		52 : NoteString :='E 2';
-		53 : NoteString :='F 2';
-		54 : NoteString :='F#2';
-		55 : NoteString :='G 2';
-		56 : NoteString :='G#2';
-		57 : NoteString :='A 2';
-		58 : NoteString :='A#2';
-		59 : NoteString :='B 2';
-		60 : NoteString :='C 3';
-		61 : NoteString :='C#3';
-		62 : NoteString :='D 3';
-		63 : NoteString :='D#3';
-		64 : NoteString :='E 3';
-		65 : NoteString :='F 3';
-		66 : NoteString :='F#3';
-		67 : NoteString :='G 3';
-		68 : NoteString :='G#3';
-		69 : NoteString :='A 3';
-		70 : NoteString :='A#3';
-		71 : NoteString :='B 3';
-		72 : NoteString :='C 4';
-		73 : NoteString :='C#4';
-		74 : NoteString :='D 4';
-		75 : NoteString :='D#4';
-		76 : NoteString :='E 4';
-		77 : NoteString :='F 4';
-		78 : NoteString :='F#4';
-		79 : NoteString :='G 4';
-		80 : NoteString :='G#4';
-		81 : NoteString :='A 4';
-		82 : NoteString :='A#4';
-		83 : NoteString :='B 4';
-		84 : NoteString :='C 5';
-		85 : NoteString :='C#5';
-		86 : NoteString :='D 5';
-		87 : NoteString :='D#5';
-		88 : NoteString :='E 5';
-		89 : NoteString :='F 5';
-		90 : NoteString :='F#5';
-		91 : NoteString :='G 5';
-		92 : NoteString :='G#5';
-		93 : NoteString :='A 5';
-		94 : NoteString :='A#5';
-		95 : NoteString :='B 5';
-		96 : NoteString :='C 6';
-		97 : NoteString :='C#6';
-		98 : NoteString :='D 6';
-		99 : NoteString :='D#6';
-		100 : NoteString :='E 6';
-		101 : NoteString :='F 6';
-		102 : NoteString :='F#6';
-		103 : NoteString :='G 6';
-		104 : NoteString :='G#6';
-		105 : NoteString :='A 6';
-		106 : NoteString :='A#6';
-		107 : NoteString :='B 6';
-		108 : NoteString :='C 7';
-		109 : NoteString :='C#7';
-		110 : NoteString :='D 7';
-		111 : NoteString :='D#7';
-		112 : NoteString :='E 7';
-		113 : NoteString :='F 7';
-		114 : NoteString :='F#7';
-		115 : NoteString :='G 7';
-		116 : NoteString :='G#7';
-		117 : NoteString :='A 7';
-		118 : NoteString :='A#7';
-		119 : NoteString :='B 7';
-		120 : NoteString :='C 8';
-		121 : NoteString :='C#8';
-		122 : NoteString :='D 8';
-		123 : NoteString :='D#8';
-		124 : NoteString :='E 8';
-		125 : NoteString :='F 8';
-		126 : NoteString :='F#8';
-		127 : NoteString :='G 8';
-		188 : NoteString :='---'; //Nothing
-		//otherwise NoteString :='Err';
-                otherwise NoteString :='---';  //ignore them, because User misconfigurated Midifilter
-	end;
-end;
+
 procedure TMainForm.LoadFileBClick(Sender: TObject);
 Var
    BytesRead : Integer;
@@ -4673,7 +4238,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring := PCMSynthName(Waveform);
+                              Waveformstring := GetPCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -4954,7 +4519,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring := PCMSynthName(Waveform);
+                              Waveformstring := GetPCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5229,7 +4794,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring := PCMSynthName(Waveform);
+                              Waveformstring := GetPCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5509,7 +5074,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring := PCMSynthName(Waveform);
+                              Waveformstring := GetPCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -5786,7 +5351,7 @@ begin
                       If (Synthoscillator=13) or (Synthoscillator=14) then
                          begin
                               Waveform := Waveform + 1;
-                              Waveformstring := PCMSynthName(Waveform);
+                              Waveformstring := GetPCMSynthName(Waveform);
                          end;
 
                       Treeview1.Items.AddChild(InstNode, 'Waveform: ' + Waveformstring);
@@ -6273,8 +5838,13 @@ end;
 EditPattern.Enabled:=false;
 LDP.Enabled:=false;
 LDS.Enabled:=false;
-LSP.enabled:=false;
+LSP.Enabled:=false;
 LSS.enabled:=false;
+EditPattern.Visible:=false;
+LDP.Visible:=false;
+LDS.Visible:=false;
+LSP.Visible:=false;
+LSS.Visible:=false;
 
 end;
 
@@ -6467,22 +6037,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   AmpEGSynth1.state := cbUnchecked;
+  EnvLED1_S1.Color:=clSilver;
+  EnvLED2_S1.Color:=$004080FF;
   RollSynth1.State:= cbUnchecked;
+  RollSynth1.Caption:='Roll Off';
   FXSendSynth1.State:= cbUnchecked;
+  FXSendSynth1.Caption:='FX Send Off';
   FXSelectSynth1.ItemIndex:=0;
   If (FSSSRA > 15) Then
   begin
 	  AmpEGSynth1.state := cbChecked;
+          EnvLED1_S1.Color:=$004080FF;
+          EnvLED2_S1.Color:=clSilver;
 	  FSSSRA:=FSSSRA-16;
   End;
   If (FSSSRA > 7) Then
    begin
 	  RollSynth1.State:= cbChecked;
+          RollSynth1.Caption:='Roll On';
 	  FSSSRA:=FSSSRA-8;
    End;
   If (FSSSRA > 3) Then
   begin
 	  FXSendSynth1.State:= cbChecked;
+          FXSendSynth1.Caption:='FX Send On';
 	  FSSSRA:=FSSSRA-4;
  End;
  If (FSSSRA = 2) Then
@@ -6499,12 +6077,14 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   ModTypeSynth1.ItemIndex:=0;
   BPMSyncSynth1.state:=cbUnchecked;
+  BPMSyncSynth1.Caption:='BPM Sync Off';
 
   MType :='Saw';
   MBPMSync :='Off';
   If (MTDBS > 127) Then
   begin
 	  BPMSyncSynth1.state:=cbChecked;
+          BPMSyncSynth1.Caption:='BPM Sync On';
 	  MTDBS:=MTDBS-128;
   End;
   If (MTDBS > 63) Then
@@ -6564,6 +6144,7 @@ begin
   EGTimeVSynth1.text := FloatToStr(round(EGTimeSynth1.Position));
 end;
 
+
 procedure TMainForm.FX1Parameter1Change(Sender: TObject);
 begin
   FX1VParameter1.text := FloatToStr(round(FX1Parameter1.Position));
@@ -6592,6 +6173,16 @@ end;
 procedure TMainForm.FX3Parameter2Change(Sender: TObject);
 begin
   FX3VParameter2.text := FloatToStr(round(FX3Parameter2.Position));
+end;
+
+procedure TMainForm.FXSendSynth1Change(Sender: TObject);
+begin
+  If (FXSendSynth1.state=cbUnchecked) then begin
+     FXSendSynth1.Caption:='FX Send Off';
+  end
+  Else begin
+      FXSendSynth1.Caption:='FX Send On';
+  end;
 end;
 
 procedure TMainForm.CutoffSynth1Change(Sender: TObject);
@@ -6729,6 +6320,186 @@ begin
   end;
 end;
 
+procedure TMainForm.D1FXSend1Change(Sender: TObject);
+begin
+  If (D1FXSend1.state=cbUnchecked) then begin
+     D1FXSend1.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend1.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend2Change(Sender: TObject);
+begin
+  If (D1FXSend2.state=cbUnchecked) then begin
+     D1FXSend2.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend2.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend3Change(Sender: TObject);
+begin
+  If (D1FXSend3.state=cbUnchecked) then begin
+     D1FXSend3.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend3.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend4Change(Sender: TObject);
+begin
+  If (D1FXSend4.state=cbUnchecked) then begin
+     D1FXSend4.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend4.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend5Change(Sender: TObject);
+begin
+  If (D1FXSend5.state=cbUnchecked) then begin
+     D1FXSend5.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend5.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend6Change(Sender: TObject);
+begin
+  If (D1FXSend6.state=cbUnchecked) then begin
+     D1FXSend6.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend6.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend7Change(Sender: TObject);
+begin
+  If (D1FXSend7.state=cbUnchecked) then begin
+     D1FXSend7.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend7.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSend8Change(Sender: TObject);
+begin
+  If (D1FXSend8.state=cbUnchecked) then begin
+     D1FXSend8.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend8.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1FXSendChange(Sender: TObject);
+begin
+  If (D1FXSend.state=cbUnchecked) then begin
+     D1FXSend.Caption:='FX Send Off';
+  end
+  Else begin
+      D1FXSend.Caption:='FX Send On';
+  end;
+end;
+
+procedure TMainForm.D1RollB1Change(Sender: TObject);
+begin
+    If (D1RollB1.state=cbUnchecked) then begin
+     D1RollB1.Caption:='Roll Off';
+  end
+  Else begin
+      D1RollB1.Caption:='Roll On';
+  end;
+end;
+
+procedure TMainForm.D1RollB2Change(Sender: TObject);
+begin
+    If (D1RollB2.state=cbUnchecked) then begin
+     D1RollB2.Caption:='Roll Off';
+  end
+  Else begin
+      D1RollB2.Caption:='Roll On';
+  end;
+end;
+
+procedure TMainForm.D1RollB3Change(Sender: TObject);
+begin
+    If (D1RollB3.state=cbUnchecked) then begin
+       D1RollB3.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB3.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollB4Change(Sender: TObject);
+begin
+    If (D1RollB4.state=cbUnchecked) then begin
+       D1RollB4.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB4.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollB5Change(Sender: TObject);
+begin
+    If (D1RollB5.state=cbUnchecked) then begin
+       D1RollB5.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB5.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollB6Change(Sender: TObject);
+begin
+    If (D1RollB6.state=cbUnchecked) then begin
+       D1RollB6.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB6.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollB7Change(Sender: TObject);
+begin
+    If (D1RollB7.state=cbUnchecked) then begin
+       D1RollB7.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB7.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollB8Change(Sender: TObject);
+begin
+    If (D1RollB8.state=cbUnchecked) then begin
+       D1RollB8.Caption:='Roll Off';
+    end
+    Else begin
+        D1RollB8.Caption:='Roll On';
+    end;
+end;
+
+procedure TMainForm.D1RollBChange(Sender: TObject);
+begin
+  If (D1RollB.state=cbUnchecked) then begin
+     D1RollB.Caption:='Roll Off';
+  end
+  Else begin
+      D1RollB.Caption:='Roll On';
+  end;
+end;
+
 procedure TMainForm.DAccentTrigHoldBChange(Sender: TObject);
 begin
   If (DAccentTrigHoldB.state=cbUnchecked) then begin
@@ -6807,22 +6578,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB.state := cbUnchecked;
+  EnvLED2_1.Color:=$004080FF;
+  EnvLED1_1.Color:=clSilver;
   D1RollB.State:= cbUnchecked;
+  D1RollB.Caption:='Roll Off';
   D1FXSend.State:= cbUnchecked;
+  D1FXSend.Caption:='FX Send Off';
   D1FXSelect.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB.state := cbchecked;
+                  EnvLED2_1.Color:=clSilver;
+                  EnvLED1_1.Color:=$004080FF;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB.State:= cbchecked;
+                  D1RollB.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend.State:= cbchecked;
+                  D1FXSend.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -6838,10 +6617,12 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType.ItemIndex:=0;
   D1BPMSync.state:=cbUnchecked;
+  D1BPMSync.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync.state:=cbChecked;
-		  MTDBS:=MTDBS-128;
+                  D1BPMSync.Caption:='BPM Sync On';
+                  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
 	 begin
@@ -6930,22 +6711,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB1.state := cbUnchecked;
+  EnvLED2_2.Color:=$004080FF;
+  EnvLED1_2.Color:=clSilver;
   D1RollB1.State:= cbUnchecked;
+  D1RollB1.Caption:='Roll Off';
   D1FXSend1.State:= cbUnchecked;
+  D1FXSend1.Caption:='FX Send Off';
   D1FXSelect1.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB1.state := cbchecked;
+                  EnvLED2_2.Color:=clSilver;
+                  EnvLED1_2.Color:=$004080FF;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB1.State:= cbchecked;
+                  D1RollB1.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend1.State:= cbchecked;
+                  D1FXSend1.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -6961,9 +6750,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType1.ItemIndex:=0;
   D1BPMSync1.state:=cbUnchecked;
+  D1BPMSync1.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync1.state:=cbChecked;
+                  D1BPMSync1.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7052,22 +6843,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB2.state := cbUnchecked;
+  EnvLED2_3.Color:=$004080FF;
+  EnvLED1_3.Color:=clSilver;
   D1RollB2.State:= cbUnchecked;
+  D1RollB2.Caption:='Roll Off';
   D1FXSend2.State:= cbUnchecked;
+  D1FXSend2.Caption:='FX Send Off';
   D1FXSelect2.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB2.state := cbchecked;
+                  EnvLED2_3.Color:=clSilver;
+                  EnvLED1_3.Color:=$004080FF;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB2.State:= cbchecked;
+                  D1RollB2.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend2.State:= cbchecked;
+                  D1FXSend2.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -7083,9 +6882,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType2.ItemIndex:=0;
   D1BPMSync2.state:=cbUnchecked;
+  D1BPMSync2.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync2.state:=cbChecked;
+                  D1BPMSync2.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7174,22 +6975,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB3.state := cbUnchecked;
+  EnvLED2_4.Color:=$004080FF;
+  EnvLED1_4.Color:=clSilver;
   D1RollB3.State:= cbUnchecked;
+  D1RollB3.Caption:='Roll Off';
   D1FXSend3.State:= cbUnchecked;
+  D1FXSend3.Caption:='FX Send Off';
   D1FXSelect3.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB3.state := cbchecked;
+                  EnvLED2_4.Color:=clSilver;
+                  EnvLED1_4.Color:=$004080FF;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB3.State:= cbchecked;
+                  D1RollB3.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend3.State:= cbchecked;
+                  D1FXSend3.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -7205,9 +7014,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType3.ItemIndex:=0;
   D1BPMSync3.state:=cbUnchecked;
+  D1BPMSync3.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync3.state:=cbChecked;
+                  D1BPMSync3.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7296,22 +7107,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB4.state := cbUnchecked;
+  EnvLED2_5.Color:=$004080FF;
+  EnvLED1_5.Color:=clSilver;
   D1RollB4.State:= cbUnchecked;
+  D1RollB4.Caption:='Roll Off';
   D1FXSend4.State:= cbUnchecked;
+  D1FXSend4.Caption:='FX Send Off';
   D1FXSelect4.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB4.state := cbchecked;
+                  EnvLED2_5.Color:=clSilver;
+                  EnvLED1_5.Color:=$004080FF;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB4.State:= cbchecked;
+                  D1RollB4.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend4.State:= cbchecked;
+                  D1FXSend4.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -7327,9 +7146,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType4.ItemIndex:=0;
   D1BPMSync4.state:=cbUnchecked;
+  D1BPMSync4.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync4.state:=cbChecked;
+                  D1BPMSync4.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7418,22 +7239,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB5.state := cbUnchecked;
+  EnvLED2_6.Color:=clSilver;
+  EnvLED1_6.Color:=$004080FF;
   D1RollB5.State:= cbUnchecked;
+  D1RollB5.Caption:='Roll Off';
   D1FXSend5.State:= cbUnchecked;
+  D1FXSend5.Caption:='FX Send Off';
   D1FXSelect5.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB5.state := cbchecked;
+                  EnvLED2_6.Color:=$004080FF;
+                  EnvLED1_6.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB5.State:= cbchecked;
+                  D1RollB5.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend5.State:= cbchecked;
+                  D1FXSend5.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -7540,23 +7369,31 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB6.state := cbUnchecked;
+  EnvLED2_7.Color:=clSilver;
+  EnvLED1_7.Color:=$004080FF;
   D1RollB6.State:= cbUnchecked;
+  D1RollB6.Caption:='Roll Off';
   D1FXSend6.State:= cbUnchecked;
+  D1FXSend6.Caption:='FX Send Off';
   D1FXSelect6.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB6.state := cbchecked;
+                  EnvLED2_7.Color:=$004080FF;
+                  EnvLED1_7.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB6.State:= cbchecked;
+                  D1RollB6.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend6.State:= cbchecked;
-		  FSSSRA:=FSSSRA-4;
+                  D1FXSend6.Caption:='FX Send On';
+                  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
 	 begin
@@ -7571,9 +7408,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType6.ItemIndex:=0;
   D1BPMSync6.state:=cbUnchecked;
+  D1BPMSync6.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync6.state:=cbChecked;
+                  D1BPMSync6.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7662,22 +7501,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB7.state := cbUnchecked;
+  EnvLED2_8.Color:=clSilver;
+  EnvLED1_8.Color:=$004080FF;
   D1RollB7.State:= cbUnchecked;
+  D1RollB7.Caption:='Roll Off';
   D1FXSend7.State:= cbUnchecked;
+  D1FXSend7.Caption:='FX Send Off';
   D1FXSelect7.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB7.state := cbchecked;
+                  EnvLED2_8.Color:=$004080FF;
+                  EnvLED1_8.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB7.State:= cbchecked;
+                  D1RollB7.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend7.State:= cbchecked;
+                  D1FXSend7.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -7693,9 +7540,11 @@ begin
   BytesRead:=Filestream.Read(MTDBS,1);
   D1ModType7.ItemIndex:=0;
   D1BPMSync7.state:=cbUnchecked;
+  D1BPMSync7.Caption:='BPM Sync Off';
   If (MTDBS > 127) Then
 	 begin
 		  D1BPMSync7.state:=cbChecked;
+                  D1BPMSync7.Caption:='BPM Sync On';
 		  MTDBS:=MTDBS-128;
 	 End;
   If (MTDBS > 63) Then
@@ -7784,22 +7633,30 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB8.state := cbUnchecked;
+  EnvLED2_9.Color:=clSilver;
+  EnvLED1_9.Color:=$004080FF;
   D1RollB8.State:= cbUnchecked;
+  D1RollB8.Caption:='Roll Off';
   D1FXSend8.State:= cbUnchecked;
+  D1FXSend8.Caption:='FX Send Off';
   D1FXSelect8.ItemIndex:=0;
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB8.state := cbchecked;
+                  EnvLED2_9.Color:=$004080FF;
+                  EnvLED1_9.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
 	 begin
 		  D1RollB8.State:= cbchecked;
+                  D1RollB8.Caption:='Roll On';
 		  FSSSRA:=FSSSRA-8;
 	 End;
   If (FSSSRA > 3) Then
 	 begin
 		  D1FXSend8.State:= cbchecked;
+                  D1FXSend8.Caption:='FX Send On';
 		  FSSSRA:=FSSSRA-4;
 	 End;
    If (FSSSRA = 2) Then
@@ -16736,6 +16593,16 @@ begin
 
 end;
 
+procedure TMainForm.RollSynth1Change(Sender: TObject);
+begin
+    If (RollSynth1.state=cbUnchecked) then begin
+       RollSynth1.Caption:='Roll Off';
+    end
+    Else begin
+        RollSynth1.Caption:='Roll On';
+    end;
+end;
+
 procedure TMainForm.SAccentTrigHoldBChange(Sender: TObject);
 begin
   If (SAccentTrigHoldB.state=cbUnchecked) then begin
@@ -16755,6 +16622,11 @@ begin
 end;
 
 procedure TMainForm.TreeView1Click(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.TreeView1SelectionChanged(Sender: TObject);
 var
   node:TTreeNode;
   MenuDead:Boolean;
@@ -16766,74 +16638,119 @@ begin
        //Showmessage(node.text);
         If (node.text='Drum 1') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 2') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 3') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 4') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 5') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 6A') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 6B') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 7A') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum 7B') then begin
              EditPattern.Enabled:=false;
+             EditPattern.Visible:=false;
              LDP.Enabled:=true;
              LDS.Enabled:=false;
              LSP.enabled:=false;
              LSS.enabled:=false;
+             LDP.Visible:=true;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth 1') then begin
@@ -16842,6 +16759,11 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=true;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth 2') then begin
@@ -16850,6 +16772,11 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=true;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth 3') then begin
@@ -16858,6 +16785,11 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=true;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth 4') then begin
@@ -16866,6 +16798,11 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=true;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth 5') then begin
@@ -16874,6 +16811,11 @@ begin
              LDS.Enabled:=false;
              LSP.Enabled:=true;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=true;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Sequence') then begin
@@ -16882,6 +16824,11 @@ begin
              LDS.Enabled:=true;
              LSP.Enabled:=false;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=true;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Drum Accent Sequence') then begin
@@ -16890,6 +16837,11 @@ begin
              LDS.Enabled:=true;
              LSP.Enabled:=false;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=true;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
         If (node.text='Synth Accent Sequence') then begin
@@ -16898,29 +16850,36 @@ begin
              LDS.Enabled:=true;
              LSP.Enabled:=false;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=true;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
              MenuDead := False;
         end;
-        If (node.text='Notes&Gates') then begin
-             EditPattern.Enabled:=false;
-             LDP.Enabled:=false;
-             LDS.Enabled:=false;
-             LSP.Enabled:=false;
-             LSS.enabled:=true;
-             MenuDead := False;
-        end;
-        If (MenuDead) then begin
+        //If (node.text='Notes&Gates') then begin
+        //     EditPattern.Enabled:=false;
+        //     LDP.Enabled:=false;
+        //     LDS.Enabled:=false;
+        //     LSP.Enabled:=false;
+        //     LSS.enabled:=true;
+        //     MenuDead := False;
+        //end;
+
+        If (MenuDead=true) then begin
              EditPattern.Enabled:=false;
              LDP.Enabled:=false;
              LDS.Enabled:=false;
              LSP.Enabled:=false;
              LSS.enabled:=false;
+             EditPattern.Visible:=false;
+             LDP.Visible:=false;
+             LDS.Visible:=false;
+             LSP.Visible:=false;
+             LSS.Visible:=false;
         end;
 
   end;
-
-
-
-
 end;
 
 procedure TMainForm.TuneSynth1Change(Sender: TObject);
@@ -17197,14 +17156,18 @@ WaveformSynth1.Items.clear;
  If (SynthoscSynth1.ItemIndex=13) or (SynthoscSynth1.ItemIndex=14) then begin
  		Waveform := Random(77);
                 For i:=1 to 76 do begin
-                    WaveformSynth1.AddItem(PCMSynthName(i),Nil);
+                    WaveformSynth1.AddItem(GetPCMSynthName(i),Nil);
                     end;
-                WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
+                //WaveformSynth1.AddItem('PCM '+ inttostr(Waveform),NIL);
                 WaveformSynthC1.Caption:='76';
  end;
  WaveformSynth1.ItemIndex:=0;
 
 end;
+procedure TMainForm.LoadEMX();
+begin
+
+End;
 
 
 
@@ -17214,3 +17177,4 @@ end;
 
 
 end.
+

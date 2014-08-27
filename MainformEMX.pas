@@ -1,6 +1,6 @@
 unit MainformEMX;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$M+}
 
 interface
 
@@ -8,10 +8,9 @@ uses
   Classes, SysUtils, FileUtil, TAGraph, uPSComponent, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, Buttons, Grids, ValEdit,
   EditBtn, ColorBox, ueled, uEKnob, uERotImage, uESelector, types, strutils,
-  EMXFunctions, LedNumber;
+  EMXFunctions, LedNumber, Patternselection;
 
 type
-
 
   { TMainForm }
 
@@ -27,6 +26,7 @@ type
     BPMSyncSynth5: TToggleBox;
     ArpScaleCombobox: TComboBox;
     ArpCenterNoteCombobox: TComboBox;
+    Test: TButton;
     ComboBox1: TComboBox;
     ComboBox10: TComboBox;
     ComboBox11: TComboBox;
@@ -41,6 +41,8 @@ type
     ComboBox7: TComboBox;
     ComboBox8: TComboBox;
     ComboBox9: TComboBox;
+    LaststepFld: TEdit;
+    PatternnameFld: TEdit;
     GroupBox20: TGroupBox;
     GroupBox21: TGroupBox;
     GroupBox22: TGroupBox;
@@ -238,44 +240,45 @@ type
     MuteStatus12: TCheckBox;
     MuteStatus13: TCheckBox;
     MuteStatus14: TCheckBox;
-    MuteStatus15: TCheckBox;
-    MuteStatus16: TCheckBox;
-    MuteStatus17: TCheckBox;
-    MuteStatus18: TCheckBox;
-    MuteStatus19: TCheckBox;
+    SwingStatus1: TCheckBox;
+    SwingStatus2: TCheckBox;
+    SwingStatus3: TCheckBox;
+    SwingStatus4: TCheckBox;
+    SwingStatus5: TCheckBox;
     MuteStatus2: TCheckBox;
-    MuteStatus20: TCheckBox;
-    MuteStatus21: TCheckBox;
-    MuteStatus22: TCheckBox;
-    MuteStatus23: TCheckBox;
-    MuteStatus24: TCheckBox;
-    MuteStatus25: TCheckBox;
-    MuteStatus26: TCheckBox;
-    MuteStatus27: TCheckBox;
-    MuteStatus28: TCheckBox;
-    MuteStatus29: TCheckBox;
+    SwingStatus6: TCheckBox;
+    SwingStatus7: TCheckBox;
+    SwingStatus8: TCheckBox;
+    SwingStatus9: TCheckBox;
+    SwingStatus10: TCheckBox;
+    SwingStatus11: TCheckBox;
+    SwingStatus12: TCheckBox;
+    SwingStatus13: TCheckBox;
+    SwingStatus14: TCheckBox;
+    SwingSWStatus1: TCheckBox;
     MuteStatus3: TCheckBox;
-    MuteStatus30: TCheckBox;
-    MuteStatus31: TCheckBox;
-    MuteStatus32: TCheckBox;
-    MuteStatus33: TCheckBox;
-    MuteStatus34: TCheckBox;
-    MuteStatus35: TCheckBox;
-    MuteStatus36: TCheckBox;
-    MuteStatus37: TCheckBox;
-    MuteStatus38: TCheckBox;
-    MuteStatus39: TCheckBox;
+    SwingSWStatus2: TCheckBox;
+    SwingSWStatus3: TCheckBox;
+    SwingSWStatus4: TCheckBox;
+    SwingSWStatus5: TCheckBox;
+    SwingSWStatus6: TCheckBox;
+    SwingSWStatus7: TCheckBox;
+    SwingSWStatus8: TCheckBox;
+    SwingSWStatus9: TCheckBox;
+    SwingSWStatus10: TCheckBox;
+    SwingSWStatus11: TCheckBox;
     MuteStatus4: TCheckBox;
-    MuteStatus40: TCheckBox;
-    MuteStatus41: TCheckBox;
-    MuteStatus42: TCheckBox;
+    SwingSWStatus12: TCheckBox;
+    SwingSWStatus13: TCheckBox;
+    SwingSWStatus14: TCheckBox;
     MuteStatus5: TCheckBox;
     MuteStatus6: TCheckBox;
     MuteStatus7: TCheckBox;
     MuteStatus8: TCheckBox;
     MuteStatus9: TCheckBox;
-    PatternlengthSel1: TuESelector;
-    PatternlengthSel2: TuESelector;
+    RolltypeSel: TuESelector;
+    SaveDialog1: TSaveDialog;
+    TimeSignatureSel: TuESelector;
     StaticText18: TStaticText;
     StaticText19: TStaticText;
     TempoLED: TLEDNumber;
@@ -459,9 +462,9 @@ type
     TuneVSynth3: TEdit;
     TuneVSynth4: TEdit;
     TuneVSynth5: TEdit;
-    uEKnob2: TuEKnob;
+    SwinguEKnob: TuEKnob;
     PatternlengthSel: TuESelector;
-    uEKnob3: TuEKnob;
+    TempouEKnob: TuEKnob;
     WaveformSynth2: TComboBox;
     WaveformSynth3: TComboBox;
     WaveformSynth4: TComboBox;
@@ -2186,7 +2189,6 @@ type
     StaticText7: TStaticText;
     StaticText8: TStaticText;
     StaticText9: TStaticText;
-    StatusBar1: TStatusBar;
     Synth1: TTabSheet;
     Synth2: TTabSheet;
     Synth3: TTabSheet;
@@ -2427,10 +2429,13 @@ type
     procedure EGTimeSynth5Change(Sender: TObject);
     procedure FX1Parameter1Change(Sender: TObject);
     procedure FX1Parameter2Change(Sender: TObject);
+    procedure FX1TrigHoldBChange(Sender: TObject);
     procedure FX2Parameter1Change(Sender: TObject);
     procedure FX2Parameter2Change(Sender: TObject);
+    procedure FX2TrigHoldBChange(Sender: TObject);
     procedure FX3Parameter1Change(Sender: TObject);
     procedure FX3Parameter2Change(Sender: TObject);
+    procedure FX3TrigHoldBChange(Sender: TObject);
     procedure FXSendSynth1Change(Sender: TObject);
     procedure FXSendSynth2Change(Sender: TObject);
     procedure FXSendSynth3Change(Sender: TObject);
@@ -2521,12 +2526,17 @@ type
     procedure RollSynth4Change(Sender: TObject);
     procedure RollSynth5Change(Sender: TObject);
     procedure SAccentTrigHoldBChange(Sender: TObject);
+    procedure SetupContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
+    procedure SwinguEKnobChange(Sender: TObject);
     procedure SynthoscSynth1Change(Sender: TObject);
     procedure SynthoscSynth2Change(Sender: TObject);
     procedure SynthoscSynth3Change(Sender: TObject);
     procedure SynthoscSynth4Change(Sender: TObject);
     procedure SynthoscSynth5Change(Sender: TObject);
-    procedure TreeView1Click(Sender: TObject);
+    procedure TempouEKnobChange(Sender: TObject);
+    procedure TestClick(Sender: TObject);
+    procedure TimeSignatureSelChange(Sender: TObject);
     procedure TreeView1SelectionChanged(Sender: TObject);
     procedure TuneSynth1Change(Sender: TObject);
     procedure D1EGTime4Change(Sender: TObject);
@@ -2634,6 +2644,7 @@ type
     procedure LoadPatternSettings(Patternname : String;Bankname : String;Filename : String);
 
     procedure LoadEMX();
+    procedure SaveEMX();
   private
     { private declarations }
   public
@@ -2799,24 +2810,28 @@ i:Integer;
 begin
 For i:=1 to 207 do begin
         D1Sample.AddItem(Samplename(i),Nil);
-        D1Sample.ItemIndex:=1;
         D1Sample1.AddItem(Samplename(i),Nil);
-        D1Sample1.ItemIndex:=1;
         D1Sample2.AddItem(Samplename(i),Nil);
-        D1Sample2.ItemIndex:=1;
         D1Sample3.AddItem(Samplename(i),Nil);
-        D1Sample3.ItemIndex:=1;
         D1Sample4.AddItem(Samplename(i),Nil);
-        D1Sample4.ItemIndex:=1;
         D1Sample5.AddItem(Samplename(i),Nil);
-        D1Sample5.ItemIndex:=1;
         D1Sample6.AddItem(Samplename(i),Nil);
-        D1Sample6.ItemIndex:=1;
         D1Sample7.AddItem(Samplename(i),Nil);
-        D1Sample7.ItemIndex:=1;
         D1Sample8.AddItem(Samplename(i),Nil);
-        D1Sample8.ItemIndex:=1;
 end;
+D1Sample.ItemIndex:=1;
+D1Sample1.ItemIndex:=1;
+D1Sample2.ItemIndex:=1;
+D1Sample3.ItemIndex:=1;
+D1Sample4.ItemIndex:=1;
+D1Sample5.ItemIndex:=1;
+D1Sample6.ItemIndex:=1;
+D1Sample7.ItemIndex:=1;
+D1Sample8.ItemIndex:=1;
+For i:=0 to 127 do begin
+    ArpCenterNoteCombobox.AddItem(Notestring(i),Nil);
+end;
+ArpCenterNoteCombobox.ItemIndex:=81;
 EditPattern.Enabled:=false;
 LDPS.Enabled:=false;
 LDP.Enabled:=false;
@@ -2830,7 +2845,7 @@ LDS.Visible:=false;
 LSP.Visible:=false;
 LSS.Visible:=false;
 PatternlengthSel.Index :=7;
-
+if not (FileExists('clean.EMX')) then ShowMessage('Please copy the File: clean.EMX in the same directory of EMX.exe');
 
 end;
 
@@ -3224,6 +3239,14 @@ begin
   FX1VParameter2.text := FloatToStr(round(FX1Parameter2.Position));
 end;
 
+procedure TMainForm.FX1TrigHoldBChange(Sender: TObject);
+begin
+  If (FX1TrigHoldB.State=cbUnchecked) then
+     FX1TrigHoldLED.Color:=clsilver
+  Else
+     FX1TrigHoldLED.Color:=$004080FF;
+end;
+
 procedure TMainForm.FX2Parameter1Change(Sender: TObject);
 begin
   FX2VParameter1.text := FloatToStr(round(FX2Parameter1.Position));
@@ -3234,6 +3257,14 @@ begin
   FX2VParameter2.text := FloatToStr(round(FX2Parameter2.Position));
 end;
 
+procedure TMainForm.FX2TrigHoldBChange(Sender: TObject);
+begin
+  If (FX2TrigHoldB.State=cbUnchecked) then
+     FX2TrigHoldLED.Color:=clsilver
+  Else
+     FX2TrigHoldLED.Color:=$004080FF;
+end;
+
 procedure TMainForm.FX3Parameter1Change(Sender: TObject);
 begin
   FX3VParameter1.text := FloatToStr(round(FX3Parameter1.Position));
@@ -3242,6 +3273,14 @@ end;
 procedure TMainForm.FX3Parameter2Change(Sender: TObject);
 begin
   FX3VParameter2.text := FloatToStr(round(FX3Parameter2.Position));
+end;
+
+procedure TMainForm.FX3TrigHoldBChange(Sender: TObject);
+begin
+  If (FX3TrigHoldB.State=cbUnchecked) then
+     FX3TrigHoldLED.Color:=clsilver
+  Else
+     FX3TrigHoldLED.Color:=$004080FF;
 end;
 
 procedure TMainForm.FXSendSynth1Change(Sender: TObject);
@@ -3791,6 +3830,7 @@ LoadSynth2Parameter('Synth 2',Patternname,Bankname,Filename);
 LoadSynth3Parameter('Synth 3',Patternname,Bankname,Filename);
 LoadSynth4Parameter('Synth 4',Patternname,Bankname,Filename);
 LoadSynth5Parameter('Synth 5',Patternname,Bankname,Filename);
+LoadPatternSettings(Patternname,Bankname,Filename);
 end;
 
 procedure TMainForm.EGIntSynth1Change(Sender: TObject);
@@ -3842,6 +3882,9 @@ procedure TMainForm.GlideSynth5Change(Sender: TObject);
 begin
   GlideVSynth5.text := FloatToStr(round(GlideSynth5.Position));
 end;
+
+
+
 
 procedure TMainForm.LDP1Click(Sender: TObject);
 Var
@@ -4651,6 +4694,17 @@ begin
   end;
 end;
 
+procedure TMainForm.SetupContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+
+end;
+
+procedure TMainForm.SwinguEKnobChange(Sender: TObject);
+begin
+  SwingLED.caption := FloatToStr(round(SwinguEKnob.Position));
+end;
+
 procedure TMainForm.SynthoscSynth1Change(Sender: TObject);
 begin
   WaveformSynth1Update();
@@ -4676,10 +4730,39 @@ begin
      WaveformSynth5Update();
 end;
 
-procedure TMainForm.TreeView1Click(Sender: TObject);
+procedure TMainForm.TempouEKnobChange(Sender: TObject);
 begin
+  TempoLED.caption := FloatToStr(round(TempouEKnob.Position));
+end;
+
+procedure TMainForm.TestClick(Sender: TObject);
+var
+  Status: Integer;
+begin
+  Status :=0;
+  Status := Status + BoolToInt(MuteStatus1.checked)*1;
+  Status := Status + BoolToInt(MuteStatus2.checked)*2;
+  Status := Status + BoolToInt(MuteStatus3.checked)*4;
+  Status := Status + BoolToInt(MuteStatus4.checked)*8;
+  Status := Status + BoolToInt(MuteStatus5.checked)*16;
+  Status := Status + BoolToInt(MuteStatus6.checked)*32;
+  Status := Status + BoolToInt(MuteStatus7.checked)*64;
+  Status := Status + BoolToInt(MuteStatus8.checked)*128;
+
+  // Ausagbe der Werte
+  ShowMessage(inttostr(Status));
+  //ShowMessage(Bits.ToString);
+
 
 end;
+
+procedure TMainForm.TimeSignatureSelChange(Sender: TObject);
+begin
+ LaststepFld.text :='16';
+ If (TimeSignatureSel.Index>1) then LaststepFld.text :='12';
+end;
+
+
 
 procedure TMainForm.TreeView1SelectionChanged(Sender: TObject);
 var
@@ -5152,7 +5235,8 @@ end;
 
 procedure TMainForm.SaveFileBClick(Sender: TObject);
 begin
-   ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 8 days. ;)');
+   SaveEMX();
+   //ShowMessage('Last time i used Pascal was in school 1998 only on paper. I did this in 10 days. ;)');
 end;
 
 procedure TMainForm.TuneSynth2Change(Sender: TObject);
@@ -9929,8 +10013,8 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB6.state := cbUnchecked;
-  EnvLED2_7.Color:=clSilver;
-  EnvLED1_7.Color:=$004080FF;
+  EnvLED1_7.Color:=clSilver;
+  EnvLED2_7.Color:=$004080FF;
   D1RollB6.State:= cbUnchecked;
   D1RollB6.Caption:='Roll Off';
   D1FXSend6.State:= cbUnchecked;
@@ -9939,8 +10023,8 @@ begin
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB6.state := cbchecked;
-                  EnvLED2_7.Color:=$004080FF;
-                  EnvLED1_7.Color:=clSilver;
+                  EnvLED1_7.Color:=$004080FF;
+                  EnvLED2_7.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
@@ -10049,8 +10133,8 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB7.state := cbUnchecked;
-  EnvLED2_8.Color:=clSilver;
-  EnvLED1_8.Color:=$004080FF;
+  EnvLED1_8.Color:=clSilver;
+  EnvLED2_8.Color:=$004080FF;
   D1RollB7.State:= cbUnchecked;
   D1RollB7.Caption:='Roll Off';
   D1FXSend7.State:= cbUnchecked;
@@ -10059,8 +10143,8 @@ begin
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB7.state := cbchecked;
-                  EnvLED2_8.Color:=$004080FF;
-                  EnvLED1_8.Color:=clSilver;
+                  EnvLED1_8.Color:=$004080FF;
+                  EnvLED2_8.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
@@ -10170,8 +10254,8 @@ begin
 
   BytesRead:=Filestream.Read(FSSSRA,1);
   D1AmpEGB8.state := cbUnchecked;
-  EnvLED2_9.Color:=clSilver;
-  EnvLED1_9.Color:=$004080FF;
+  EnvLED1_9.Color:=clSilver;
+  EnvLED2_9.Color:=$004080FF;
   D1RollB8.State:= cbUnchecked;
   D1RollB8.Caption:='Roll Off';
   D1FXSend8.State:= cbUnchecked;
@@ -10180,8 +10264,8 @@ begin
   If (FSSSRA > 15) Then
 	 begin
 		  D1AmpEGB8.state := cbchecked;
-                  EnvLED2_9.Color:=$004080FF;
-                  EnvLED1_9.Color:=clSilver;
+                  EnvLED1_9.Color:=$004080FF;
+                  EnvLED2_9.Color:=clSilver;
 		  FSSSRA:=FSSSRA-16;
 	 End;
   If (FSSSRA > 7) Then
@@ -18569,8 +18653,12 @@ var
   FileStream : TFileStream;
   Patternbase: Integer;
   FXbase: Integer;
+  Tempo: Integer;
+  TempoK: Integer;
+  TempoR: Real;
+  Buffer : array [0..8] of byte;
 begin
-
+  FXbase:=1674;
   Patternnummer := (strtoint(leftstr(Patternname,2))-1)*4806;
 
   If (Bankname='Bank A') Then Patternbase:=512+Patternnummer;
@@ -18578,13 +18666,3136 @@ begin
   If (Bankname='Bank C') Then Patternbase:=512+128*4806+Patternnummer;
   If (Bankname='Bank D') Then Patternbase:=512+192*4806+Patternnummer;
   FileStream := tFileStream.Create (filename,fmShareDenyNone);
-  FileStream.Position := Patternbase+FXbase;
+  FileStream.Position := Patternbase;
+  //FileStream.Position := Patternbase;
+  BytesRead:=Filestream.Read(Buffer[0],8);
+  setlength(Patternname, 8);
+  move(Buffer[0], Patternname[1],8);
+  PatternnameFld.text := Patternname;
+  //Patternsettings
+  //Tempo Float doesn't work in Pascal
+  Tempo:=0;  //Tempobugfix :(
+  TempoK:=0; //Tempobugfix :(
+  BytesRead:=Filestream.Read(Tempo,1);
+  BytesRead:=Filestream.Read(TempoK,1);
+  TempoR:= Tempo*2+TempoK/128; //No idea if i calculate it right. :)
+  //TempoK must have Values between 0.1 and 1.9
+  //
+
+  TempouEKnob.Position := TempoR;
+  TempoLED.Caption:=floatToStr(TempoR);
+  //Swing Standardwert 56
+  BytesRead:=Filestream.Read(Swing,1);
+
+  Swing:=Swing+50;
+  SwinguEKnob.position := Swing;
+
+  SwingLED.caption := inttostr(Swing);
+
+  //Rolltype, Patternlength, Beat
+  BytesRead:=Filestream.Read(RPB,1);
+  Rolltype := 2;
+  RolltypeSel.Index:=0;
+  Beattype := 'Beat 16';
+  TimeSignatureSel.Index:=0;
+  If (RPB > 127) Then
+	 begin
+		  Rolltype := 4;
+                  RolltypeSel.Index:=2;
+		  RPB:=RPB-128;
+	 End;
+  If (RPB > 63) Then
+	 begin
+		  Rolltype := 3;
+                  RolltypeSel.Index:=1;
+                  RPB:=RPB-64;
+	 End;
+  If (RPB > 47) Then
+	 begin
+		  Beattype := '16Tri';
+                  TimeSignatureSel.index :=3;
+		  RPB:=RPB-48;
+	 End;
+  If (RPB > 31) Then
+	 begin
+		  Beattype := '8Tri';
+                  TimeSignatureSel.index :=2;
+		  RPB:=RPB-32;
+	 End;
+   If (RPB > 15) Then
+	 begin
+		  Beattype := 'Beat 32';
+                  TimeSignatureSel.index :=3;
+		  RPB:=RPB-16;
+	 End;
+   PatternlengthSel.index := RPB;
+
+   //Effect Chain
+   BytesRead:=Filestream.Read(FXC,1);
+   FXChainCB.itemindex:=FXC;
+
+   //Laststep (Patternlength per Beat)
+   BytesRead:=Filestream.Read(Laststep,1);
+   Laststep := Laststep + 1;
+   LaststepFld.Text:=inttostr(Laststep);
+
+   // ArpScale (00 Chroma,01 Ionian, 02 Dorian, ..., 0F Raga 2, ..., 1E Octave)
+   BytesRead:=Filestream.Read(ArpScale,1);
+   ArpScaleCombobox.ItemIndex:=ArpScale;
+
+   // Arp Center Note
+   BytesRead:=Filestream.Read(ArpCenterNote,1);
+   //
+
+   // Mute Status
+   BytesRead:=Filestream.Read(MuteStatusP1,1);
+   BytesRead:=Filestream.Read(MuteStatusP2,1);
+   GetBit := ((MuteStatusP2 shr 0) and 1) = 1; //Drum1
+   If (GetBit) then
+	  MuteStatus1.state:=cbChecked
+   Else
+	  MuteStatus1.state:=cbUnchecked;
+   GetBit := ((MuteStatusP2 shr 1) and 1) = 1; //Drum2
+   If (GetBit) then
+	  MuteStatus2.state:=cbChecked
+   Else
+	  MuteStatus2.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 2) and 1) = 1; //Drum3
+   If (GetBit) then
+	  MuteStatus3.state:=cbChecked
+   Else
+	  MuteStatus3.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 3) and 1) = 1;  //Drum4
+   If (GetBit) then
+	  MuteStatus4.state:=cbChecked
+   Else
+	  MuteStatus4.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 4) and 1) = 1; //Drum5
+   If (GetBit) then
+	  MuteStatus5.state:=cbChecked
+   Else
+	  MuteStatus5.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 5) and 1) = 1;  //Drum6A
+   If (GetBit) then
+	  MuteStatus6.state:=cbChecked
+   Else
+	  MuteStatus6.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 6) and 1) = 1;  //Drum6B
+   If (GetBit) then
+	  MuteStatus7.state:=cbChecked
+   Else
+	  MuteStatus7.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP2 shr 7) and 1) = 1;  //Drum7A
+   If (GetBit) then
+	  MuteStatus8.state:=cbChecked
+   Else
+	  MuteStatus8.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP1 shr 0) and 1) = 1; //Drum7B
+   If (GetBit) then
+	  MuteStatus9.state:=cbChecked
+   Else
+	  MuteStatus9.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP1 shr 1) and 1) = 1; //Synth1
+   If (GetBit) then
+	  MuteStatus10.state:=cbChecked
+   Else
+	  MuteStatus10.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP1 shr 2) and 1) = 1; //Synth2
+   If (GetBit) then
+	  MuteStatus11.state:=cbChecked
+   Else
+	  MuteStatus11.state:=cbUnchecked;
+
+   GetBit := ((MuteStatusP1 shr 3) and 1) = 1;  //Synth3
+   If (GetBit) then
+	  MuteStatus12.state:=cbChecked
+   Else
+	  MuteStatus12.state:=cbUnchecked;
+   GetBit := ((MuteStatusP1 shr 4) and 1) = 1;  //Synth4
+   If (GetBit) then
+	  MuteStatus13.state:=cbChecked
+   Else
+	  MuteStatus13.state:=cbUnchecked;
+   GetBit := ((MuteStatusP1 shr 5) and 1) = 1;  //Synth5
+   If (GetBit) then
+	  MuteStatus14.state:=cbChecked
+   Else
+	  MuteStatus14.state:=cbUnchecked;
+
+   // Swing Status
+   BytesRead:=Filestream.Read(SwingStatusP1,1);
+   BytesRead:=Filestream.Read(SwingStatusP2,1);
+
+   //function GetBit(Value: QWord; Index: Byte): Boolean;
+   GetBit := ((SwingStatusP2 shr 0) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus1.state:=cbChecked
+   Else
+	  SwingStatus1.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 1) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus2.state:=cbChecked
+   Else
+	  SwingStatus2.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 2) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus3.state:=cbChecked
+   Else
+	  SwingStatus3.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 3) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus4.state:=cbChecked
+   Else
+	  SwingStatus4.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 4) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus5.state:=cbChecked
+   Else
+	  SwingStatus5.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 5) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus6.state:=cbChecked
+   Else
+	  SwingStatus6.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 6) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus7.state:=cbChecked
+   Else
+	  SwingStatus7.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP2 shr 7) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus8.state:=cbChecked
+   Else
+	  SwingStatus8.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 0) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus9.state:=cbChecked
+   Else
+	  SwingStatus9.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 1) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus10.state:=cbChecked
+   Else
+	  SwingStatus10.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 2) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus11.state:=cbChecked
+   Else
+	  SwingStatus11.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 3) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus12.state:=cbChecked
+   Else
+	  SwingStatus12.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 4) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus13.state:=cbChecked
+   Else
+	  SwingStatus13.state:=cbUnchecked;
+
+   GetBit := ((SwingStatusP1 shr 5) and 1) = 1;
+   If (GetBit) then
+	  SwingStatus14.state:=cbChecked
+   Else
+	  SwingStatus14.state:=cbUnchecked;
+
+   // Output L/R or 3/4 (1 Word) 0=Output 3/4 1=Output L/R
+   BytesRead:=Filestream.Read(OutputStatusP1,1);
+   BytesRead:=Filestream.Read(OutputStatusP2,1);
+
+   //functiOutput L/R GetBit(Value: QWord; Index: Byte): Boolean;
+   GetBit := ((OutputStatusP2 shr 0) and 1) = 1;
+   If (GetBit) then
+	  ComboBox1.ItemIndex:=1
+   Else
+	  ComboBox1.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 1) and 1) = 1;
+   If (GetBit) then
+	  ComboBox2.ItemIndex:=1
+   Else
+	  ComboBox2.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 2) and 1) = 1;
+   If (GetBit) then
+	  ComboBox3.ItemIndex:=1
+   Else
+	  ComboBox3.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 3) and 1) = 1;
+   If (GetBit) then
+	  ComboBox4.ItemIndex:=1
+   Else
+	  ComboBox4.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 4) and 1) = 1;
+   If (GetBit) then
+	  ComboBox5.ItemIndex:=1
+   Else
+	  ComboBox5.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 5) and 1) = 1;
+   If (GetBit) then
+	  ComboBox6.ItemIndex:=1
+   Else
+	  ComboBox6.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 6) and 1) = 1;
+   If (GetBit) then
+	  ComboBox7.ItemIndex:=1
+   Else
+	  ComboBox7.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP2 shr 7) and 1) = 1;
+   If (GetBit) then
+	  ComboBox8.ItemIndex:=1
+   Else
+	  ComboBox8.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 0) and 1) = 1;
+   If (GetBit) then
+	  ComboBox9.ItemIndex:=1
+   Else
+	  ComboBox9.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 1) and 1) = 1;
+   If (GetBit) then
+	  ComboBox10.ItemIndex:=1
+   Else
+	  ComboBox10.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 2) and 1) = 1;
+   If (GetBit) then
+	  ComboBox11.ItemIndex:=1
+   Else
+	  ComboBox11.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 3) and 1) = 1;
+   If (GetBit) then
+	  ComboBox12.ItemIndex:=1
+   Else
+	  ComboBox12.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 4) and 1) = 1;
+   If (GetBit) then
+	  ComboBox13.ItemIndex:=1
+   Else
+	  ComboBox13.ItemIndex:=0;
+
+   GetBit := ((OutputStatusP1 shr 5) and 1) = 1;
+   If (GetBit) then
+	  ComboBox14.ItemIndex:=1
+   Else
+	  ComboBox14.ItemIndex:=0;
+
+   // AccentSw Status (1 Word) 0=AccentSw off 1=AccentSw On
+   BytesRead:=Filestream.Read(AccentSwStatusP1,1);
+   BytesRead:=Filestream.Read(AccentSwStatusP2,1);
+
+   //function GetBit(Value: QWord; Index: Byte): Boolean;
+   GetBit := ((AccentSwStatusP2 shr 0) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus1.state:=cbChecked
+   Else
+	  SwingSWStatus1.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 1) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus2.state:=cbChecked
+   Else
+	  SwingSWStatus2.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 2) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus3.state:=cbChecked
+   Else
+	  SwingSWStatus3.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 3) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus4.state:=cbChecked
+   Else
+	  SwingSWStatus4.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 4) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus5.state:=cbChecked
+   Else
+	  SwingSWStatus5.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 5) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus6.state:=cbChecked
+   Else
+	  SwingSWStatus6.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 6) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus7.state:=cbChecked
+   Else
+	  SwingSWStatus7.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP2 shr 7) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus8.state:=cbChecked
+   Else
+	  SwingSWStatus8.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 0) and 1) = 1;
+   If (GetBit) then
+         If (GetBit) then
+      	  SwingSWStatus9.state:=cbChecked
+         Else
+      	  SwingSWStatus9.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 1) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus10.state:=cbChecked
+   Else
+	  SwingSWStatus10.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 2) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus11.state:=cbChecked
+   Else
+	  SwingSWStatus11.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 3) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus12.state:=cbChecked
+   Else
+	  SwingSWStatus12.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 4) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus13.state:=cbChecked
+   Else
+	  SwingSWStatus13.state:=cbUnchecked;
+
+   GetBit := ((AccentSwStatusP1 shr 5) and 1) = 1;
+   If (GetBit) then
+	  SwingSWStatus14.state:=cbChecked
+   Else
+	  SwingSWStatus14.state:=cbUnchecked;
+
+
+
+   // The FX Section 88A
+   FileStream.Position := Patternbase+FXbase;
+   BytesRead:=Filestream.Read(SelectedFX,1);
+   FX1EffectSelectCB.ItemIndex:=SelectedFX;
+   BytesRead:=Filestream.Read(FXParameter1,1);
+   FX1Parameter1.position :=FXParameter1;
+   FX1VParameter1.Text:=inttostr(FXParameter1);
+   BytesRead:=Filestream.Read(FXParameter2,1);
+   FX1Parameter2.position :=FXParameter2;
+   FX1VParameter2.Text:=inttostr(FXParameter2);
+   BytesRead:=Filestream.Read(FX1MotionSeq,1);
+   //If (FX1MotionSeq=1) then
+   //s:='On'
+   //Else
+   //s:='Off';
+   //Treeview1.Items.AddChild(ParameterNode,'FX 1 Motion Seq. is ' + s);
+
+   BytesRead:=Filestream.Read(SelectedFX,1);
+   FX2EffectSelectCB.ItemIndex:=SelectedFX;
+   BytesRead:=Filestream.Read(FXParameter1,1);
+   FX2Parameter1.position :=FXParameter1;
+   FX2VParameter1.Text:=inttostr(FXParameter1);
+   BytesRead:=Filestream.Read(FXParameter2,1);
+   FX2Parameter2.position :=FXParameter2;
+   FX2VParameter2.Text:=inttostr(FXParameter2);
+   BytesRead:=Filestream.Read(FX1MotionSeq,1);
+   //If (FX1MotionSeq=1) then
+   //s:='On'
+   //Else
+   //s:='Off';
+   //Treeview1.Items.AddChild(ParameterNode,'FX 2 Motion Seq. is ' + s);
+
+
+
+   BytesRead:=Filestream.Read(SelectedFX,1);
+   FX3EffectSelectCB.ItemIndex:=SelectedFX;
+   BytesRead:=Filestream.Read(FXParameter1,1);
+   FX3Parameter1.position :=FXParameter1;
+   FX3VParameter1.Text:=inttostr(FXParameter1);
+   BytesRead:=Filestream.Read(FXParameter2,1);
+   FX3Parameter2.position :=FXParameter2;
+   FX3VParameter2.Text:=inttostr(FXParameter2);
+   BytesRead:=Filestream.Read(FX1MotionSeq,1);
+   //If (FX1MotionSeq=1) then
+   //s:='On'
+   //Else
+   //s:='Off';
+   //Treeview1.Items.AddChild(ParameterNode,'FX 3 Motion Seq. is ' + s);
 
 
 
   //Ende File lesen
   FileStream.Free;
+  //showmessage('Loaded. Have Fun :)');
 end;
+procedure TMainForm.SaveEMX();
+var
+  Patternnummer:Integer;
+  BytesWrite : Integer;
+  FileStream : TFileStream;
+  Patternbase: Integer;
+  FXbase: Integer;
+  Tempo: Integer;
+  TempoK: Integer;
+  TempoR: Integer;
+  Buffer : array [0..8] of byte;
+  Beat: Integer;
+  SwingSWStatusP1 : Integer;
+  SwingSWStatusP2 : Integer;
+  MTypeI :Integer;
 
+begin
+  if SaveDialog1.Execute then
+        begin
+        filename := SaveDialog1.Filename;
+        if (FileExists(filename)) then
+        begin
+          Patternfrm.filenametxtbox.text := filename;
+          Patternfrm.ReadBankA.ReadPatternNamesBankA;
+          Patternfrm.ShowModal;
+          patternbase:= 512+Patternfrm.Bankbox.ItemIndex*64*4806+Patternfrm.Patternbox.ItemIndex*4806;
+        end
+        Else
+        begin
+          CopyFile('clean.emx',filename);
+          patternbase:= 512;
+        end;
+        FileStream := tFileStream.Create (filename,fmOpenWrite);
+        FileStream.Position := patternbase;
+        Patternname:=PatternnameFld.Text;
+        move(ord(Patternname[1]), Buffer,8);
+        BytesWrite:=Filestream.Write(Buffer,8);
+        Tempo := strtoint(TempoLED.Caption);
+        TempoR := round(Tempo/2);
+        TempoK := (Tempo-TempoR*2)*128;
+        BytesWrite:=Filestream.Write(TempoR,1);
+        BytesWrite:=Filestream.Write(TempoK,1);
+        Swing:=StrToInt(SwingLED.Caption)-50;
+        BytesWrite:=Filestream.Write(Swing,1);
+        //Rolltype, Patternlength, Beat
+        RPB :=0;
+        Beat := TimeSignatureSel.Index;
+        Case Beat of
+             1 : RPB:=RPB+16;
+             2 : RPB:=RPB+32;
+             3 : RPB:=RPB+48;
+        End;
+        Rolltype := RolltypeSel.Index;
+        Case Rolltype of
+             1 : RPB:=RPB+64;
+             2 : RPB:=RPB+128;
+        End;
+        Patternlength := PatternlengthSel.Index;
+        RPB:=RPB+Patternlength;
+        BytesWrite:=Filestream.Write(RPB,1);
+        //Effect Chain
+        FXC := FXChainCB.ItemIndex;
+        BytesWrite:=Filestream.Write(FXC,1);
+        //Laststep (Patternlength per Beat)
+        Laststep := StrToInt(LaststepFld.text) - 1;
+        BytesWrite:=Filestream.Write(Laststep,1);
+        // ArpScale
+        ArpScale:=ArpScaleCombobox.ItemIndex;
+        BytesWrite:=Filestream.Write(ArpScale,1);
+        // Arp Center Note
+        ArpCenterNote:=ArpCenterNoteCombobox.ItemIndex;
+        BytesWrite:=Filestream.Write(ArpCenterNote,1);
+
+        // Mute Status
+        //MuteStatus1.checked
+        MuteStatusP1 :=0;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus1.checked)*1;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus2.checked)*2;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus3.checked)*4;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus4.checked)*8;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus5.checked)*16;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus6.checked)*32;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus7.checked)*64;
+        MuteStatusP1 := MuteStatusP1 + BoolToInt(MuteStatus8.checked)*128;
+
+        MuteStatusP2 :=0;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus9.checked)*1;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus10.checked)*2;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus11.checked)*4;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus12.checked)*8;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus13.checked)*16;
+        MuteStatusP2 := MuteStatusP2 + BoolToInt(MuteStatus14.checked)*32;
+        BytesWrite:=Filestream.Write(MuteStatusP1,1);
+        BytesWrite:=Filestream.Write(MuteStatusP2,1);
+        // Swing Status
+        SwingStatusP1 :=0;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus1.checked)*1;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus2.checked)*2;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus3.checked)*4;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus4.checked)*8;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus5.checked)*16;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus7.checked)*32;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus7.checked)*64;
+        SwingStatusP1 := SwingStatusP1 + BoolToInt(SwingStatus8.checked)*128;
+
+        SwingStatusP2 :=0;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus9.checked)*1;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus10.checked)*2;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus11.checked)*4;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus12.checked)*8;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus13.checked)*16;
+        SwingStatusP2 := SwingStatusP2 + BoolToInt(SwingStatus14.checked)*32;
+        BytesWrite:=Filestream.Write(SwingStatusP1,1);
+        BytesWrite:=Filestream.Write(SwingStatusP2,1);
+        // OutputStatus
+        OutputStatusP1 :=0;
+        OutputStatusP1 := OutputStatusP1 + ComboBox1.ItemIndex*1;
+        OutputStatusP1 := OutputStatusP1 + ComboBox2.ItemIndex*2;
+        OutputStatusP1 := OutputStatusP1 + ComboBox3.ItemIndex*4;
+        OutputStatusP1 := OutputStatusP1 + ComboBox4.ItemIndex*8;
+        OutputStatusP1 := OutputStatusP1 + ComboBox5.ItemIndex*16;
+        OutputStatusP1 := OutputStatusP1 + ComboBox6.ItemIndex*32;
+        OutputStatusP1 := OutputStatusP1 + ComboBox7.ItemIndex*64;
+        OutputStatusP1 := OutputStatusP1 + ComboBox8.ItemIndex*128;
+
+        OutputStatusP2 :=0;
+        OutputStatusP2 := OutputStatusP2 + ComboBox9.ItemIndex*1;
+        OutputStatusP2 := OutputStatusP2 + ComboBox10.ItemIndex*2;
+        OutputStatusP2 := OutputStatusP2 + ComboBox11.ItemIndex*4;
+        OutputStatusP2 := OutputStatusP2 + ComboBox12.ItemIndex*8;
+        OutputStatusP2 := OutputStatusP2 + ComboBox13.ItemIndex*16;
+        OutputStatusP2 := OutputStatusP2 + ComboBox14.ItemIndex*32;
+        BytesWrite:=Filestream.Write(OutputStatusP1,1);
+        BytesWrite:=Filestream.Write(OutputStatusP2,1);
+        // SwingSW Status
+        SwingSWStatusP1 :=0;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus1.checked)*1;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus2.checked)*2;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus3.checked)*4;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus4.checked)*8;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus5.checked)*16;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus7.checked)*32;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus7.checked)*64;
+        SwingSWStatusP1 := SwingSWStatusP1 + BoolToInt(SwingSWStatus8.checked)*128;
+        SwingSWStatusP2 :=0;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus9.checked)*1;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus10.checked)*2;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus11.checked)*4;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus12.checked)*8;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus13.checked)*16;
+        SwingSWStatusP2 := SwingSWStatusP2 + BoolToInt(SwingSWStatus14.checked)*32;
+        BytesWrite:=Filestream.Write(SwingSWStatusP1,1);
+        BytesWrite:=Filestream.Write(SwingSWStatusP2,1);
+        //Sample 1
+        Samplebanknumber:= D1Sample.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S2.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S3.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S4.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S5.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S6.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S7.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S8.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S9.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S10.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S11.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S12.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S13.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S14.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S15.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S16.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S17.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S18.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S19.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S20.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S21.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S22.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S23.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S24.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S25.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S26.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S27.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S28.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S29.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S30.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S31.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S32.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S33.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S34.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S35.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S36.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S37.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S38.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S39.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S40.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S41.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S42.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S43.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S44.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S45.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S46.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S47.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S48.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S49.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S50.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S51.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S52.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S53.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S54.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S55.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S56.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S57.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S58.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S59.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S60.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S61.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S62.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S63.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S64.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S65.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S66.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S67.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S68.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S69.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S70.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S71.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S72.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S73.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S74.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S75.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S76.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S77.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S78.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S79.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S80.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S81.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S82.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S83.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S84.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S85.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S86.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S87.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S88.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S89.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S90.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S91.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S92.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S93.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S94.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S95.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S96.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S97.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S98.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S99.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S100.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S101.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S102.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S103.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S104.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S105.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S106.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S107.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S108.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S109.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S110.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S111.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S112.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S113.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S114.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S115.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S116.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S117.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S118.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S119.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S120.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S121.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S122.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S123.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S124.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S125.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S126.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S127.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S128.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+        //Sample 2
+        Samplebanknumber:= D1Sample1.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch1.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level1.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan1.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime1.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB1.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB1.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend1.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect1.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync1.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType1.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest1.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed1.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth1.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq1.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S129.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S130.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S131.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S132.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S133.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S134.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S135.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S136.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S137.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S138.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S139.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S140.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S141.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S142.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S143.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S144.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S145.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S146.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S147.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S148.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S149.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S150.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S151.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S152.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S153.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S154.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S155.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S156.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S157.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S158.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S159.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S160.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S161.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S162.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S163.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S164.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S165.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S166.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S167.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S168.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S169.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S170.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S171.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S172.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S173.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S174.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S175.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S176.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S177.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S178.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S179.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S180.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S181.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S182.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S183.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S184.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S185.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S186.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S187.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S188.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S189.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S190.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S191.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S192.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S193.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S194.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S195.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S196.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S197.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S198.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S199.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S200.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S201.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S202.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S203.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S204.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S205.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S206.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S207.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S208.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S209.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S210.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S211.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S212.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S213.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S214.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S215.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S216.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S217.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S218.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S219.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S220.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S221.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S222.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S223.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S224.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S225.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S226.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S227.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S228.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S229.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S230.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S231.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S232.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S233.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S234.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S235.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S236.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S237.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S238.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S239.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S240.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S241.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S242.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S243.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S244.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S245.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S246.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S247.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S248.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S249.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S250.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S251.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S252.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S253.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S254.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S255.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S256.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+        //Sample 3
+        Samplebanknumber:= D1Sample2.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch2.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level2.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan2.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime2.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB2.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB2.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend2.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect2.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync2.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType2.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest2.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed2.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth2.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq2.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S257.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S258.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S259.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S260.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S261.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S262.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S263.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S264.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S265.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S266.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S267.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S268.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S269.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S270.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S271.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S272.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S273.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S274.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S275.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S276.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S277.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S278.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S279.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S280.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S281.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S282.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S283.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S284.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S285.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S286.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S287.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S288.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S289.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S290.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S291.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S292.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S293.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S294.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S295.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S296.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S297.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S298.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S299.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S300.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S301.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S302.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S303.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S304.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S305.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S306.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S307.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S308.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S309.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S310.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S311.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S312.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S313.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S314.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S315.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S316.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S317.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S318.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S319.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S320.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S321.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S322.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S323.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S324.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S325.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S326.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S327.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S328.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S329.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S330.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S331.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S332.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S333.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S334.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S335.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S336.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S337.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S338.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S339.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S340.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S341.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S342.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S343.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S344.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S345.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S346.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S347.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S348.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S349.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S350.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S351.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S352.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S353.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S354.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S355.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S356.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S357.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S358.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S359.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S360.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S361.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S362.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S363.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S364.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S365.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S366.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S367.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S368.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S369.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S370.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S371.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S372.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S373.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S374.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S375.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S376.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S377.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S378.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S379.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S380.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S381.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S382.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S383.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S384.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+        //Sample 4
+        Samplebanknumber:= D1Sample3.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch3.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level3.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan3.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime3.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB3.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB3.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend3.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect3.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync3.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType3.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest3.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed3.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth3.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq3.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S385.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S386.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S387.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S388.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S389.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S390.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S391.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S392.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S393.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S394.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S395.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S396.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S397.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S398.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S399.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S400.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S401.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S402.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S403.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S404.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S405.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S406.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S407.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S408.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S409.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S410.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S411.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S412.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S413.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S414.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S415.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S416.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S417.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S418.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S419.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S420.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S421.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S422.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S423.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S424.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S425.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S426.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S427.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S428.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S429.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S430.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S431.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S432.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S433.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S434.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S435.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S436.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S437.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S438.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S439.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S440.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S441.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S442.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S443.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S444.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S445.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S446.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S447.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S448.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S449.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S450.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S451.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S452.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S453.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S454.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S455.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S456.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S457.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S458.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S459.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S460.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S461.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S462.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S463.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S464.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S465.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S466.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S467.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S468.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S469.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S470.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S471.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S472.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S473.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S474.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S475.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S476.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S477.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S478.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S479.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S480.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S481.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S482.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S483.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S484.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S485.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S486.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S487.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S488.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S489.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S490.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S491.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S492.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S493.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S494.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S495.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S496.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S497.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S498.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S499.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S500.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S501.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S502.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S503.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S504.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S505.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S506.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S507.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S508.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S509.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S510.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S511.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S512.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+        //Sample 5
+        Samplebanknumber:= D1Sample4.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch4.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level4.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan4.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime4.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB4.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB4.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend4.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect4.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync4.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType4.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest4.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed4.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth4.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq4.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S513.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S514.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S515.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S516.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S517.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S518.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S519.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S520.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S521.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S522.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S523.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S524.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S525.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S526.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S527.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S528.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S529.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S530.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S531.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S532.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S533.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S534.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S535.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S536.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S537.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S538.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S539.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S540.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S541.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S542.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S543.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S544.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S545.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S546.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S547.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S548.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S549.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S550.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S551.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S552.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S553.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S554.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S555.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S556.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S557.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S558.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S559.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S560.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S561.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S562.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S563.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S564.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S565.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S566.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S567.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S568.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S569.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S570.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S571.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S572.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S573.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S574.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S575.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S576.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S577.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S578.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S579.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S580.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S581.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S582.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S583.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S584.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S585.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S586.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S587.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S588.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S589.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S590.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S591.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S592.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S593.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S594.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S595.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S596.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S597.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S598.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S599.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S600.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S601.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S602.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S603.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S604.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S605.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S606.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S607.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S608.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S609.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S610.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S611.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S612.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S613.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S614.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S615.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S616.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S617.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S618.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S619.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S620.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S621.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S622.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S623.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S624.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S625.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S626.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S627.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S628.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S629.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S630.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S631.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S632.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S633.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S634.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S635.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S636.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S637.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S638.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S639.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S640.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+        //Sample 6A
+        Samplebanknumber:= D1Sample5.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch5.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level5.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan5.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime5.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB5.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB5.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend5.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect5.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync5.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType5.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest5.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed5.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth5.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq5.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S641.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S642.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S643.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S644.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S645.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S646.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S647.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S648.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S649.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S650.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S651.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S652.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S653.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S654.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S655.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S656.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S657.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S658.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S659.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S660.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S661.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S662.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S663.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S664.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S665.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S666.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S667.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S668.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S669.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S670.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S671.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S672.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S673.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S674.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S675.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S676.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S677.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S678.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S679.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S680.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S681.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S682.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S683.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S684.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S685.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S686.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S687.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S688.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S689.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S690.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S691.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S692.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S693.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S694.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S695.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S696.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S697.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S698.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S699.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S700.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S701.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S702.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S703.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S704.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S705.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S706.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S707.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S708.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S709.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S710.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S711.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S712.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S713.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S714.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S715.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S716.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S717.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S718.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S719.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S720.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S721.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S722.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S723.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S724.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S725.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S726.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S727.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S728.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S729.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S730.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S731.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S732.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S733.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S734.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S735.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S736.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S737.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S738.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S739.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S740.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S741.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S742.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S743.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S744.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S745.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S746.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S747.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S748.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S749.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S750.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S751.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S752.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S753.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S754.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S755.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S756.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S757.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S758.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S759.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S760.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S761.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S762.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S763.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S764.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S765.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S766.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S767.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S768.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+
+        //Sample 6B
+        Samplebanknumber:= D1Sample6.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch6.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level6.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan6.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime6.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB6.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB6.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend6.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect6.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync6.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType6.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest6.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed6.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth6.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq6.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S769.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S770.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S771.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S772.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S773.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S774.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S775.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S776.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S777.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S778.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S779.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S780.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S781.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S782.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S783.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S784.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S785.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S786.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S787.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S788.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S789.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S790.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S791.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S792.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S793.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S794.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S795.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S796.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S797.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S798.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S799.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S800.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S801.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S802.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S803.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S804.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S805.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S806.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S807.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S808.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S809.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S810.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S811.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S812.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S813.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S814.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S815.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S816.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S817.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S818.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S819.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S820.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S821.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S822.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S823.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S824.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S825.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S826.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S827.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S828.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S829.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S830.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S831.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S832.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S833.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S834.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S835.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S836.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S837.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S838.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S839.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S840.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S841.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S842.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S843.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S844.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S845.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S846.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S847.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S848.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S849.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S850.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S851.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S852.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S853.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S854.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S855.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S856.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S857.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S858.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S859.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S860.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S861.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S862.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S863.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S864.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S865.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S866.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S867.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S868.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S869.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S870.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S871.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S872.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S873.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S874.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S875.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S876.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S877.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S878.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S879.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S880.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S881.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S882.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S883.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S884.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S885.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S886.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S887.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S888.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S889.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S890.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S891.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S892.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S893.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S894.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S895.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S896.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+
+        //Sample 7A
+        Samplebanknumber:= D1Sample7.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch7.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level7.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan7.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime7.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB7.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB7.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend7.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect7.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync7.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType7.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest7.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed7.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth7.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq7.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S897.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S898.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S899.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S900.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S901.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S902.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S903.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S904.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S905.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S906.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S907.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S908.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S909.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S910.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S911.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S912.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S913.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S914.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S915.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S916.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S917.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S918.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S919.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S920.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S921.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S922.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S923.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S924.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S925.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S926.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S927.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S928.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S929.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S930.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S931.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S932.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S933.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S934.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S935.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S936.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S937.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S938.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S939.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S940.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S941.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S942.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S943.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S944.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S945.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S946.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S947.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S948.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S949.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S950.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S951.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S952.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S953.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S954.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S955.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S956.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S957.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S958.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S959.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S960.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S961.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S962.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S963.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S964.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S965.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S966.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S967.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S968.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S969.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S970.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S971.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S972.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S973.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S974.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S975.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S976.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S977.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S978.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S979.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S980.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S981.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S982.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S983.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S984.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S985.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S986.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S987.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S988.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S989.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S990.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S991.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S992.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S993.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S994.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S995.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S996.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S997.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S998.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S999.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1000.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1001.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1002.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1003.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1004.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1005.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1006.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1007.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1008.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1009.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1010.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1011.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1012.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1013.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1014.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1015.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1016.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1017.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1018.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1019.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1020.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1021.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1022.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1023.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1024.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+
+        //Sample 7B
+        Samplebanknumber:= D1Sample8.ItemIndex;
+        BytesWrite:=Filestream.Write(Samplebanknumber,1);
+        Pitch:=Round(D1Pitch8.Position);
+        BytesWrite:=Filestream.Write(Pitch,1);
+        DLevel:=Round(D1Level8.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=Round(D1Pan8.Position);
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=Round(D1EGTime8.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+        FSSSRA:=0;
+        If (D1AmpEGB8.checked) then FSSSRA:=FSSSRA+16;
+        If (D1RollB8.checked) then FSSSRA:=FSSSRA+8;
+        If (D1FXSend8.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+D1FXSelect8.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+
+        MTDBS:=0;
+        If (D1BPMSync8.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := D1ModType8.ItemIndex;
+        Case MTypeI of
+             1 : FSSSRA:=FSSSRA+16;
+             2 : FSSSRA:=FSSSRA+32;
+             3 : FSSSRA:=FSSSRA+48;
+             4 : FSSSRA:=FSSSRA+64;
+             end;
+        MTDBS:=MTDBS+D1ModDest8.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:=Round(D1ModSpeed8.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=Round(D1ModDepth8.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+        MotionSeqS:=D1MotionSeq8.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+        //The Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1025.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1026.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1027.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1028.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1029.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1030.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1031.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1032.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1033.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1034.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1035.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1036.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1037.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1038.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1039.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1040.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1041.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1042.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1043.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1044.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1045.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1046.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1047.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1048.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1049.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1050.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1051.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1052.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1053.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1054.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1055.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1056.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1057.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1058.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1059.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1060.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1061.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1062.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1063.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1064.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1065.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1066.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1067.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1068.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1069.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1070.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1071.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1072.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1073.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1074.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1075.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1076.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1077.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1078.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1079.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1080.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1081.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1082.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1083.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1084.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1085.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1086.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1087.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1088.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1089.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1090.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1091.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1092.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1093.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1094.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1095.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1096.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1097.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1098.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1099.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1100.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1101.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1102.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1103.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1104.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1105.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1106.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1107.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1108.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1109.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1110.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1111.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1112.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1113.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1114.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1115.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1116.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1117.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1118.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1119.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1120.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1121.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1122.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1123.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1124.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1125.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1126.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1127.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1128.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1129.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1130.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1131.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1132.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1133.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1134.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1135.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1136.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1137.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1138.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1139.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1140.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1141.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1142.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1143.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1144.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1145.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1146.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1147.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1148.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1149.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1150.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1151.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1152.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+
+        // Synth1
+        Waveform:= WaveformSynth1.ItemIndex;
+        Synthoscillator:=SynthoscSynth1.ItemIndex;
+        TuneSynth1.position := round(TuneSynth1.position)+50;
+
+        BytesWrite:=Filestream.Write(Waveform,1);
+        BytesWrite:=Filestream.Write(Syntune,1);
+        BytesWrite:=Filestream.Write(Synthoscillator,1);
+
+        OscEdit1 := round(OscEdit1Synth1.Position);
+        BytesWrite:=Filestream.Write(OscEdit1,1);
+        OscEdit2 := round(OscEdit2Synth1.Position);
+        BytesWrite:=Filestream.Write(OscEdit2,1);
+        PitchGlide:=round(GlideSynth1.Position);
+        BytesWrite:=Filestream.Write(PitchGlide ,1);
+
+        Filtertype:=FilterTypeSynth1.ItemIndex;
+        BytesWrite:=Filestream.Write(Filtertype ,1);
+        Cutoff:=round(CutoffSynth1.Position);
+        BytesWrite:=Filestream.Write(Cutoff ,1);
+        Resonance:=round(ResonanceSynth1.Position);
+        BytesWrite:=Filestream.Write(Resonance  ,1);
+        EGInt:=round(EGIntSynth1.Position)+64;
+        BytesWrite:=Filestream.Write(EGInt,1);
+        Drive:=round(DriveSynth1.Position);
+        BytesWrite:=Filestream.Write(Drive,1);
+        DLevel:=round(LevelSynth1.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=round(PanSynth1.Position)+64;
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=round(EGTimeSynth1.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+
+        FSSSRA:=0;
+        If (AmpEGSynth1.checked) then FSSSRA:=FSSSRA+16;
+        If (RollSynth1.checked) then FSSSRA:=FSSSRA+8;
+        If (FXSendSynth1.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+FXSelectSynth1.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+        MTDBS:=0;
+        BytesWrite:=Filestream.Write(MTDBS,1); //Reserved (MTDBS used because it doesn't write the number 0, variable expected
+        MTDBS:=0;
+        If (BPMSyncSynth1.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := ModTypeSynth1.ItemIndex;
+        Case MTypeI of
+      	 1 : FSSSRA:=FSSSRA+16;
+      	 2 : FSSSRA:=FSSSRA+32;
+      	 3 : FSSSRA:=FSSSRA+48;
+      	 4 : FSSSRA:=FSSSRA+64;
+      	 end;
+        MTDBS:=MTDBS+ModDestSynth1.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:= round(ModSpeedSynth1.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=round(ModDepthSynth1.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+
+        MotionSeqS:=MotionSeqSynth1.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+
+
+        //Patternpart Synth1
+
+
+
+         // Synth2
+        Waveform:= WaveformSynth2.ItemIndex;
+        Synthoscillator:=SynthoscSynth2.ItemIndex;
+        TuneSynth2.position := round(TuneSynth2.position)+50;
+
+        BytesWrite:=Filestream.Write(Waveform,1);
+        BytesWrite:=Filestream.Write(Syntune,1);
+        BytesWrite:=Filestream.Write(Synthoscillator,1);
+
+        OscEdit1 := round(OscEdit1Synth2.Position);
+        BytesWrite:=Filestream.Write(OscEdit1,1);
+        OscEdit2 := round(OscEdit2Synth2.Position);
+        BytesWrite:=Filestream.Write(OscEdit2,1);
+        PitchGlide:=round(GlideSynth2.Position);
+        BytesWrite:=Filestream.Write(PitchGlide ,1);
+
+        Filtertype:=FilterTypeSynth2.ItemIndex;
+        BytesWrite:=Filestream.Write(Filtertype ,1);
+        Cutoff:=round(CutoffSynth2.Position);
+        BytesWrite:=Filestream.Write(Cutoff ,1);
+        Resonance:=round(ResonanceSynth2.Position);
+        BytesWrite:=Filestream.Write(Resonance  ,1);
+        EGInt:=round(EGIntSynth2.Position)+64;
+        BytesWrite:=Filestream.Write(EGInt,1);
+        Drive:=round(DriveSynth2.Position);
+        BytesWrite:=Filestream.Write(Drive,1);
+        DLevel:=round(LevelSynth2.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=round(PanSynth2.Position)+64;
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=round(EGTimeSynth2.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+
+        FSSSRA:=0;
+        If (AmpEGSynth2.checked) then FSSSRA:=FSSSRA+16;
+        If (RollSynth2.checked) then FSSSRA:=FSSSRA+8;
+        If (FXSendSynth2.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+FXSelectSynth2.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+        MTDBS:=0;
+        BytesWrite:=Filestream.Write(MTDBS,1); //Reserved (MTDBS used because it doesn't write the number 0, variable expected
+        MTDBS:=0;
+        If (BPMSyncSynth2.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := ModTypeSynth2.ItemIndex;
+        Case MTypeI of
+      	 1 : FSSSRA:=FSSSRA+16;
+      	 2 : FSSSRA:=FSSSRA+32;
+      	 3 : FSSSRA:=FSSSRA+48;
+      	 4 : FSSSRA:=FSSSRA+64;
+      	 end;
+        MTDBS:=MTDBS+ModDestSynth2.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:= round(ModSpeedSynth2.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=round(ModDepthSynth2.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+
+        MotionSeqS:=MotionSeqSynth2.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+
+
+        //Patternpart Synth2
+
+
+        // Synth3
+        Waveform:= WaveformSynth3.ItemIndex;
+        Synthoscillator:=SynthoscSynth3.ItemIndex;
+        TuneSynth3.position := round(TuneSynth3.position)+50;
+
+        BytesWrite:=Filestream.Write(Waveform,1);
+        BytesWrite:=Filestream.Write(Syntune,1);
+        BytesWrite:=Filestream.Write(Synthoscillator,1);
+
+        OscEdit1 := round(OscEdit1Synth3.Position);
+        BytesWrite:=Filestream.Write(OscEdit1,1);
+        OscEdit2 := round(OscEdit2Synth3.Position);
+        BytesWrite:=Filestream.Write(OscEdit2,1);
+        PitchGlide:=round(GlideSynth3.Position);
+        BytesWrite:=Filestream.Write(PitchGlide ,1);
+
+        Filtertype:=FilterTypeSynth3.ItemIndex;
+        BytesWrite:=Filestream.Write(Filtertype ,1);
+        Cutoff:=round(CutoffSynth3.Position);
+        BytesWrite:=Filestream.Write(Cutoff ,1);
+        Resonance:=round(ResonanceSynth3.Position);
+        BytesWrite:=Filestream.Write(Resonance  ,1);
+        EGInt:=round(EGIntSynth3.Position)+64;
+        BytesWrite:=Filestream.Write(EGInt,1);
+        Drive:=round(DriveSynth3.Position);
+        BytesWrite:=Filestream.Write(Drive,1);
+        DLevel:=round(LevelSynth3.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=round(PanSynth3.Position)+64;
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=round(EGTimeSynth3.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+
+        FSSSRA:=0;
+        If (AmpEGSynth3.checked) then FSSSRA:=FSSSRA+16;
+        If (RollSynth3.checked) then FSSSRA:=FSSSRA+8;
+        If (FXSendSynth3.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+FXSelectSynth3.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+        MTDBS:=0;
+        BytesWrite:=Filestream.Write(MTDBS,1); //Reserved (MTDBS used because it doesn't write the number 0, variable expected
+        MTDBS:=0;
+        If (BPMSyncSynth3.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := ModTypeSynth3.ItemIndex;
+        Case MTypeI of
+      	 1 : FSSSRA:=FSSSRA+16;
+      	 2 : FSSSRA:=FSSSRA+32;
+      	 3 : FSSSRA:=FSSSRA+48;
+      	 4 : FSSSRA:=FSSSRA+64;
+      	 end;
+        MTDBS:=MTDBS+ModDestSynth3.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:= round(ModSpeedSynth3.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=round(ModDepthSynth3.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+
+        MotionSeqS:=MotionSeqSynth3.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+
+
+        //Patternpart Synth3
+
+
+
+        // Synth4
+        Waveform:= WaveformSynth4.ItemIndex;
+        Synthoscillator:=SynthoscSynth4.ItemIndex;
+        TuneSynth4.position := round(TuneSynth4.position)+50;
+
+        BytesWrite:=Filestream.Write(Waveform,1);
+        BytesWrite:=Filestream.Write(Syntune,1);
+        BytesWrite:=Filestream.Write(Synthoscillator,1);
+
+        OscEdit1 := round(OscEdit1Synth4.Position);
+        BytesWrite:=Filestream.Write(OscEdit1,1);
+        OscEdit2 := round(OscEdit2Synth4.Position);
+        BytesWrite:=Filestream.Write(OscEdit2,1);
+        PitchGlide:=round(GlideSynth4.Position);
+        BytesWrite:=Filestream.Write(PitchGlide ,1);
+
+        Filtertype:=FilterTypeSynth4.ItemIndex;
+        BytesWrite:=Filestream.Write(Filtertype ,1);
+        Cutoff:=round(CutoffSynth4.Position);
+        BytesWrite:=Filestream.Write(Cutoff ,1);
+        Resonance:=round(ResonanceSynth4.Position);
+        BytesWrite:=Filestream.Write(Resonance  ,1);
+        EGInt:=round(EGIntSynth4.Position)+64;
+        BytesWrite:=Filestream.Write(EGInt,1);
+        Drive:=round(DriveSynth4.Position);
+        BytesWrite:=Filestream.Write(Drive,1);
+        DLevel:=round(LevelSynth4.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=round(PanSynth4.Position)+64;
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=round(EGTimeSynth4.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+
+        FSSSRA:=0;
+        If (AmpEGSynth4.checked) then FSSSRA:=FSSSRA+16;
+        If (RollSynth4.checked) then FSSSRA:=FSSSRA+8;
+        If (FXSendSynth4.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+FXSelectSynth4.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+        MTDBS:=0;
+        BytesWrite:=Filestream.Write(MTDBS,1); //Reserved (MTDBS used because it doesn't write the number 0, variable expected
+        MTDBS:=0;
+        If (BPMSyncSynth4.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := ModTypeSynth4.ItemIndex;
+        Case MTypeI of
+      	 1 : FSSSRA:=FSSSRA+16;
+      	 2 : FSSSRA:=FSSSRA+32;
+      	 3 : FSSSRA:=FSSSRA+48;
+      	 4 : FSSSRA:=FSSSRA+64;
+      	 end;
+        MTDBS:=MTDBS+ModDestSynth4.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:= round(ModSpeedSynth4.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=round(ModDepthSynth4.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+
+        MotionSeqS:=MotionSeqSynth4.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+
+
+        //Patternpart Synth4
+
+
+        // Synth5
+        Waveform:= WaveformSynth5.ItemIndex;
+        Synthoscillator:=SynthoscSynth5.ItemIndex;
+        TuneSynth5.position := round(TuneSynth5.position)+50;
+
+        BytesWrite:=Filestream.Write(Waveform,1);
+        BytesWrite:=Filestream.Write(Syntune,1);
+        BytesWrite:=Filestream.Write(Synthoscillator,1);
+
+        OscEdit1 := round(OscEdit1Synth5.Position);
+        BytesWrite:=Filestream.Write(OscEdit1,1);
+        OscEdit2 := round(OscEdit2Synth5.Position);
+        BytesWrite:=Filestream.Write(OscEdit2,1);
+        PitchGlide:=round(GlideSynth5.Position);
+        BytesWrite:=Filestream.Write(PitchGlide ,1);
+
+        Filtertype:=FilterTypeSynth5.ItemIndex;
+        BytesWrite:=Filestream.Write(Filtertype ,1);
+        Cutoff:=round(CutoffSynth5.Position);
+        BytesWrite:=Filestream.Write(Cutoff ,1);
+        Resonance:=round(ResonanceSynth5.Position);
+        BytesWrite:=Filestream.Write(Resonance  ,1);
+        EGInt:=round(EGIntSynth5.Position)+64;
+        BytesWrite:=Filestream.Write(EGInt,1);
+        Drive:=round(DriveSynth5.Position);
+        BytesWrite:=Filestream.Write(Drive,1);
+        DLevel:=round(LevelSynth5.Position);
+        BytesWrite:=Filestream.Write(DLevel,1);
+        DPan:=round(PanSynth5.Position)+64;
+        BytesWrite:=Filestream.Write(DPan,1);
+        DEGTime:=round(EGTimeSynth5.Position);
+        BytesWrite:=Filestream.Write(DEGTime,1);
+
+        FSSSRA:=0;
+        If (AmpEGSynth5.checked) then FSSSRA:=FSSSRA+16;
+        If (RollSynth5.checked) then FSSSRA:=FSSSRA+8;
+        If (FXSendSynth5.checked) then FSSSRA:=FSSSRA+4;
+        FSSSRA:=FSSSRA+FXSelectSynth5.ItemIndex;
+        BytesWrite:=Filestream.Write(FSSSRA,1);
+        MTDBS:=0;
+        BytesWrite:=Filestream.Write(MTDBS,1); //Reserved (MTDBS used because it doesn't write the number 0, variable expected
+        MTDBS:=0;
+        If (BPMSyncSynth5.checked) then FSSSRA:=FSSSRA+128;
+        MTypeI := ModTypeSynth5.ItemIndex;
+        Case MTypeI of
+      	 1 : FSSSRA:=FSSSRA+16;
+      	 2 : FSSSRA:=FSSSRA+32;
+      	 3 : FSSSRA:=FSSSRA+48;
+      	 4 : FSSSRA:=FSSSRA+64;
+      	 end;
+        MTDBS:=MTDBS+ModDestSynth5.ItemIndex;
+        BytesWrite:=Filestream.Write(MTDBS,1);
+
+        ModulationSpeed:= round(ModSpeedSynth5.Position);
+        BytesWrite:=Filestream.Write(ModulationSpeed,1);
+        ModulationDepth:=round(ModDepthSynth5.Position);
+        BytesWrite:=Filestream.Write(ModulationDepth,1);
+
+        MotionSeqS:=MotionSeqSynth5.ItemIndex;
+        BytesWrite:=Filestream.Write(MotionSeqS,1);
+
+
+        //Patternpart Synth5
+
+
+
+        //Drum Accent Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1153.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1154.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1155.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1156.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1157.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1158.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1159.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1160.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1161.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1162.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1163.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1164.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1165.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1166.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1167.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1168.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1169.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1170.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1171.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1172.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1173.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1174.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1175.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1176.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1177.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1178.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1179.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1180.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1181.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1182.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1183.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1184.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1185.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1186.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1187.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1188.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1189.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1190.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1191.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1192.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1193.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1194.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1195.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1196.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1197.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1198.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1199.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1200.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1201.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1202.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1203.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1204.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1205.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1206.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1207.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1208.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1209.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1210.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1211.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1212.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1213.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1214.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1215.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1216.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1217.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1218.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1219.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1220.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1221.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1222.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1223.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1224.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1225.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1226.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1227.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1228.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1229.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1230.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1231.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1232.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1233.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1234.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1235.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1236.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1237.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1238.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1239.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1240.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1241.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1242.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1243.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1244.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1245.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1246.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1247.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1248.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1249.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1250.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1251.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1252.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1253.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1254.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1255.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1256.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1257.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1258.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1259.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1260.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1261.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1262.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1263.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1264.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1265.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1266.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1267.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1268.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1269.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1270.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1271.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1272.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1273.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1274.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1275.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1276.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1277.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1278.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1279.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1280.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+        //Synth Accent Pattern
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1281.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1282.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1283.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1284.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1285.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1286.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1287.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1288.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1289.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1290.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1291.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1292.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1293.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1294.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1295.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1296.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1297.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1298.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1299.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1300.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1301.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1302.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1303.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1304.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1305.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1306.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1307.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1308.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1309.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1310.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1311.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1312.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1313.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1314.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1315.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1316.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1317.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1318.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1319.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1320.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1321.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1322.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1323.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1324.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1325.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1326.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1327.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1328.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1329.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1330.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1331.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1332.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1333.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1334.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1335.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1336.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1337.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1338.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1339.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1340.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1341.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1342.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1343.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1344.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1345.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1346.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1347.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1348.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1349.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1350.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1351.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1352.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1353.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1354.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1355.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1356.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1357.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1358.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1359.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1360.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1361.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1362.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1363.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1364.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1365.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1366.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1367.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1368.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1369.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1370.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1371.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1372.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1373.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1374.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1375.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1376.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1377.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1378.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1379.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1380.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1381.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1382.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1383.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1384.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1385.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1386.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1387.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1388.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1389.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1390.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1391.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1392.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1393.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1394.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1395.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1396.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1397.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1398.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1399.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1400.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+        DrumP :=0;
+        DrumP := DrumP + BoolToInt(D1S1401.checked)*1;
+        DrumP := DrumP + BoolToInt(D1S1402.checked)*2;
+        DrumP := DrumP + BoolToInt(D1S1403.checked)*4;
+        DrumP := DrumP + BoolToInt(D1S1404.checked)*8;
+        DrumP := DrumP + BoolToInt(D1S1405.checked)*16;
+        DrumP := DrumP + BoolToInt(D1S1406.checked)*32;
+        DrumP := DrumP + BoolToInt(D1S1407.checked)*64;
+        DrumP := DrumP + BoolToInt(D1S1408.checked)*128;
+        BytesWrite:=Filestream.Write(DrumP,1);
+
+
+        // The FX Section
+        FileStream.Position := Patternbase+FXbase;
+        SelectedFX:=FX1EffectSelectCB.ItemIndex;
+        BytesWrite:=Filestream.Write(SelectedFX,1);
+        FXParameter1 :=round(FX1Parameter1.position);
+        BytesWrite:=Filestream.Write(FXParameter1,1);
+        FXParameter2 :=round(FX1Parameter2.position);
+        BytesWrite:=Filestream.Write(FXParameter2,1);
+        FX1VParameter2.Text:=inttostr(FXParameter2);
+        FX1MotionSeq:=0; //Wenn Motionseditor verfügbar ändern!
+        BytesWrite:=Filestream.Write(FX1MotionSeq,1);
+
+
+        FileStream.Position := Patternbase+FXbase;
+        SelectedFX:=FX2EffectSelectCB.ItemIndex;
+        BytesWrite:=Filestream.Write(SelectedFX,1);
+        FXParameter1 :=round(FX2Parameter1.position);
+        BytesWrite:=Filestream.Write(FXParameter1,1);
+        FXParameter2 :=round(FX2Parameter2.position);
+        BytesWrite:=Filestream.Write(FXParameter2,1);
+        FX2VParameter2.Text:=inttostr(FXParameter2);
+        FX1MotionSeq:=0; //Wenn Motionseditor verfügbar ändern!
+        BytesWrite:=Filestream.Write(FX1MotionSeq,1);
+
+        FileStream.Position := Patternbase+FXbase;
+        SelectedFX:=FX3EffectSelectCB.ItemIndex;
+        BytesWrite:=Filestream.Write(SelectedFX,1);
+        FXParameter1 :=round(FX3Parameter1.position);
+        BytesWrite:=Filestream.Write(FXParameter1,1);
+        FXParameter2 :=round(FX3Parameter2.position);
+        BytesWrite:=Filestream.Write(FXParameter2,1);
+        FX3VParameter2.Text:=inttostr(FXParameter2);
+        FX1MotionSeq:=0; //Wenn Motionseditor verfügbar ändern!
+        BytesWrite:=Filestream.Write(FX1MotionSeq,1);
+
+
+
+
+
+        //Ende File lesen
+        FileStream.Free;
+        end;
+
+end;
 
 end.
